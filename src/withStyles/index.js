@@ -7,7 +7,7 @@ import {
 } from './helpers'
 import { getComponentName } from '../utilities/components'
 
-export const ID = '__REACT_WITHSTYLES_TAG__'
+export const ID = '__REACT_REACTOR_WITHSTYLES_TAG__'
 export const MANAGER = {}
 
 /**
