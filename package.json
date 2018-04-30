@@ -9,7 +9,8 @@
     "clean": "rm -rf dist",
     "dev": "jest --watchAll",
     "lint": "standard 'src/**/*.js' --fix",
-    "test": "jest"
+    "test": "jest",
+    "version": "npm run build && git add dist"
   },
   "author": "Jon Quach <hello@jonquach.com> (https://jonquach.com)",
   "license": "MIT",
