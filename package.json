@@ -11,7 +11,9 @@
     "dev": "jest --watchAll",
     "lint": "standard 'src/**/*.js' --fix",
     "test": "jest",
-    "version": "npm run build && git add dist"
+    "publish": "np --no-yarn --no-publish",
+    "version": "npm run build && git add dist",
+    "postversion": "npm publish dist"
   },
   "author": "Jon Quach <hello@jonquach.com> (https://jonquach.com)",
   "license": "MIT",
@@ -29,6 +31,7 @@
     "enzyme": "2.9.1",
     "jest": "22.4.3",
     "jest-cli": "22.4.3",
+    "np": "2.20.1",
     "react": "^15",
     "react-dom": "^15",
     "react-test-renderer": "16.2.0",
