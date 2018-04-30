@@ -11,7 +11,7 @@
     "dev": "jest --watchAll",
     "lint": "standard 'src/**/*.js' --fix",
     "test": "jest",
-    "publish": "np --no-yarn --no-publish -f",
+    "publish": "np --no-yarn --no-publish",
     "version": "npm run build && git add dist",
     "postversion": "npm publish dist"
   },
