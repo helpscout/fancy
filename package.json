@@ -12,8 +12,8 @@
     "lint": "standard 'src/**/*.js' --fix",
     "test": "jest",
     "publish": "np --no-yarn --no-publish",
-    "version": "npm run build && git add dist",
-    "postversion": "npm publish dist"
+    "version": "npm run build",
+    "postversion": "npm publish"
   },
   "author": "Jon Quach <hello@jonquach.com> (https://jonquach.com)",
   "license": "MIT",
