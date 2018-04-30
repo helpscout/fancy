@@ -40,7 +40,7 @@ Note: You can of course use string interpolation. It's still JS after all!
 
 Create your component as you normally would.
 
-```
+```jsx
 const Button = props => (
   <button className='Button' {...props} />
 )
@@ -53,12 +53,12 @@ Note: The reference the CSS `className` to match the CSS you wrote. Reactor does
 
 When exporting your component, compose it with the `withStyles` higher-order component along with your CSS styles.
 
-```
+```jsx
 export default withStyles(css)(Button)
 ```
 
 
-##### Final code
+### Final code
 
 ```jsx
 import React from 'react'
@@ -79,6 +79,7 @@ export default withStyles(css)(Button)
 ```
 
 #### Results
+
 ```html
 <html>
   <head>
