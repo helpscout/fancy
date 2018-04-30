@@ -1,11 +1,12 @@
 {
   "name": "@awesomecss/reactor",
+  "private": false,
   "version": "0.0.1",
   "description": "A simple way to include CSS with React Components",
   "main": "dist/index.js",
   "scripts": {
     "babel": "babel -d dist --ignore '*.test.js' src",
-    "build": "npm run link && npm run clean && npm run babel",
+    "build": "npm run lint && npm run clean && npm run babel",
     "clean": "rm -rf dist",
     "dev": "jest --watchAll",
     "lint": "standard 'src/**/*.js' --fix",
