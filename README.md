@@ -5,7 +5,7 @@
 * **Tiny**, at ~2kb gzipped
 * **Zero dependencies!** (Assuming you already have React)
 * **Write native CSS.** Period.
-* **Easily integrate** with your setup. No webpack-loaders required.
+* **Easily integrate** with your setup. No extra webpack-loaders required.
 
 
 ## 🔧 Installation
