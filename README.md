@@ -2,6 +2,11 @@
 
 > A simple way to include CSS with React Components.
 
+* **Tiny**, at ~2kb gzipped
+* **Zero dependencies!** (Assuming you already have React)
+* **Write native CSS.** Period.
+* **Easily integrate** with your setup. No webpack-loaders required.
+
 
 ## 🔧 Installation
 
