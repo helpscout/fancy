@@ -8,7 +8,7 @@
     "babel": "babel -d dist --ignore '*.test.js' src",
     "build": "npm run lint && npm run clean && npm run babel",
     "clean": "rm -rf dist",
-    "coverage": "nyc report --temp-directory=coverage --reporter=text-lcov | coveralls"
+    "coverage": "nyc report --temp-directory=coverage --reporter=text-lcov | coveralls",
     "dev": "jest --watchAll",
     "lint": "standard 'src/**/*.js' --fix",
     "test": "jest -- --coverage",
