@@ -18,6 +18,26 @@
   },
   "author": "Jon Quach <hello@jonquach.com> (https://jonquach.com)",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/awesomecss/reactor.git"
+  },
+  "bugs": {
+    "url": "https://github.com/awesomecss/reactor/issues"
+  },
+  "keywords": [
+    "awesomecss",
+    "components",
+    "css",
+    "css-in-js",
+    "react",
+    "reactor",
+    "styled",
+    "styled-components"
+  ],
+  "engines": {
+    "node": ">=8"
+  },
   "peerDependencies": {
     "react": "^15"
   },
