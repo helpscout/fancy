@@ -63,7 +63,7 @@ export default withStyles(css)(Button)
 ```
 
 
-### Final code
+#### Final code
 
 ```jsx
 import React from 'react'
@@ -104,3 +104,24 @@ export default withStyles(css)(Button)
 ```
 
 That's it! You're done 🙌. You've created a CSS-ready component.
+
+
+### Dynamic styles
+
+You can define dynamic styles by passing a `function` into `withStyles`. It will have access to a component's `props`, allowing you to define custom rules for various `prop` values.
+
+#### Example
+
+```jsx
+const Card = props => (<div {...props} />)
+const css = (props) => `
+  div {
+    background: ${props.title ? 'red' : 'blue'};
+    position: relative;
+    border: 1px solid black;
+  }
+`
+const StyledCard = withStyles(css)(Card)
+```
+
+This technique is similar to the ones found in [Styled Components](https://www.styled-components.com/).
