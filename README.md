@@ -1,4 +1,4 @@
-# 🌟 Reactor
+# 🌟 Reactor [![npm version](https://badge.fury.io/js/%40awesomecss%2Freactor.svg)](https://badge.fury.io/js/%40awesomecss%2Freactor) [![Build Status](https://travis-ci.org/awesomecss/reactor.svg?branch=master)](https://travis-ci.org/awesomecss/reactor)
 
 > A simple way to include CSS with React Components.
 
