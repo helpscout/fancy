@@ -25,7 +25,7 @@ export const makeStyleTag = () => {
  */
 export const getStyleTag = () => {
   const tag = document.getElementById(ID)
-  return tag ? tag : makeStyleTag()
+  return tag || makeStyleTag()
 }
 
 /**

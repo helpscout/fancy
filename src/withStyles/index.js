@@ -60,8 +60,6 @@ const withStyles = (styles) => Composed => {
     }
   }
 
-  const name = getComponentName(Composed)
-
   WithStylesComponent.displayName = `withStyle(${getComponentName(Composed)})`
   WithStylesComponent._withStylesId = id
 
@@ -72,12 +70,11 @@ const withStyles = (styles) => Composed => {
  * Creates the tokenized styles based.
  */
 export const generateStyles = ({id, props, CSSRules}) => {
-  const parsedCSSRules = typeof CSSRules === 'function' ?
-    CSSRules(props) : CSSRules
+  const parsedCSSRules = typeof CSSRules === 'function'
+    ? CSSRules(props) : CSSRules
 
   return tokenize(id, parsedCSSRules)
 }
-
 
 /**
  * Retrieves the cached styles based on id.
@@ -87,7 +84,6 @@ export const generateStyles = ({id, props, CSSRules}) => {
  */
 export const getStyle = (id) => MANAGER[id]
 
-
 /**
  * Checks to the see if the styles have been previously added by ID.
  *
@@ -95,7 +91,6 @@ export const getStyle = (id) => MANAGER[id]
  * @returns {bool}
  */
 export const hasStyle = (id) => !!getStyle(id)
-
 
 /**
  * Adds ID to mark that styles have been added.
@@ -108,7 +103,6 @@ const addStyle = (id, styles) => {
   return MANAGER
 }
 
-
 /**
  * Removes an ID from the styles manager.
  *
@@ -119,7 +113,6 @@ export const removeStyle = id => {
   MANAGER[id] = undefined
   return MANAGER
 }
-
 
 /**
  * Sub-components
