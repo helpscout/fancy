@@ -6,6 +6,6 @@ import { ID } from './index'
  *
  * @returns {React.Component}
  */
-const Style = props => (<style id={ID} type='text/css' />)
+const Style = () => (<style id={ID} type='text/css' />)
 
 export default Style

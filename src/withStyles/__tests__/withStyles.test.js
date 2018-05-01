@@ -1,6 +1,6 @@
 import React from 'react'
 import { mount } from 'enzyme'
-import withStyles, { removeStyleId } from '../index'
+import withStyles, { removeStyle } from '../index'
 
 describe('HOC Composition', () => {
   const Button = props => (<button {...props} />)
@@ -19,7 +19,7 @@ describe('HOC Composition', () => {
       * Removing styles ID, just for testing. This is to help
       * reset the environment.
       */
-    removeStyleId(StyledButton._withStylesId)
+    removeStyle(StyledButton._withStylesId)
   })
 
   test('Renders styles declared when composing the component', () => {
@@ -112,8 +112,8 @@ describe('Multiple Composed Components', () => {
       * Removing styles ID, just for testing. This is to help
       * reset the environment.
       */
-    removeStyleId(StyledCard._withStylesId)
-    removeStyleId(StyledTag._withStylesId)
+    removeStyle(StyledCard._withStylesId)
+    removeStyle(StyledTag._withStylesId)
   })
 
   test('Renders styles declared when composing the component', () => {
@@ -134,5 +134,60 @@ describe('Multiple Composed Components', () => {
 
     expect(tagStyles.display).toBe('inline-flex')
     expect(tagStyles.padding).toBe('8px')
+  })
+})
+
+describe('Dynamic props', () => {
+  const Card = props => (<div {...props} />)
+  const css = (props) => `
+    div {
+      background: ${props.title ? 'red' : 'blue'};
+      position: relative;
+      border: 1px solid black;
+    }
+  `
+  const StyledCard = withStyles(css)(Card)
+
+  afterEach(() => {
+    global.document.head.innerHTML = ''
+    /**
+      * Removing styles ID, just for testing. This is to help
+      * reset the environment.
+      */
+    removeStyle(StyledCard._withStylesId)
+  })
+
+  test('Can update styles based on prop changes', () => {
+    const wrapper = mount(<StyledCard />)
+
+    expect(window.getComputedStyle(wrapper.find('div').node).background).toBe('blue')
+
+    wrapper.setProps({ title: 'Hello' })
+
+    expect(window.getComputedStyle(wrapper.find('div').node).background).toBe('red')
+
+    wrapper.setProps({ title: null })
+
+    expect(window.getComputedStyle(wrapper.find('div').node).background).toBe('blue')
+  })
+
+  test('Does not change styles on update, with no change', () => {
+    const wrapper = mount(<StyledCard />)
+
+    expect(window.getComputedStyle(wrapper.find('div').node).background).toBe('blue')
+
+    wrapper.update()
+
+    expect(window.getComputedStyle(wrapper.find('div').node).background).toBe('blue')
+  })
+
+  test('Does not change styles on prop update, with no change', () => {
+    const wrapper = mount(<StyledCard title='hello' />)
+
+    expect(window.getComputedStyle(wrapper.find('div').node).background).toBe('red')
+
+    wrapper.setProps({ title: 'hello' })
+
+    expect(window.getComputedStyle(wrapper.find('div').node).background).toBe('red')
   })
 })

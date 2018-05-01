@@ -12,6 +12,7 @@ export const makeStyleTag = () => {
   tag.type = 'text/css'
 
   const head = document.getElementsByTagName('head')[0]
+  /* istanbul ignore else */
   if (head) head.append(tag)
 
   return tag
@@ -24,8 +25,7 @@ export const makeStyleTag = () => {
  */
 export const getStyleTag = () => {
   const tag = document.getElementById(ID)
-  if (tag) return tag
-  return makeStyleTag()
+  return tag ? tag : makeStyleTag()
 }
 
 /**
@@ -43,7 +43,4 @@ export const tokenize = (id, CSSRules) => `/* ${id} */\n${CSSRules.trim()}\n`
  * @param   {string} CSSRules
  * @returns {object}
  */
-export const makeCSS = (CSSRules) => ({
-  id: uuid(),
-  CSSRules
-})
+export const makeCSS = (CSSRules) => ({ id: uuid(), CSSRules })

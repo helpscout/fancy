@@ -8,9 +8,10 @@
     "babel": "babel -d dist --ignore '*.test.js' src",
     "build": "npm run lint && npm run clean && npm run babel",
     "clean": "rm -rf dist",
+    "coverage": "nyc report --temp-directory=coverage --reporter=text-lcov | coveralls"
     "dev": "jest --watchAll",
     "lint": "standard 'src/**/*.js' --fix",
-    "test": "jest",
+    "test": "jest -- --coverage",
     "publish": "np --no-yarn --no-publish",
     "version": "npm run build",
     "postversion": "npm publish"
@@ -28,6 +29,7 @@
     "babel-preset-es2015": "6.24.1",
     "babel-preset-react": "6.24.1",
     "babel-preset-stage-0": "6.24.1",
+    "coveralls": "3.0.0",
     "enzyme": "2.9.1",
     "jest": "22.4.3",
     "jest-cli": "22.4.3",
