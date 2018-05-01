@@ -14,7 +14,7 @@
     "test": "npm run lint && npm run test:coverage",
     "test:coverage": "jest --coverage",
     "publish": "np --no-yarn",
-    "version": "npm run build",
+    "version": "npm run build"
   },
   "author": "Jon Quach <hello@jonquach.com> (https://jonquach.com)",
   "license": "MIT",
