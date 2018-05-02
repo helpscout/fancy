@@ -69,8 +69,8 @@ const withStyles = (styles, options = defaultOptions) => Composed => {
   }
 
   WithStylesComponent.displayName = `withStyle(${getComponentName(Composed)})`
-  WithStylesComponent._ReactorStyleId = id
-  WithStylesComponent._ReactorStyleSheet = STYLESHEET
+  WithStylesComponent._FancyStyleId = id
+  WithStylesComponent._FancyStyleSheet = STYLESHEET
 
   return WithStylesComponent
 }

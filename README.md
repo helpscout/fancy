@@ -1,4 +1,4 @@
-# 🌟 Reactor [![npm version](https://badge.fury.io/js/%40awesomecss%2Freactor.svg)](https://badge.fury.io/js/%40awesomecss%2Freactor) [![Build Status](https://travis-ci.org/awesomecss/reactor.svg?branch=master)](https://travis-ci.org/awesomecss/reactor) [![Coverage Status](https://coveralls.io/repos/github/awesomecss/reactor/badge.svg?branch=master)](https://coveralls.io/github/awesomecss/reactor?branch=master)
+# 🌟 Fancy
 
 > A simple way to include CSS with React Components.
 
@@ -12,17 +12,17 @@
 ## 🔧 Installation
 
 ```
-npm install --save @awesomecss/reactor
+npm install --save @helpscout/fancy
 ```
 
 
 ## 🕹 Usage
 
-#### Step 1: Import `withStyles` from Reactor
+#### Step 1: Import `withStyles` from Fancy
 
 ```jsx
 import React from 'react'
-import { withStyles } from '@awesomecss/reactor'
+import { withStyles } from '@helpscout/fancy'
 ```
 
 
@@ -52,7 +52,7 @@ const Button = props => (
 )
 ```
 
-Note: The reference the CSS `className` to match the CSS you wrote. Reactor does not generated uniquely hashed classNames for you. See [CSS Modules](https://github.com/css-modules/css-modules) for that feature.
+Note: The reference the CSS `className` to match the CSS you wrote. Fancy does not generated uniquely hashed classNames for you. See [CSS Modules](https://github.com/css-modules/css-modules) for that feature.
 
 
 #### Step 4: Compose your CSS with your component
@@ -68,7 +68,7 @@ export default withStyles(css)(Button)
 
 ```jsx
 import React from 'react'
-import { withStyles } from '@awesomecss/reactor'
+import { withStyles } from '@helpscout/fancy'
 
 const css = `
   .Button {

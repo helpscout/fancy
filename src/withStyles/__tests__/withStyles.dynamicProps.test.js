@@ -22,7 +22,7 @@ describe('Dynamic props', () => {
       * Removing styles ID, just for testing. This is to help
       * reset the environment.
       */
-    removeStyle(StyledCard._ReactorStyleId)
+    removeStyle(StyledCard._FancyStyleId)
   })
 
   test('Can update styles based on prop changes', () => {

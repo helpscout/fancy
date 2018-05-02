@@ -1,5 +1,5 @@
 {
-  "name": "@awesomecss/reactor",
+  "name": "@helpscout/fancy",
   "private": false,
   "version": "0.3.0",
   "description": "A simple way to include CSS with React Components",
@@ -24,18 +24,19 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/awesomecss/reactor.git"
+    "url": "git+https://github.com/helpscout/fancy.git"
   },
   "bugs": {
-    "url": "https://github.com/awesomecss/reactor/issues"
+    "url": "https://github.com/helpscout/fancy/issues"
   },
   "keywords": [
     "awesomecss",
     "components",
     "css",
     "css-in-js",
+    "fancy",
+    "helpscout",
     "react",
-    "reactor",
     "styled",
     "styled-components"
   ],

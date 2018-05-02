@@ -21,7 +21,7 @@ describe('HOC Composition', () => {
       * Removing styles ID, just for testing. This is to help
       * reset the environment.
       */
-    removeStyle(StyledButton._ReactorStyleId)
+    removeStyle(StyledButton._FancyStyleId)
   })
 
   test('Renders styles declared when composing the component', () => {
@@ -113,8 +113,8 @@ describe('Multiple Composed Components', () => {
       * Removing styles ID, just for testing. This is to help
       * reset the environment.
       */
-    removeStyle(StyledCard._ReactorStyleId)
-    removeStyle(StyledTag._ReactorStyleId)
+    removeStyle(StyledCard._FancyStyleId)
+    removeStyle(StyledTag._FancyStyleId)
   })
 
   test('Renders styles declared when composing the component', () => {

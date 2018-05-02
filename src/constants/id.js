@@ -1,1 +1,1 @@
-export const ID = '__REACT_REACTOR_STYLES__'
+export const ID = '__REACT_FANCY_STYLES__'
