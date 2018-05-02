@@ -1,6 +1,8 @@
 import React from 'react'
 import { mount } from 'enzyme'
-import withStyles, { removeStyle } from '../index'
+import withStyles from '../index'
+
+const removeStyle = withStyles.StyleSheet.removeRule
 
 describe('HOC Composition', () => {
   const Button = props => (<button {...props} />)
