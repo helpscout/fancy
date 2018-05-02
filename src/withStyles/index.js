@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import Style from './Style'
 import {
   getStyleTag
-} from './helpers'
+} from '../utilities/styleTag'
 import { getComponentName } from '../utilities/components'
-import makeStyleSheet from '../StyleSheet'
+import makeStyleSheet from '../StyleSheet/index'
 
 export const STYLESHEET = makeStyleSheet()
 

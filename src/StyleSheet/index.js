@@ -1,13 +1,6 @@
 import Stylis from 'stylis'
 
-const stylis = new Stylis({
-  global: false,
-  cascade: true,
-  keyframe: false,
-  prefix: false,
-  compress: false,
-  semicolon: true
-})
+const stylis = new Stylis()
 
 const makeStyleSheet = () => {
   const state = {

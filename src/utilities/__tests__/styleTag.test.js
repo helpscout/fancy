@@ -1,6 +1,6 @@
 import {
   makeStyleTag
-} from '../helpers'
+} from '../styleTag'
 
 describe('makeStyleTag', () => {
   test('Adds a <style> tag to the Head, if one does not exist', () => {

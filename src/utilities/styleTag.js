@@ -1,4 +1,4 @@
-export const ID = '__REACT_REACTOR_STYLES__'
+import { ID } from '../constants/id'
 
 /**
  * Creates the <style> tag, and adds it to the <head>.
