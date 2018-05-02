@@ -1,5 +1,4 @@
-import { ID } from './index'
-import { uuid } from '../utilities/id'
+export const ID = '__REACT_REACTOR_STYLES__'
 
 /**
  * Creates the <style> tag, and adds it to the <head>.
@@ -27,20 +26,3 @@ export const getStyleTag = () => {
   const tag = document.getElementById(ID)
   return tag || makeStyleTag()
 }
-
-/**
- * Renders the CSSRule with tokenized with the unique ID.
- *
- * @param   {string} id
- * @param   {string} CSSRules
- * @returns {string}
- */
-export const tokenize = (id, CSSRules) => `/* ${id} */\n${CSSRules.trim()}\n`
-
-/**
- * Generates the styleProps with uniqueID for withStyles to consume.
- *
- * @param   {string} CSSRules
- * @returns {object}
- */
-export const makeCSS = (CSSRules) => ({ id: uuid(), CSSRules })
