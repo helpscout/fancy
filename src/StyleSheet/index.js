@@ -1,3 +1,14 @@
+import Stylis from 'stylis'
+
+const stylis = new Stylis({
+  global: false,
+  cascade: true,
+  keyframe: false,
+  prefix: false,
+  compress: false,
+  semicolon: true
+})
+
 const makeStyleSheet = () => {
   const state = {
     id: 0,
@@ -17,7 +28,7 @@ const makeStyleSheet = () => {
   }
 
   const removeRule = (id) => {
-    state.CSSRules[id] = undefined
+    delete state.CSSRules[id]
   }
 
   const makeRule = (CSSRules) => {
@@ -43,11 +54,12 @@ const makeStyleSheet = () => {
 /**
  * Creates the tokenized styles based.
  */
-export const generateStyles = ({id, props, CSSRules}) => {
+export const generateStyles = ({id, props, CSSRules, scope}) => {
   const parsedCSSRules = typeof CSSRules === 'function'
     ? CSSRules(props) : CSSRules
 
-  return tokenize(id, parsedCSSRules)
+  const styles = stylis((scope || ''), parsedCSSRules)
+  return tokenize(id, styles)
 }
 
 /**

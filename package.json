@@ -81,5 +81,8 @@
       "test",
       "mount"
     ]
+  },
+  "dependencies": {
+    "stylis": "3.5.0"
   }
 }

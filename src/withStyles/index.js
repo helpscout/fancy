@@ -8,6 +8,10 @@ import makeStyleSheet from '../StyleSheet'
 
 export const STYLESHEET = makeStyleSheet()
 
+const defaultOptions = {
+  scope: ''
+}
+
 /**
  * HOC that renders specified CSS rules.
  *
@@ -15,8 +19,9 @@ export const STYLESHEET = makeStyleSheet()
  * @param   {React.Component} - Composed
  * @returns {React.Component}
  */
-const withStyles = (styles) => Composed => {
+const withStyles = (styles, options = defaultOptions) => Composed => {
   const { id, CSSRules } = STYLESHEET.makeRule(styles)
+  const { scope } = options
 
   class WithStylesComponent extends Component {
     constructor (props) {
@@ -27,7 +32,7 @@ const withStyles = (styles) => Composed => {
     componentDidMount () {
       if (!id || !CSSRules || this.styleSheet.hasRule(id)) return
 
-      const cssStyles = this.styleSheet.makeStyles({ id, props: this.props, CSSRules })
+      const cssStyles = this.styleSheet.makeStyles({ id, props: this.props, CSSRules, scope })
       const tagNode = getStyleTag()
       tagNode.innerHTML += cssStyles
 
@@ -64,8 +69,8 @@ const withStyles = (styles) => Composed => {
   }
 
   WithStylesComponent.displayName = `withStyle(${getComponentName(Composed)})`
-  WithStylesComponent._withStylesId = id
-  WithStylesComponent._styleSheet = STYLESHEET
+  WithStylesComponent._ReactorStyleId = id
+  WithStylesComponent._ReactorStyleSheet = STYLESHEET
 
   return WithStylesComponent
 }

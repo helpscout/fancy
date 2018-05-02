@@ -21,7 +21,7 @@ describe('HOC Composition', () => {
       * Removing styles ID, just for testing. This is to help
       * reset the environment.
       */
-    removeStyle(StyledButton._withStylesId)
+    removeStyle(StyledButton._ReactorStyleId)
   })
 
   test('Renders styles declared when composing the component', () => {
@@ -64,7 +64,6 @@ describe('HOC Composition', () => {
     b1.unmount()
 
     expect(headStyles).toBe(document.head.innerHTML)
-
     mount(
       <div>
         <StyledButton />
@@ -114,8 +113,8 @@ describe('Multiple Composed Components', () => {
       * Removing styles ID, just for testing. This is to help
       * reset the environment.
       */
-    removeStyle(StyledCard._withStylesId)
-    removeStyle(StyledTag._withStylesId)
+    removeStyle(StyledCard._ReactorStyleId)
+    removeStyle(StyledTag._ReactorStyleId)
   })
 
   test('Renders styles declared when composing the component', () => {
@@ -141,6 +140,7 @@ describe('Multiple Composed Components', () => {
 
 describe('Dynamic props', () => {
   const Card = props => (<div {...props} />)
+
   const css = (props) => `
     div {
       background: ${props.title ? 'red' : 'blue'};
@@ -156,7 +156,7 @@ describe('Dynamic props', () => {
       * Removing styles ID, just for testing. This is to help
       * reset the environment.
       */
-    removeStyle(StyledCard._withStylesId)
+    removeStyle(StyledCard._ReactorStyleId)
   })
 
   test('Can update styles based on prop changes', () => {
@@ -185,6 +185,8 @@ describe('Dynamic props', () => {
 
   test('Does not change styles on prop update, with no change', () => {
     const wrapper = mount(<StyledCard title='hello' />)
+    console.log(document.head.innerHTML)
+    console.log(StyledCard)
 
     expect(window.getComputedStyle(wrapper.find('div').node).background).toBe('red')
 
