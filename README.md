@@ -1,4 +1,4 @@
-# 🌟 Fancy [![Build Status](https://travis-ci.org/helpscout/fancy.svg?branch=master)](https://travis-ci.org/helpscout/fancy) [![Coverage Status](https://coveralls.io/repos/github/helpscout/fancy/badge.svg?branch=master)](https://coveralls.io/github/helpscout/fancy?branch=master)
+# 🦋 Fancy [![npm version](https://badge.fury.io/js/%40helpscout%2Ffancy.svg)](https://badge.fury.io/js/%40helpscout%2Ffancy) [![Build Status](https://travis-ci.org/helpscout/fancy.svg?branch=master)](https://travis-ci.org/helpscout/fancy) [![Coverage Status](https://coveralls.io/repos/github/helpscout/fancy/badge.svg?branch=master)](https://coveralls.io/github/helpscout/fancy?branch=master)
 
 > A simple way to include CSS with React Components.
 
