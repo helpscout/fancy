@@ -41,4 +41,46 @@ describe('Scoped styles', () => {
     expect(window.getComputedStyle(outerEl).border).toBeFalsy()
     expect(window.getComputedStyle(innerEl).border).toBe('1px solid black')
   })
+
+  test('Does not reset scope when multiple components render', () => {
+    const wrapper = mount(
+      <div>
+        <div className='Scope'>
+          <StyledCard />
+          <StyledCard />
+          <StyledCard />
+          <StyledCard />
+        </div>
+      </div>
+    )
+
+    const f = wrapper.find('.Card').first().node
+    const l = wrapper.find('.Card').last().node
+
+    expect(window.getComputedStyle(f).border).toBe('1px solid black')
+    expect(window.getComputedStyle(l).border).toBe('1px solid black')
+  })
+
+  test('Does not reset scope when component updates', () => {
+    const wrapper = mount(
+      <div>
+        <div className='Scope'>
+          <StyledCard />
+          <StyledCard />
+          <StyledCard />
+          <StyledCard />
+        </div>
+      </div>
+    )
+
+    wrapper.update()
+
+    const f = wrapper.find('.Card').first().node
+    const l = wrapper.find('.Card').last().node
+
+    wrapper.update()
+
+    expect(window.getComputedStyle(f).border).toBe('1px solid black')
+    expect(window.getComputedStyle(l).border).toBe('1px solid black')
+  })
 })

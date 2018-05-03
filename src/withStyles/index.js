@@ -21,18 +21,18 @@ const defaultOptions = {
  */
 const withStyles = (styles, options = defaultOptions) => Composed => {
   const { id, CSSRules } = STYLESHEET.makeRule(styles)
-  const { scope } = options
 
   class WithStylesComponent extends Component {
     constructor (props) {
       super(props)
+      this.state = options
       this.styleSheet = STYLESHEET
     }
 
     componentDidMount () {
       if (!id || !CSSRules || this.styleSheet.hasRule(id)) return
 
-      const cssStyles = this.styleSheet.makeStyles({ id, props: this.props, CSSRules, scope })
+      const cssStyles = this.makeStyles()
       const tagNode = getStyleTag()
       tagNode.innerHTML += cssStyles
 
@@ -54,13 +54,22 @@ const withStyles = (styles, options = defaultOptions) => Composed => {
       /* istanbul ignore next */
       if (!prevStyles) return
 
-      const nextStyles = this.styleSheet.makeStyles({ id, props: this.props, CSSRules })
+      const nextStyles = this.makeStyles()
       if (prevStyles === nextStyles) return
 
       const tagNode = getStyleTag()
       tagNode.innerHTML = tagNode.innerHTML.replace(prevStyles, nextStyles)
 
       this.styleSheet.addRule(id, nextStyles)
+    }
+
+    makeStyles () {
+      return this.styleSheet.makeStyles({
+        CSSRules,
+        id,
+        props: this.props,
+        scope: this.state.scope
+      })
     }
 
     render () {
