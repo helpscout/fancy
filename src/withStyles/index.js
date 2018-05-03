@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import Style from './Style'
-import {
-  getStyleTag
-} from '../utilities/styleTag'
+import { getStyleTag } from '../utilities/styleTag'
 import { getComponentName } from '../utilities/components'
 import makeStyleSheet from '../StyleSheet/index'
 
@@ -27,13 +25,14 @@ const withStyles = (styles, options = defaultOptions) => Composed => {
       super(props)
       this.state = options
       this.styleSheet = STYLESHEET
+      this.tagNode = null
     }
 
     componentDidMount () {
       if (!id || !CSSRules || this.styleSheet.hasRule(id)) return
 
       const cssStyles = this.makeStyles()
-      const tagNode = getStyleTag()
+      const tagNode = this.getTagNode()
       tagNode.innerHTML += cssStyles
 
       this.styleSheet.addRule(id, cssStyles)
@@ -57,10 +56,17 @@ const withStyles = (styles, options = defaultOptions) => Composed => {
       const nextStyles = this.makeStyles()
       if (prevStyles === nextStyles) return
 
-      const tagNode = getStyleTag()
+      const tagNode = this.getTagNode()
       tagNode.innerHTML = tagNode.innerHTML.replace(prevStyles, nextStyles)
 
       this.styleSheet.addRule(id, nextStyles)
+    }
+
+    getTagNode () {
+      if (this.tagNode) return this.tagNode
+      this.tagNode = getStyleTag(this)
+
+      return this.tagNode
     }
 
     makeStyles () {
