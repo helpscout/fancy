@@ -1,1 +1,3 @@
-export { default as withStyles } from './withStyles/index'
+import withStyles from './withStyles/index'
+
+export default withStyles
