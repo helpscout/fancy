@@ -1,16 +1,18 @@
 import { ID } from '../constants/id'
+import { getClosestDocument } from '../utilities/components'
 
 /**
  * Creates the <style> tag, and adds it to the <head>.
  *
  * @returns {NodeElement} <style>
  */
-export const makeStyleTag = () => {
-  const tag = document.createElement('style')
+export const makeStyleTag = (documentTarget) => {
+  const documentNode = documentTarget || document
+  const tag = documentNode.createElement('style')
   tag.id = ID
   tag.type = 'text/css'
 
-  const head = document.getElementsByTagName('head')[0]
+  const head = documentNode.getElementsByTagName('head')[0]
   /* istanbul ignore else */
   if (head) head.append(tag)
 
@@ -20,9 +22,15 @@ export const makeStyleTag = () => {
 /**
  * Retrieves the withStyle <style> tag.
  *
+ * @param   {object} React.Component
  * @returns {NodeElement} <style>
  */
-export const getStyleTag = () => {
-  const tag = document.getElementById(ID)
-  return tag || makeStyleTag()
+export const getStyleTag = (Component) => {
+  /* istanbul ignore next */
+  const documentNode = Component
+    ? getClosestDocument(Component)
+    : document
+
+  const tag = documentNode.getElementById(ID)
+  return tag || makeStyleTag(documentNode)
 }
