@@ -1,7 +1,6 @@
 import React from 'react'
 import { mount } from 'enzyme'
 import {
-  fastGetReactDOMNode,
   getClosestDocument,
   getComponentName
 } from '../components'
@@ -17,26 +16,6 @@ describe('getComponentName', () => {
 
   test('Returns name, if available', () => {
     expect(getComponentName({ name: 'B' })).toBe('B')
-  })
-})
-
-describe('fastGetReactDOMNode', () => {
-  test('Returns node element from a React component', () => {
-    const spy = jest.fn()
-    class Button extends React.Component {
-      componentDidMount () {
-        spy(fastGetReactDOMNode(this))
-      }
-
-      render () {
-        return (<button />)
-      }
-    }
-
-    const wrapper = mount(<Button />)
-    const el = wrapper.find('button')
-
-    expect(spy).toHaveBeenCalledWith(el.node)
   })
 })
 

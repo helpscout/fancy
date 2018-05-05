@@ -11,17 +11,17 @@ export const getComponentName = (Component = {}) => (
 )
 
 /**
- * Attempts to return the mounted node, based on React's internals.
+ * Attempts to return the document node, based on React's internals.
  * Currently works on React v15.
  *
  * @param   {object} React.Component
  * @returns {NodeElement}
  */
-export const fastGetReactDOMNode = (Component) => (
+export const fastGetReactDOMDocument = (Component) => (
   Component &&
   Component._reactInternalInstance &&
-  Component._reactInternalInstance._renderedComponent &&
-  Component._reactInternalInstance._renderedComponent._hostNode
+  Component._reactInternalInstance._context &&
+  Component._reactInternalInstance._context.document
 )
 
 /**
@@ -31,6 +31,5 @@ export const fastGetReactDOMNode = (Component) => (
  * @returns {NodeElement}
  */
 export const getClosestDocument = Component => {
-  const node = fastGetReactDOMNode(Component)
-  return node ? node.ownerDocument : document
+  return fastGetReactDOMDocument(Component) || document
 }
