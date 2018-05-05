@@ -1,7 +1,7 @@
 {
   "name": "@helpscout/fancy",
   "private": false,
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "A simple way to include CSS with React Components",
   "main": "dist/index.js",
   "umd:main": "dist/index.umd.js",
