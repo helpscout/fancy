@@ -19,7 +19,7 @@
     "test:coverage": "jest --coverage",
     "release": "np --no-yarn --no-publish",
     "version": "npm run build",
-    "postversion": "npm publish"
+    "postversion": "npm publish",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
@@ -50,8 +50,7 @@
     "react": "^15"
   },
   "dependencies": {
-    "stylis": "3.5.0",
-    "stylis-rule-sheet": "0.0.10"
+    "stylis": "3.5.0"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^3.4.3",
