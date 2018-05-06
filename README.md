@@ -3,11 +3,11 @@
 > A simple way to include CSS with React Components.
 
 * **Tiny**, around than 1.5 KB gzipped
-* **Only one dependency - ([Stylis](https://github.com/thysultan/stylis.js))**
-* **Write plain ol' CSS.** Period.
-* **Built-in pre-processing** when you need it. Powered by [Stylis](https://github.com/thysultan/stylis.js).
-* **Generates unique classNames**, [CSS Modules](https://github.com/css-modules/css-modules) style.
-* **Easily integrate** with your setup. No extra webpack-loaders required.
+* **One dependency** - ([Stylis](https://github.com/thysultan/stylis.js))
+* **Write** plain ol' CSS. Period.
+* **Pre-processing** when you need it. Powered by [Stylis](https://github.com/thysultan/stylis.js).
+* **Uniquely** generated classNames, [CSS Modules](https://github.com/css-modules/css-modules) style.
+* **Integrate** with ease into your existing setup. No fiddling with Webpack required.
 
 
 ## 🔧 Installation
