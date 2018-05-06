@@ -107,4 +107,20 @@ describe('makeUniqSelector', () => {
 
     expect(makeUniqSelector('.card\\@md', uuid, id)).toBe('.card\\@md__abc-123')
   })
+
+  test('Returns uniq selector for classNames with nested selectors', () => {
+    expect(makeUniqSelector('.a .b .c', uuid, id)).toBe('.a__abc-123 .b .c')
+  })
+
+  test('Returns uniq selector for classNames with commas', () => {
+    expect(makeUniqSelector('.a, .b', uuid, id)).toBe('.a__abc-123, .b')
+  })
+
+  test('Returns uniq selector for classNames with wildcard', () => {
+    expect(makeUniqSelector('.c *', uuid, id)).toBe('.c__abc-123 *')
+    expect(makeUniqSelector('* .c', uuid, id)).toBe('* .c')
+    expect(makeUniqSelector('.c > *', uuid, id)).toBe('.c__abc-123 > *')
+    expect(makeUniqSelector('.c + .c *', uuid, id)).toBe('.c__abc-123+.c__abc-123 *')
+    expect(makeUniqSelector('.c + .c > *', uuid, id)).toBe('.c__abc-123+.c__abc-123 > *')
+  })
 })

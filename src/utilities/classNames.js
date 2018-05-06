@@ -24,6 +24,18 @@ export const classNames = (...classes) => {
 export const isClassName = selector => selector && selector.charAt(0) === '.'
 
 /**
+ * Factory function to generate unique className for first className within
+ * selector rule.
+ *
+ * @param   {string} uuid
+ * @param   {string} id
+ * @returns {string}
+ */
+export const makeUniqFirstClassName = (uuid, id) => (item, index) => {
+  return index === 0 ? `${item}__${uuid}-${id}` : item
+}
+
+/**
  * Creates a unique namespaced className selector.
  *
  * @param   {string} selector
@@ -32,9 +44,27 @@ export const isClassName = selector => selector && selector.charAt(0) === '.'
  * @returns {string}
  */
 export const makeUniqClassName = (selector, uuid, id) => {
-  return selector.split(':')
-    .map((s, index) => index === 0 ? `${s}__${uuid}-${id}` : s)
-    .join(':')
+  const generateClassName = makeUniqFirstClassName(uuid, id)
+
+  const generate = (item, index) => {
+    let className = generateClassName(item, index)
+
+    if (index === 0) {
+      if (item.indexOf(':') >= 0) {
+        className = item.split(':').map(generateClassName).join(':')
+      }
+      if (item.indexOf(',') >= 0) {
+        className = item.split(',').map(generateClassName).join(',')
+      }
+    }
+
+    return className
+  }
+
+  return selector
+    .split(' ')
+    .map(generate)
+    .join(' ')
 }
 
 /**
