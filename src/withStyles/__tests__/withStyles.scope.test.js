@@ -5,7 +5,10 @@ import withStyles from '../index'
 const removeStyle = withStyles.StyleSheet.removeRule
 
 describe('Scoped styles', () => {
-  const Card = props => (<div className='Card' {...props} />)
+  const Card = props => {
+    const { styles, ...rest } = props
+    return (<div {...rest} className='Card' />)
+  }
 
   const css = (props) => `
     .Card {
