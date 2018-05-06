@@ -1,5 +1,6 @@
 # Documentation
 
 * [Getting Started](./getting-started.md)
-* [Dynamic Styles](./dynamic-styles.md)
 * [Nesting](./nesting.md)
+* [Dynamic Styles](./dynamic-styles.md)
+* [Dynamic ClassNames](./dynamic-classnames.md)

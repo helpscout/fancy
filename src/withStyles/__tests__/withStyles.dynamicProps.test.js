@@ -5,7 +5,10 @@ import withStyles from '../index'
 const removeStyle = withStyles.StyleSheet.removeRule
 
 describe('Dynamic props', () => {
-  const Card = props => (<div {...props} />)
+  const Card = props => {
+    const { styles, ...rest } = props
+    return (<div {...rest} className='Card' />)
+  }
 
   const css = (props) => `
     div {

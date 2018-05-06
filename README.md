@@ -2,7 +2,7 @@
 
 > A simple way to include CSS with React Components.
 
-* **Tiny**, at less than 1 KB gzipped
+* **Tiny**, around than 1.5 KB gzipped
 * **Only one dependency - ([Stylis](https://github.com/thysultan/stylis.js))**
 * **Write plain ol' CSS.** Period.
 * **Built-in pre-processing** when you need it. Powered by [Stylis](https://github.com/thysultan/stylis.js).

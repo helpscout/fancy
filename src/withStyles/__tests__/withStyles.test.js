@@ -5,7 +5,10 @@ import withStyles from '../index'
 const removeStyle = withStyles.StyleSheet.removeRule
 
 describe('HOC Composition', () => {
-  const Button = props => (<button {...props} />)
+  const Button = props => {
+    const { styles, ...rest } = props
+    return (<button {...rest} />)
+  }
   const css = `
     button {
       appearance: none;
@@ -22,6 +25,14 @@ describe('HOC Composition', () => {
       * reset the environment.
       */
     removeStyle(StyledButton._FancyStyleId)
+  })
+
+  test('Renders component, without styles if non are defined', () => {
+    const NonStyledButton = withStyles()(Button)
+    const wrapper = mount(<NonStyledButton />)
+    const el = wrapper.find('button').node
+
+    expect(el).toBeTruthy()
   })
 
   test('Renders styles declared when composing the component', () => {
@@ -89,8 +100,14 @@ describe('HOC Composition', () => {
 })
 
 describe('Multiple Composed Components', () => {
-  const Card = props => (<div {...props} />)
-  const Tag = props => (<span {...props} />)
+  const Card = props => {
+    const { styles, ...rest } = props
+    return (<div {...rest} />)
+  }
+  const Tag = props => {
+    const { styles, ...rest } = props
+    return (<span {...rest} />)
+  }
   const cardCSS = `
     div {
       background: red;
@@ -99,7 +116,7 @@ describe('Multiple Composed Components', () => {
     }
   `
   const tagCSS = `
-    span { 
+    span {
       display: inline-flex;
       padding: 8px
     }

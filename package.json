@@ -81,6 +81,12 @@
     "react-test-renderer": "16.2.0",
     "standard": "11.0.1"
   },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}",
+      "!src/StyleSheet/ruleParserPlugin.{js,jsx}"
+    ]
+  },
   "standard": {
     "ignore": [
       "dist"

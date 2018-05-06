@@ -1,67 +1,88 @@
 import Stylis from 'stylis'
+import ruleParserPlugin from './ruleParserPlugin'
+import { uuid } from '../utilities/id'
+import { decodeStylisRules } from '../utilities/classNames'
 
 const stylis = new Stylis()
+stylis.use([ruleParserPlugin])
 
-const makeStyleSheet = () => {
-  const state = {
-    id: 0,
-    CSSRules: {}
+class StyleSheet {
+  constructor () {
+    this.cssRules = {}
+    this._id = 0
+
+    this.addRule = this.addRule.bind(this)
+    this.getRule = this.getRule.bind(this)
+    this.hasRule = this.hasRule.bind(this)
+    this.makeRule = this.makeRule.bind(this)
+    this.removeRule = this.removeRule.bind(this)
   }
 
-  const addRule = (id, styles) => {
-    state.CSSRules[id] = styles
+  addRule (id, styles) {
+    this.cssRules[id] = styles
   }
 
-  const getRule = (id) => {
-    return state.CSSRules[id]
+  getRule (id) {
+    return this.cssRules[id]
   }
 
-  const hasRule = (id) => {
-    return !!getRule(id)
+  hasRule (id) {
+    return !!this.getRule(id)
   }
 
-  const removeRule = (id) => {
-    delete state.CSSRules[id]
+  removeRule (id) {
+    delete this.cssRules[id]
   }
 
-  const makeRule = (CSSRules) => {
-    state.id = state.id + 1
-    return { id: state.id, CSSRules }
+  makeRule (CSSRules) {
+    this._id = this._id + 1
+    return { id: this._id, CSSRules, uuid: uuid() }
   }
 
-  const makeStyles = (props) => {
+  makeStyles (props) {
     return generateStyles(props)
-  }
-
-  return {
-    addRule,
-    getRule,
-    hasRule,
-    removeRule,
-    makeRule,
-    makeStyles,
-    CSSRules: state.CSSRules
   }
 }
 
 /**
  * Creates the tokenized styles based.
+ * @param   {object} props
+ * @returns {string}
  */
-export const generateStyles = ({id, props, CSSRules, scope}) => {
+export const generateStyles = ({id, props, CSSRules, scope, uuid}) => {
   const parsedCSSRules = typeof CSSRules === 'function'
     ? CSSRules(props) : CSSRules
 
   const styles = stylis((scope || ''), parsedCSSRules)
-  return tokenize(id, styles)
+  return tokenize(styles, uuid, id)
 }
 
 /**
  * Renders the CSSRule with tokenized with the unique ID.
  *
+ * @param   {string} cssRules
+ * @param   {string} uuid
  * @param   {string} id
- * @param   {string} CSSRules
  * @returns {string}
  */
-export const tokenize = (id, CSSRules) => `/* ${id} */\n${CSSRules.trim()}\n`
+export const tokenize = (cssRules, uuid, id) => {
+  /**
+   * Decode and add unique classNames to rule
+   */
+  const block = decodeStylisRules(cssRules, uuid, id)
+  /**
+   * Stringifying the CSS Rule (only)
+   */
+  const rule = block.map(b => b.rule).join('')
+  /**
+   * Mapping the new UUID classNames (only)
+   */
+  const selectors = block.map(b => b.selector).filter(b => b.name)
 
-export default makeStyleSheet
+  return {
+    rule: `/* ${id} */\n${rule}\n`,
+    selectors
+  }
+}
+
+export default StyleSheet

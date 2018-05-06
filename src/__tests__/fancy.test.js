@@ -9,7 +9,10 @@ const removeStyle = fancy.StyleSheet.removeRule
  */
 
 describe('HOC Composition', () => {
-  const Button = props => (<button {...props} />)
+  const Button = props => {
+    const { styles, ...rest } = props
+    return (<button {...rest} />)
+  }
   const css = `
     button {
       appearance: none;
@@ -93,8 +96,14 @@ describe('HOC Composition', () => {
 })
 
 describe('Multiple Composed Components', () => {
-  const Card = props => (<div {...props} />)
-  const Tag = props => (<span {...props} />)
+  const Card = props => {
+    const { styles, ...rest } = props
+    return (<div {...rest} />)
+  }
+  const Tag = props => {
+    const { styles, ...rest } = props
+    return (<span {...rest} />)
+  }
   const cardCSS = `
     div {
       background: red;
@@ -103,7 +112,7 @@ describe('Multiple Composed Components', () => {
     }
   `
   const tagCSS = `
-    span { 
+    span {
       display: inline-flex;
       padding: 8px
     }

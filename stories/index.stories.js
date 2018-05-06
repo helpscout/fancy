@@ -5,10 +5,10 @@ import Frame from 'react-frame-component'
 
 const stories = storiesOf('Sample', module)
 
-const css = `
+const css = (props) => `
 .Card {
-  border: 1px solid #eee;
-  border-radius: 4px;
+  background: ${props.bg};
+  border: 1px solid red;
 
   &__block {
     padding: 20px;
@@ -17,12 +17,12 @@ const css = `
 `
 
 const Card = props => {
+  const { styles } = props
+
   return (
-    <div>
-      <div className='Card'>
-        <div className='Card__block'>
-          ddd
-        </div>
+    <div className={styles.Card}>
+      <div className={styles.Card__block}>
+        Card
       </div>
     </div>
   )
@@ -34,9 +34,9 @@ stories.add('Component', () => {
   return (
     <div>
       <Frame>
-        <FancyCard />
-        <FancyCard />
-        <FancyCard />
+        <FancyCard bg='red' />
+        <FancyCard bg='red' />
+        <FancyCard bg='red' />
       </Frame>
     </div>
   )
