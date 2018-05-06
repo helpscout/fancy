@@ -6,6 +6,7 @@
 * **Only one dependency - ([Stylis](https://github.com/thysultan/stylis.js))**
 * **Write plain ol' CSS.** Period.
 * **Built-in pre-processing** when you need it. Powered by [Stylis](https://github.com/thysultan/stylis.js).
+* **Generates unique classNames**, [CSS Modules](https://github.com/css-modules/css-modules) style.
 * **Easily integrate** with your setup. No extra webpack-loaders required.
 
 
