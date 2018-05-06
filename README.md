@@ -32,9 +32,13 @@ const css = `
   }
 `
 
-const Button = props => (
-  <button className='Button' {...props} />
-)
+const Button = props => {
+  const { children, styles, ...rest } = props
+
+  <button className={styles.Button} {...rest}>
+    {children}
+  </button>
+}
 
 export default fancy(css)(Button)
 ```
