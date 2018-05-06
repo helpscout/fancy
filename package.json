@@ -17,9 +17,9 @@
     "lint": "standard 'src/**/*.js' --fix",
     "test": "npm run lint && npm run test:coverage",
     "test:coverage": "jest --coverage",
-    "publish": "np --no-yarn --no-publish",
+    "publish": "np --no-yarn --no-publish && npm run publish:npm",
+    "publish:npm": "npm publish",
     "version": "npm run build",
-    "postversion": "npm publish",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
