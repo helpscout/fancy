@@ -14,7 +14,7 @@ export const makeStyleTag = (documentTarget) => {
 
   const head = documentNode.getElementsByTagName('head')[0]
   /* istanbul ignore else */
-  if (head) head.append(tag)
+  if (head) head.appendChild(tag)
 
   return tag
 }
