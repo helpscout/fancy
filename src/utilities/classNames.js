@@ -1,7 +1,5 @@
-import {
-  DELIMETER,
-  SEP
-} from '../constants/stylis'
+import { DELIMETER, SEP } from '../constants/stylis'
+import { has, hasMany } from './strings'
 
 /**
  * Returns an array of classNames prepped for React.
@@ -43,8 +41,8 @@ export const makeUniqFirstClassName = (uuid, id) => (item, index) => {
  * @param   {function} compiler
  * @returns {string}
  */
-export const compileRule = (rule, token, compiler) => {
-  return rule.split(token).map(compiler).join(token)
+export const compileRule = (rule, token, compiler, prefix = '', suffix = '') => {
+  return prefix + rule.split(token).filter(r => r).map(compiler).join(token) + suffix
 }
 
 /**
@@ -62,11 +60,14 @@ export const makeUniqClassName = (selector, uuid, id) => {
     let className = generateClassName(item, index)
 
     if (index === 0) {
-      if (item.indexOf(':') >= 0) {
+      if (hasMany(item, /\./)) {
+        className = compileRule(item, '.', generateClassName, '.')
+      }
+      if (has(item, ':')) {
         className = compileRule(item, ':', generateClassName)
       }
-      if (item.indexOf(',') >= 0) {
-        className = compileRule(item, ',', generateClassName)
+      if (has(item, ',')) {
+        className = compileRule(item, ',', generateClassName, '', ',')
       }
     }
 

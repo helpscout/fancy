@@ -116,6 +116,12 @@ describe('makeUniqSelector', () => {
     expect(makeUniqSelector('.a, .b', uuid, id)).toBe('.a__abc-123, .b')
   })
 
+  test('Returns uniq selector for chained classNames', () => {
+    expect(makeUniqSelector('.a.b.c', uuid, id)).toBe('.a__abc-123.b.c')
+    expect(makeUniqSelector('.a.b .c', uuid, id)).toBe('.a__abc-123.b .c')
+    expect(makeUniqSelector('.a.is-awesome .a__child', uuid, id)).toBe('.a__abc-123.is-awesome .a__child')
+  })
+
   test('Returns uniq selector for classNames with wildcard', () => {
     expect(makeUniqSelector('.c *', uuid, id)).toBe('.c__abc-123 *')
     expect(makeUniqSelector('* .c', uuid, id)).toBe('* .c')
