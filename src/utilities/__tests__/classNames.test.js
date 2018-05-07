@@ -79,6 +79,30 @@ describe('makeUniqSelectorForCombinator', () => {
 
     expect(results).toBe('.Card__abc-123+.Card__abc-123')
   })
+
+  test('Allows for differing combinator values', () => {
+    const combinator = '+'
+    const selector = '.Card + .Nope'
+    const results = makeUniqSelectorForCombinator(combinator, selector, uuid, id)
+
+    expect(results).toBe('.Card__abc-123+.Nope')
+  })
+
+  test('Allows for differing combinator values, but is aware of repeated base class', () => {
+    const combinator = '+'
+    const selector = '.Card + .Nope + .Card'
+    const results = makeUniqSelectorForCombinator(combinator, selector, uuid, id)
+
+    expect(results).toBe('.Card__abc-123+.Nope+.Card__abc-123')
+  })
+
+  test('Allows for differing combinator values, but is aware of repeated base class with underscore', () => {
+    const combinator = '+'
+    const selector = '.Card + .Nope + .Card__block'
+    const results = makeUniqSelectorForCombinator(combinator, selector, uuid, id)
+
+    expect(results).toBe('.Card__abc-123+.Nope+.Card__block__abc-123')
+  })
 })
 
 describe('makeUniqSelector', () => {
@@ -114,6 +138,10 @@ describe('makeUniqSelector', () => {
 
   test('Returns uniq selector for classNames with commas', () => {
     expect(makeUniqSelector('.a, .b', uuid, id)).toBe('.a__abc-123, .b')
+  })
+
+  test('Returns uniq selector for classNames with hyphen', () => {
+    expect(makeUniqSelector('.a--md', uuid, id)).toBe('.a--md__abc-123')
   })
 
   test('Returns uniq selector for chained classNames', () => {
