@@ -34,6 +34,27 @@ export const makeUniqFirstClassName = (uuid, id) => (item, index) => {
 }
 
 /**
+ * Gets the base selector from a selector sequence.
+ *
+ * @param   {string} selector
+ * @returns {string}
+ */
+export const getBaseSelector = selector => {
+  return selector.split(/ |:|_|-/gi)[0].trim()
+}
+
+/**
+ * Splits a selector into individual rules.
+ *
+ * @param   {string} rule
+ * @param   {string} token
+ * @returns {array}
+ */
+export const getPreCompileSelectors = (rule, token) => {
+  return rule.split(token).filter(r => r).map(r => r.trim())
+}
+
+/**
  * Compiles cssRules from token points.
  *
  * @param   {string} rule
@@ -42,7 +63,8 @@ export const makeUniqFirstClassName = (uuid, id) => (item, index) => {
  * @returns {string}
  */
 export const compileRule = (rule, token, compiler, prefix = '', suffix = '') => {
-  return prefix + rule.split(token).filter(r => r).map(compiler).join(token) + suffix
+  const selectors = getPreCompileSelectors(rule, token)
+  return prefix + selectors.map(compiler).join(token) + suffix
 }
 
 /**
@@ -87,7 +109,13 @@ export const makeUniqClassName = (selector, uuid, id) => {
  * @returns {string}
  */
 export const makeUniqSelectorForCombinator = (combinator, selector, uuid, id) => {
-  const compiler = s => makeUniqClassName(s.trim(), uuid, id)
+  const selectors = getPreCompileSelectors(selector, combinator)
+  const compiler = (s, index) => {
+    const base = getBaseSelector(s)
+    if (index > 0 && base !== selectors[0]) return s
+    return makeUniqClassName(s, uuid, id)
+  }
+
   return compileRule(selector, combinator, compiler)
 }
 
