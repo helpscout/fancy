@@ -4,11 +4,7 @@ import { getStyleTag } from '../utilities/styleTag'
 import { getComponentName } from '../utilities/components'
 import StyleSheet from '../StyleSheet/index'
 
-export const STYLESHEET = new StyleSheet()
-
-const defaultOptions = {
-  scope: ''
-}
+export const STYLESHEET = StyleSheet()
 
 /**
  * HOC that renders specified CSS rules.
@@ -17,7 +13,7 @@ const defaultOptions = {
  * @param   {React.Component} - Composed
  * @returns {React.Component}
  */
-const withStyles = (styles = '', options = defaultOptions) => Composed => {
+const withStyles = (styles = '', options = { scope: '' }) => Composed => {
   const { id, CSSRules, uuid } = STYLESHEET.makeRule(styles)
 
   class WithStylesComponent extends Component {
@@ -48,8 +44,7 @@ const withStyles = (styles = '', options = defaultOptions) => Composed => {
        * Note: This may change (and be deprecated) with the recent addition
        * of auto-iFrame handling.
        */
-      const tagNode = this.getTagNode()
-      tagNode.innerHTML += cssStyles
+      this.getTagNode().innerHTML += cssStyles
 
       this.styleSheet.addRule(id, cssStyles)
     }
@@ -133,8 +128,8 @@ const withStyles = (styles = '', options = defaultOptions) => Composed => {
   }
 
   WithStylesComponent.displayName = `withStyle(${getComponentName(Composed)})`
-  WithStylesComponent._FancyStyleId = id
-  WithStylesComponent._FancyStyleSheet = STYLESHEET
+  WithStylesComponent._styleId = id
+  WithStylesComponent._styleSheet = STYLESHEET
 
   return WithStylesComponent
 }
