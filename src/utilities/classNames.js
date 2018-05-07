@@ -36,6 +36,18 @@ export const makeUniqFirstClassName = (uuid, id) => (item, index) => {
 }
 
 /**
+ * Compiles cssRules from token points.
+ *
+ * @param   {string} rule
+ * @param   {string} token
+ * @param   {function} compiler
+ * @returns {string}
+ */
+export const compileRule = (rule, token, compiler) => {
+  return rule.split(token).map(compiler).join(token)
+}
+
+/**
  * Creates a unique namespaced className selector.
  *
  * @param   {string} selector
@@ -51,20 +63,17 @@ export const makeUniqClassName = (selector, uuid, id) => {
 
     if (index === 0) {
       if (item.indexOf(':') >= 0) {
-        className = item.split(':').map(generateClassName).join(':')
+        className = compileRule(item, ':', generateClassName)
       }
       if (item.indexOf(',') >= 0) {
-        className = item.split(',').map(generateClassName).join(',')
+        className = compileRule(item, ',', generateClassName)
       }
     }
 
     return className
   }
 
-  return selector
-    .split(' ')
-    .map(generate)
-    .join(' ')
+  return compileRule(selector, ' ', generate)
 }
 
 /**
@@ -77,10 +86,8 @@ export const makeUniqClassName = (selector, uuid, id) => {
  * @returns {string}
  */
 export const makeUniqSelectorForCombinator = (combinator, selector, uuid, id) => {
-  return selector
-    .split(combinator)
-    .map(s => makeUniqClassName(s.trim(), uuid, id))
-    .join(combinator)
+  const compiler = s => makeUniqClassName(s.trim(), uuid, id)
+  return compileRule(selector, combinator, compiler)
 }
 
 /**
