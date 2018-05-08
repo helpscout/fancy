@@ -28,7 +28,7 @@ const withStyles = (styles = '', options = { scope: '' }) => Composed => {
     }
 
     componentDidMount () {
-      if (!this.shouldUpdateCSSRules()) return
+      if (!id || !CSSRules || this.styleSheet.hasRule(id)) return
 
       const cssStyles = this.makeStyles().rule
       /**
@@ -78,15 +78,6 @@ const withStyles = (styles = '', options = { scope: '' }) => Composed => {
        * Update (virtual) CSS rule
        */
       this.styleSheet.addRule(id, nextStyles)
-    }
-
-    /**
-     * Determines if CSS rules should be adjusted.
-     *
-     * @return {bool}
-     */
-    shouldUpdateCSSRules () {
-      return (id && CSSRules && !this.styleSheet.hasRule(id))
     }
 
     /**

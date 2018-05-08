@@ -64,7 +64,7 @@ function StyleSheet () {
     const styles = tokenize(stylis((scope || ''), parsedCSSRules), uuid, id)
 
     return {
-      selectors: (id, styles.selectors),
+      selectors: addStyles(id, styles.selectors),
       rule: styles.rule
     }
   }
