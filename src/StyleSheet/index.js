@@ -9,6 +9,7 @@ stylis.use([ruleParserPlugin])
 function StyleSheet () {
   let cssRules = {}
   let _id = 0
+  let _styles = {}
 
   function addRule (id, styles) {
     cssRules[id] = styles
@@ -31,11 +32,41 @@ function StyleSheet () {
     return { id: _id, CSSRules, uuid: uuid() }
   }
 
+  /**
+   * Adds the unique selectors to _styles.
+   *
+   * @param   {string} id
+   * @param   {string} selectors
+   * @returns {string}
+   */
+  function addStyles (id, selectors) {
+    if (!_styles[id]) {
+      _styles[id] = selectors
+    }
+
+    return _styles[id]
+  }
+
+  /**
+   * Generates the tokenized rule and unique selectors.
+   *
+   * @param   {string} id
+   * @param   {object} props
+   * @param   {string} CSSRules
+   * @param   {string} scope
+   * @param   {string} uuid
+   * @returns {string} object
+   */
   function makeStyles ({id, props, CSSRules, scope, uuid}) {
     const parsedCSSRules = typeof CSSRules === 'string'
       ? CSSRules : CSSRules(props)
 
-    return tokenize(stylis((scope || ''), parsedCSSRules), uuid, id)
+    const styles = tokenize(stylis((scope || ''), parsedCSSRules), uuid, id)
+
+    return {
+      selectors: addStyles(id, styles.selectors),
+      rule: styles.rule
+    }
   }
 
   return {
@@ -44,9 +75,11 @@ function StyleSheet () {
     hasRule,
     removeRule,
     makeRule,
+    addStyles,
     makeStyles,
     cssRules,
-    id: _id
+    id: _id,
+    styles: _styles
   }
 }
 

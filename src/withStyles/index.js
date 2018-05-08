@@ -23,18 +23,12 @@ const withStyles = (styles = '', options = { scope: '' }) => Composed => {
       this.styleSheet = STYLESHEET
       this.tagNode = null
       this.styles = {}
-    }
 
-    componentWillMount () {
-      if (!this.shouldUpdateCSSRules()) return
-      this.makeStyles().selectors
-        .map(({name, className}) => {
-          this.styles[name] = className
-        })
+      this.setStyles()
     }
 
     componentDidMount () {
-      if (!this.shouldUpdateCSSRules()) return
+      if (!id || !CSSRules || this.styleSheet.hasRule(id)) return
 
       const cssStyles = this.makeStyles().rule
       /**
@@ -87,15 +81,6 @@ const withStyles = (styles = '', options = { scope: '' }) => Composed => {
     }
 
     /**
-     * Determines if CSS rules should be adjusted.
-     *
-     * @return {bool}
-     */
-    shouldUpdateCSSRules () {
-      return (id && CSSRules && !this.styleSheet.hasRule(id))
-    }
-
-    /**
      * Retrieves and internally sets the <style> tag node.
      *
      * @return {NodeElement}
@@ -105,6 +90,16 @@ const withStyles = (styles = '', options = { scope: '' }) => Composed => {
       this.tagNode = getStyleTag(this)
 
       return this.tagNode
+    }
+
+    /**
+     * Sets the initial style classNames.
+     */
+    setStyles () {
+      this.makeStyles().selectors
+        .map(({name, className}) => {
+          this.styles[name] = className
+        })
     }
 
     /**
