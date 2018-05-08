@@ -23,14 +23,8 @@ const withStyles = (styles = '', options = { scope: '' }) => Composed => {
       this.styleSheet = STYLESHEET
       this.tagNode = null
       this.styles = {}
-    }
 
-    componentWillMount () {
-      if (!this.shouldUpdateCSSRules()) return
-      this.makeStyles().selectors
-        .map(({name, className}) => {
-          this.styles[name] = className
-        })
+      this.setStyles()
     }
 
     componentDidMount () {
@@ -105,6 +99,16 @@ const withStyles = (styles = '', options = { scope: '' }) => Composed => {
       this.tagNode = getStyleTag(this)
 
       return this.tagNode
+    }
+
+    /**
+     * Sets the initial style classNames.
+     */
+    setStyles () {
+      this.makeStyles().selectors
+        .map(({name, className}) => {
+          this.styles[name] = className
+        })
     }
 
     /**
