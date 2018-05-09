@@ -97,6 +97,20 @@ describe('HOC Composition', () => {
     expect(styles.position).toBe('absolute')
     expect(el.prop('type')).toBe('submit')
   })
+
+  test('Styles are preserved on re-renders', () => {
+    const wrapper = mount(<StyledButton />)
+    const el = wrapper.find('button').node
+
+    wrapper.setProps({ title: 'yup' })
+    wrapper.update()
+
+    const styles = window.getComputedStyle(el)
+
+    expect(styles.appearance).toBe('none')
+    expect(styles.background).toBe('red')
+    expect(styles.position).toBe('absolute')
+  })
 })
 
 describe('Multiple Composed Components', () => {
