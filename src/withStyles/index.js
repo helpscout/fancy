@@ -28,6 +28,17 @@ const withStyles = (styles = '', options = { scope: '' }) => Composed => {
     }
 
     componentDidMount () {
+      this.addRule()
+    }
+
+    componentDidUpdate (prevProps) {
+      this.maybeUpdateRule(prevProps)
+    }
+
+    /**
+     * Adds the CSS Rule to the <style> tag node.
+     */
+    addRule () {
       if (!id || !CSSRules || this.styleSheet.hasRule(id)) return
 
       const cssStyles = this.makeStyles().rule
@@ -43,7 +54,15 @@ const withStyles = (styles = '', options = { scope: '' }) => Composed => {
       this.styleSheet.addRule(id, cssStyles)
     }
 
-    componentDidUpdate (prevProps) {
+    /**
+     * Updates CSS Rule based on prop changes, if applicable.
+     */
+    maybeUpdateRule (prevProps) {
+      /**
+       * No need to update if the rule is static. This guard is to help
+       * with performance.
+       */
+      if (typeof CSSRules === 'string') return
       /**
        * Tested in Enzyme, but difficult to set up Istanbul to report.
        */
