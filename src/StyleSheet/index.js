@@ -35,11 +35,21 @@ function StyleSheet() {
   }
 
   function updateScope(scope) {
-    return (_scope = scope)
+    _scope = scope
+    return _scope
   }
 
   function updateTheme(theme) {
-    return (_theme = theme)
+    _theme = theme
+    return _theme
+  }
+
+  function getScope() {
+    return _scope
+  }
+
+  function getTheme() {
+    return _theme
   }
 
   /**
@@ -100,6 +110,8 @@ function StyleSheet() {
     cssRules,
     id: _id,
     styles: _styles,
+    getScope: getScope,
+    getTheme: getTheme,
   }
 }
 

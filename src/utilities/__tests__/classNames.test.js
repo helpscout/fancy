@@ -1,5 +1,7 @@
 import {
+  SCOPE_TOKEN,
   classNames,
+  makeRuleFromStylis,
   makeUniqSelectorForCombinator,
   makeUniqSelector,
 } from '../classNames'
@@ -183,6 +185,20 @@ describe('makeUniqSelector', () => {
     )
     expect(makeUniqSelector('.c + .c > *', uuid, id)).toBe(
       '.c__abc-123+.c__abc-123 > *'
+    )
+  })
+})
+
+describe('makeRuleFromStylis', () => {
+  test('Returns rule if selector is undefined', () => {
+    expect(makeRuleFromStylis('1')).toBe('1')
+  })
+
+  test('Replaces scoped rule uniqSelector', () => {
+    const rule = `${SCOPE_TOKEN} html .div { background: red; }`
+
+    expect(makeRuleFromStylis(rule, '.div', '.div_abc', 'html')).toContain(
+      'html .div_abc'
     )
   })
 })

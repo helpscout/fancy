@@ -8,8 +8,12 @@ const stories = storiesOf('Sample', module)
 
 const css = props => {
   return `
-    div {
-      background: red;
+    .Card {
+      background: #eee;
+
+      &__block {
+        padding: 20px;
+      }
     }
   `
 }

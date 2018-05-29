@@ -34,4 +34,26 @@ describe('StyleSheet', () => {
       expect(stylesheet.addStyles('1', 'abc')).toBe('abc')
     })
   })
+
+  describe('scope', () => {
+    test('Can update scope data', () => {
+      const stylesheet = StyleSheet()
+      const scope = 'html'
+      stylesheet.updateScope(scope)
+
+      expect(stylesheet.getScope()).toBe(scope)
+    })
+  })
+
+  describe('theme', () => {
+    test('Can update theme data', () => {
+      const stylesheet = StyleSheet()
+      const theme = {
+        a: 1,
+      }
+      stylesheet.updateTheme(theme)
+
+      expect(stylesheet.getTheme()).toBe(theme)
+    })
+  })
 })

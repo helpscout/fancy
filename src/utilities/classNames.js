@@ -191,7 +191,13 @@ export const makeRuleFromStylis = (
  * @param   {string} id
  * @returns {string}
  */
-export const decodeStylisRules = (cssRules, uuid, id, scope = '') => {
+export const decodeStylisRules = (
+  cssRules,
+  uuid,
+  id,
+  /* istanbul ignore next */
+  scope = ''
+) => {
   return cssRules.split(DELIMETER).map(cssRule => {
     /**
      * Extract values from (parsed) stylis output
