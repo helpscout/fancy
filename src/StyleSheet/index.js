@@ -73,7 +73,7 @@ function StyleSheet() {
         ? CSSRules({ ...props, theme: _theme })
         : CSSRules
 
-    const enhancedScope = scope ? `${_scope} ${scope}` : _scope || ''
+    const enhancedScope = _scope ? _scope : scope || ''
     const styles = tokenize(
       stylis(enhancedScope, parsedCSSRules),
       uuid,

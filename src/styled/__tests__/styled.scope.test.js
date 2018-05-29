@@ -7,7 +7,7 @@ const removeStyle = styled.StyleSheet.removeRule
 describe('Scoped styles', () => {
   const Card = props => {
     const { styles, ...rest } = props
-    return <div {...rest} className="Card" />
+    return <div {...rest} className={`${styles.Card} Card`} />
   }
 
   const css = props => `

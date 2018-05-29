@@ -1,7 +1,7 @@
 import { DELIMETER, SEP } from '../constants/stylis'
 import { has, hasMany } from './strings'
 
-export const SCOPE_TOKEN = '/*|0|*/'
+export const SCOPE_TOKEN = '/*00*/'
 
 /**
  * Returns an array of classNames prepped for React.
@@ -169,11 +169,11 @@ export const makeUniqSelector = (selector, uuid, id) => {
  */
 export const makeRuleFromStylis = (
   rule,
-  selector,
-  uniqSelector,
+  selector = '',
+  uniqSelector = '',
   scope = ''
 ) => {
-  if (!selector) return
+  if (!selector) return rule
 
   const scopelessSelector = selector.replace(scope, '').trim()
   if (!isClassName(scopelessSelector)) return rule

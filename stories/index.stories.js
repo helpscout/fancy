@@ -8,14 +8,10 @@ const stories = storiesOf('Sample', module)
 
 const css = props => {
   return `
-    .Card {
-      background: ${props.theme.card.background};
-      border: 1px solid ${props.theme.card.border};
-      &__block {
-        padding: 20px;
-      }
+    div {
+      background: red;
     }
-`
+  `
 }
 
 const Card = props => {
@@ -58,7 +54,7 @@ class App extends React.Component {
 
     return (
       <div>
-        <ThemeProvider theme={theme} scope="html body div">
+        <ThemeProvider theme={theme}>
           {cardsMarkup}
           <button onClick={this.handleAddCard}>Add</button>
         </ThemeProvider>
