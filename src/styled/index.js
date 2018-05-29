@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
-import Context from '../Context'
 import Style from './Style'
 import { getStyleTag } from '../utilities/styleTag'
 import { getComponentName } from '../utilities/components'
-import StyleSheet from '../StyleSheet/index'
+import { STYLESHEET as StyleSheet } from '../ThemeProvider'
 
-export const STYLESHEET = StyleSheet()
+export const STYLESHEET = StyleSheet
 
 /**
  * HOC that renders specified CSS rules.
@@ -14,7 +13,7 @@ export const STYLESHEET = StyleSheet()
  * @param   {React.Component} - Composed
  * @returns {React.Component}
  */
-const withStyles = Composed => (styles = '', options = { scope: '' }) => {
+const styled = Composed => (styles = '', options = { scope: '' }) => {
   const { id, CSSRules, uuid } = STYLESHEET.makeRule(styles)
 
   class WithStylesComponent extends Component {
@@ -23,7 +22,6 @@ const withStyles = Composed => (styles = '', options = { scope: '' }) => {
       this.state = options
       this.styleSheet = STYLESHEET
       this.tagNode = null
-      this.contextRef = null
       this.styles = {}
 
       this.setStyles()
@@ -122,11 +120,6 @@ const withStyles = Composed => (styles = '', options = { scope: '' }) => {
       })
     }
 
-    getThemeContextProps() {
-      if (!this.contextRef) return {}
-      return this.contextRef.state.value.theme
-    }
-
     /**
      * Creates the CSS rules.
      *
@@ -136,18 +129,14 @@ const withStyles = Composed => (styles = '', options = { scope: '' }) => {
       return this.styleSheet.makeStyles({
         CSSRules,
         id,
-        props: { ...this.props, theme: this.getThemeContextProps() },
+        props: this.props,
         scope: this.state.scope,
         uuid,
       })
     }
 
     render() {
-      return (
-        <Context.Consumer ref={ref => (this.contextRef = ref)}>
-          {theme => <Composed {...this.props} styles={this.styles} />}
-        </Context.Consumer>
-      )
+      return <Composed {...this.props} styles={this.styles} />
     }
   }
 
@@ -160,7 +149,7 @@ const withStyles = Composed => (styles = '', options = { scope: '' }) => {
 /**
  * Sub-components
  */
-withStyles.Style = Style
-withStyles.StyleSheet = STYLESHEET
+styled.Style = Style
+styled.StyleSheet = STYLESHEET
 
-export default withStyles
+export default styled

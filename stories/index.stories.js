@@ -7,9 +7,10 @@ import Frame from 'react-frame-component'
 const stories = storiesOf('Sample', module)
 
 const css = props => {
-  console.log(props.theme)
   return `
     .Card {
+      background: ${props.theme.card.background};
+      border: 1px solid ${props.theme.card.border};
       &__block {
         padding: 20px;
       }
@@ -57,7 +58,7 @@ class App extends React.Component {
 
     return (
       <div>
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={theme} scope="html body div">
           {cardsMarkup}
           <button onClick={this.handleAddCard}>Add</button>
         </ThemeProvider>

@@ -52,7 +52,6 @@
     "react": "^15"
   },
   "dependencies": {
-    "create-react-context": "0.2.2",
     "stylis": "3.5.0"
   },
   "devDependencies": {

@@ -1,6 +1,8 @@
 import { DELIMETER, SEP } from '../constants/stylis'
 import { has, hasMany } from './strings'
 
+export const SCOPE_TOKEN = '/*|0|*/'
+
 /**
  * Returns an array of classNames prepped for React.
  *
@@ -162,13 +164,22 @@ export const makeUniqSelector = (selector, uuid, id) => {
  *
  * @param   {string} rule
  * @param   {string} selector
- * @param   {string} newSelector
+ * @param   {string} scope
  * @returns {string}
  */
-export const makeRuleFromStylis = (rule, selector, uniqSelector) => {
-  if (!isClassName(selector)) return rule
+export const makeRuleFromStylis = (
+  rule,
+  selector,
+  uniqSelector,
+  scope = ''
+) => {
+  if (!selector) return
 
-  return rule.replace(selector, `${selector}, ${uniqSelector}`)
+  const scopelessSelector = selector.replace(scope, '').trim()
+  if (!isClassName(scopelessSelector)) return rule
+
+  const parsedSelector = uniqSelector.replace(SCOPE_TOKEN, scope)
+  return rule.replace(selector, parsedSelector)
 }
 
 /**
@@ -180,7 +191,7 @@ export const makeRuleFromStylis = (rule, selector, uniqSelector) => {
  * @param   {string} id
  * @returns {string}
  */
-export const decodeStylisRules = (cssRules, uuid, id) => {
+export const decodeStylisRules = (cssRules, uuid, id, scope = '') => {
   return cssRules.split(DELIMETER).map(cssRule => {
     /**
      * Extract values from (parsed) stylis output
@@ -188,16 +199,27 @@ export const decodeStylisRules = (cssRules, uuid, id) => {
     const values = cssRule.split(SEP)
     const selector = values[1]
     const initialRule = values[0]
-    const isClass = isClassName(selector)
+    const scopelessSelector = selector
+      ? scope
+        ? selector.replace(`${scope} `, '')
+        : selector
+      : selector
+    const isClass = isClassName(scopelessSelector)
 
-    const uniqSelector = makeUniqSelector(selector, uuid, id)
+    const uniqSelector = makeUniqSelector(scopelessSelector, uuid, id)
+    const tokenedUniqSelector = `${SCOPE_TOKEN} ${uniqSelector}`
 
     return {
       selector: {
-        name: isClass ? selector.substring(1) : selector,
+        name: isClass ? scopelessSelector.substring(1) : selector,
         className: isClass ? uniqSelector.substring(1) : selector,
       },
-      rule: makeRuleFromStylis(initialRule, selector, uniqSelector),
+      rule: makeRuleFromStylis(
+        initialRule,
+        selector,
+        tokenedUniqSelector,
+        scope
+      ),
     }
   })
 }

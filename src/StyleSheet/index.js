@@ -10,6 +10,8 @@ function StyleSheet() {
   let cssRules = {}
   let _id = 0
   let _styles = {}
+  let _scope = ''
+  let _theme = {}
 
   function addRule(id, styles) {
     cssRules[id] = styles
@@ -30,6 +32,14 @@ function StyleSheet() {
   function makeRule(CSSRules) {
     _id = _id + 1
     return { id: _id, CSSRules, uuid: uuid() }
+  }
+
+  function updateScope(scope) {
+    return (_scope = scope)
+  }
+
+  function updateTheme(theme) {
+    return (_theme = theme)
   }
 
   /**
@@ -59,9 +69,17 @@ function StyleSheet() {
    */
   function makeStyles({ id, props, CSSRules, scope, uuid }) {
     const parsedCSSRules =
-      typeof CSSRules === 'string' ? CSSRules : CSSRules(props)
+      typeof CSSRules !== 'string'
+        ? CSSRules({ ...props, theme: _theme })
+        : CSSRules
 
-    const styles = tokenize(stylis(scope || '', parsedCSSRules), uuid, id)
+    const enhancedScope = scope ? `${_scope} ${scope}` : _scope || ''
+    const styles = tokenize(
+      stylis(enhancedScope, parsedCSSRules),
+      uuid,
+      id,
+      enhancedScope
+    )
 
     return {
       selectors: addStyles(id, styles.selectors),
@@ -74,6 +92,8 @@ function StyleSheet() {
     getRule,
     hasRule,
     removeRule,
+    updateScope,
+    updateTheme,
     makeRule,
     addStyles,
     makeStyles,
@@ -91,11 +111,11 @@ function StyleSheet() {
  * @param   {string} id
  * @returns {string}
  */
-export function tokenize(cssRules, uuid, id) {
+export function tokenize(cssRules, uuid, id, scope) {
   /**
    * Decode and add unique classNames to rule
    */
-  const block = decodeStylisRules(cssRules, uuid, id)
+  const block = decodeStylisRules(cssRules, uuid, id, scope)
 
   return {
     rule: `/* ${id} */\n${block.map(b => b.rule).join('')}\n`,
