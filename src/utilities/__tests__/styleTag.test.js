@@ -1,9 +1,6 @@
 import React from 'react'
 import { mount } from 'enzyme'
-import {
-  getStyleTag,
-  makeStyleTag
-} from '../styleTag'
+import { getStyleTag, makeStyleTag } from '../styleTag'
 
 describe('makeStyleTag', () => {
   test('Adds a <style> tag to the Head, if one does not exist', () => {
@@ -21,12 +18,12 @@ describe('getStyleTag', () => {
     document.head.innerHTML = ''
     const spy = jest.fn()
     class Button extends React.Component {
-      componentDidMount () {
+      componentDidMount() {
         spy(getStyleTag(this))
       }
 
-      render () {
-        return (<button />)
+      render() {
+        return <button />
       }
     }
 

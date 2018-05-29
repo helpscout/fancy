@@ -8,9 +8,7 @@ import { has, hasMany } from './strings'
  * @returns {string}
  */
 export const classNames = (...classes) => {
-  return classes
-    .filter(name => name && typeof name !== 'boolean')
-    .join(' ')
+  return classes.filter(name => name && typeof name !== 'boolean').join(' ')
 }
 
 /**
@@ -51,7 +49,10 @@ export const getBaseSelector = selector => {
  * @returns {array}
  */
 export const getPreCompileSelectors = (rule, token) => {
-  return rule.split(token).filter(r => r).map(r => r.trim())
+  return rule
+    .split(token)
+    .filter(r => r)
+    .map(r => r.trim())
 }
 
 /**
@@ -62,7 +63,13 @@ export const getPreCompileSelectors = (rule, token) => {
  * @param   {function} compiler
  * @returns {string}
  */
-export const compileRule = (rule, token, compiler, prefix = '', suffix = '') => {
+export const compileRule = (
+  rule,
+  token,
+  compiler,
+  prefix = '',
+  suffix = ''
+) => {
   const selectors = getPreCompileSelectors(rule, token)
   return prefix + selectors.map(compiler).join(token) + suffix
 }
@@ -108,7 +115,12 @@ export const makeUniqClassName = (selector, uuid, id) => {
  * @param   {string} id
  * @returns {string}
  */
-export const makeUniqSelectorForCombinator = (combinator, selector, uuid, id) => {
+export const makeUniqSelectorForCombinator = (
+  combinator,
+  selector,
+  uuid,
+  id
+) => {
   const selectors = getPreCompileSelectors(selector, combinator)
   const compiler = (s, index) => {
     const base = getBaseSelector(s)
@@ -137,7 +149,7 @@ export const makeUniqSelector = (selector, uuid, id) => {
   /* Sibling (+) */
   if (selector.indexOf('+') >= 0) {
     newSelector = makeUniqSelectorForCombinator('+', selector, uuid, id)
-  /* Sibling (~) */
+    /* Sibling (~) */
   } else if (selector.indexOf('~') >= 0) {
     newSelector = makeUniqSelectorForCombinator('~', selector, uuid, id)
   }
@@ -183,9 +195,9 @@ export const decodeStylisRules = (cssRules, uuid, id) => {
     return {
       selector: {
         name: isClass ? selector.substring(1) : selector,
-        className: isClass ? uniqSelector.substring(1) : selector
+        className: isClass ? uniqSelector.substring(1) : selector,
       },
-      rule: makeRuleFromStylis(initialRule, selector, uniqSelector)
+      rule: makeRuleFromStylis(initialRule, selector, uniqSelector),
     }
   })
 }

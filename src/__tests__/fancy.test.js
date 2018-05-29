@@ -1,17 +1,17 @@
 import React from 'react'
 import { mount } from 'enzyme'
-import fancy from '../index'
+import styled from '../index'
 
-const removeStyle = fancy.StyleSheet.removeRule
+const removeStyle = styled.StyleSheet.removeRule
 
 /**
- * Integration tests to ensure that fancy is exported correctly.
+ * Integration tests to ensure that styled is exported correctly.
  */
 
 describe('HOC Composition', () => {
   const Button = props => {
     const { styles, ...rest } = props
-    return (<button {...rest} />)
+    return <button {...rest} />
   }
   const css = `
     button {
@@ -20,14 +20,14 @@ describe('HOC Composition', () => {
       position: absolute;
     }
   `
-  const StyledButton = fancy(css)(Button)
+  const StyledButton = styled(Button)(css)
 
   afterEach(() => {
     global.document.head.innerHTML = ''
     /**
-      * Removing styles ID, just for testing. This is to help
-      * reset the environment.
-      */
+     * Removing styles ID, just for testing. This is to help
+     * reset the environment.
+     */
     removeStyle(StyledButton._styleId)
   })
 
@@ -42,9 +42,7 @@ describe('HOC Composition', () => {
   })
 
   test('Does not re-inject styles for multiple components', () => {
-    mount(
-      <StyledButton />
-    )
+    mount(<StyledButton />)
     const headStyles = document.head.innerHTML
 
     mount(
@@ -60,9 +58,7 @@ describe('HOC Composition', () => {
   })
 
   test('Does not re-inject styles for multiple components, even if they unmount', () => {
-    mount(
-      <StyledButton />
-    )
+    mount(<StyledButton />)
     const headStyles = document.head.innerHTML
     const b1 = mount(<StyledButton />)
 
@@ -84,7 +80,7 @@ describe('HOC Composition', () => {
   })
 
   test('Does not swallow props', () => {
-    const wrapper = mount(<StyledButton type='submit' />)
+    const wrapper = mount(<StyledButton type="submit" />)
     const el = wrapper.find('button')
     const styles = window.getComputedStyle(el.node)
 
@@ -98,11 +94,11 @@ describe('HOC Composition', () => {
 describe('Multiple Composed Components', () => {
   const Card = props => {
     const { styles, ...rest } = props
-    return (<div {...rest} />)
+    return <div {...rest} />
   }
   const Tag = props => {
     const { styles, ...rest } = props
-    return (<span {...rest} />)
+    return <span {...rest} />
   }
   const cardCSS = `
     div {
@@ -117,15 +113,15 @@ describe('Multiple Composed Components', () => {
       padding: 8px
     }
   `
-  const StyledCard = fancy(cardCSS)(Card)
-  const StyledTag = fancy(tagCSS)(Tag)
+  const StyledCard = styled(Card)(cardCSS)
+  const StyledTag = styled(Tag)(tagCSS)
 
   afterEach(() => {
     global.document.head.innerHTML = ''
     /**
-      * Removing styles ID, just for testing. This is to help
-      * reset the environment.
-      */
+     * Removing styles ID, just for testing. This is to help
+     * reset the environment.
+     */
     removeStyle(StyledCard._styleId)
     removeStyle(StyledTag._styleId)
   })

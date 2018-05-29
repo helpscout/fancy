@@ -6,7 +6,7 @@ import { getClosestDocument } from '../utilities/components'
  *
  * @returns {NodeElement} <style>
  */
-export const makeStyleTag = (documentTarget) => {
+export const makeStyleTag = documentTarget => {
   const documentNode = documentTarget || document
   const tag = documentNode.createElement('style')
   tag.id = ID
@@ -25,11 +25,9 @@ export const makeStyleTag = (documentTarget) => {
  * @param   {object} React.Component
  * @returns {NodeElement} <style>
  */
-export const getStyleTag = (Component) => {
+export const getStyleTag = Component => {
   /* istanbul ignore next */
-  const documentNode = Component
-    ? getClosestDocument(Component)
-    : document
+  const documentNode = Component ? getClosestDocument(Component) : document
 
   const tag = documentNode.getElementById(ID)
   return tag || makeStyleTag(documentNode)

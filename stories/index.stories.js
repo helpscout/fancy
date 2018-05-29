@@ -1,69 +1,71 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import fancy from '../src'
+import styled from '../src'
+import ThemeProvider from '../src/ThemeProvider'
 import Frame from 'react-frame-component'
 
 const stories = storiesOf('Sample', module)
 
-const css = (props) => `
-.Card {
-  background: ${props.bg};
-  border: 1px solid red;
-
-  &__block {
-    padding: 20px;
-  }
-}
+const css = props => {
+  console.log(props.theme)
+  return `
+    .Card {
+      &__block {
+        padding: 20px;
+      }
+    }
 `
+}
 
 const Card = props => {
   const { styles } = props
 
   return (
     <div className={styles.Card}>
-      <div className={styles.Card__block}>
-        Card
-      </div>
+      <div className={styles.Card__block}>Card</div>
     </div>
   )
 }
 
-const FancyCard = fancy(css)(Card)
+const FancyCard = styled(Card)(css)
+
+const theme = {
+  card: {
+    background: '#eee',
+    border: '#bbb',
+  },
+}
 
 class App extends React.Component {
-  constructor () {
+  constructor() {
     super()
     this.state = {
-      cards: [1, 2]
+      cards: [1, 2],
     }
 
     this.handleAddCard = this.handleAddCard.bind(this)
   }
 
-  handleAddCard () {
+  handleAddCard() {
     const { cards } = this.state
     this.setState({ cards: [...cards, cards.length + 1] })
   }
 
-  render () {
+  render() {
     const { cards } = this.state
-    const cardsMarkup = cards.map(id => (
-      <FancyCard key={id} />
-    ))
+    const cardsMarkup = cards.map(id => <FancyCard key={id} />)
 
     return (
       <div>
-        <div>
+        <ThemeProvider theme={theme}>
           {cardsMarkup}
-        </div>
-        <button onClick={this.handleAddCard}>Add</button>
+          <button onClick={this.handleAddCard}>Add</button>
+        </ThemeProvider>
       </div>
     )
   }
 }
 
 stories.add('Component', () => {
-  return (
-    <App />
-  )
+  return <App />
 })

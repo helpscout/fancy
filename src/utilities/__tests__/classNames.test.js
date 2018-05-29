@@ -1,7 +1,7 @@
 import {
   classNames,
   makeUniqSelectorForCombinator,
-  makeUniqSelector
+  makeUniqSelector,
 } from '../classNames'
 
 describe('classNames', () => {
@@ -13,32 +13,19 @@ describe('classNames', () => {
 
   test('Remove falsy arguments', () => {
     const falsy = 10 > 100
-    const o = classNames(
-      'a',
-      'b',
-      'c',
-      falsy && 'd'
-    )
+    const o = classNames('a', 'b', 'c', falsy && 'd')
 
     expect(o).toBe('a b c')
   })
 
   test('Remove `true` from final output', () => {
-    const o = classNames(
-      'a',
-      'b',
-      true,
-      'c'
-    )
+    const o = classNames('a', 'b', true, 'c')
 
     expect(o).toBe('a b c')
   })
 
   test('Return a string, even if arguments are numbers', () => {
-    const o = classNames(
-      1,
-      2
-    )
+    const o = classNames(1, 2)
 
     expect(typeof o).toBe('string')
     expect(o).toBe('1 2')
@@ -59,7 +46,12 @@ describe('makeUniqSelectorForCombinator', () => {
   test('Works with + combinator', () => {
     const combinator = '+'
     const selector = '.Card+.Card'
-    const results = makeUniqSelectorForCombinator(combinator, selector, uuid, id)
+    const results = makeUniqSelectorForCombinator(
+      combinator,
+      selector,
+      uuid,
+      id
+    )
 
     expect(results).toBe('.Card__abc-123+.Card__abc-123')
   })
@@ -67,7 +59,12 @@ describe('makeUniqSelectorForCombinator', () => {
   test('Works with ~ combinator', () => {
     const combinator = '~'
     const selector = '.Card~.Card'
-    const results = makeUniqSelectorForCombinator(combinator, selector, uuid, id)
+    const results = makeUniqSelectorForCombinator(
+      combinator,
+      selector,
+      uuid,
+      id
+    )
 
     expect(results).toBe('.Card__abc-123~.Card__abc-123')
   })
@@ -75,7 +72,12 @@ describe('makeUniqSelectorForCombinator', () => {
   test('Allows for arbirtary spacing between combinator token', () => {
     const combinator = '+'
     const selector = '.Card +   .Card'
-    const results = makeUniqSelectorForCombinator(combinator, selector, uuid, id)
+    const results = makeUniqSelectorForCombinator(
+      combinator,
+      selector,
+      uuid,
+      id
+    )
 
     expect(results).toBe('.Card__abc-123+.Card__abc-123')
   })
@@ -83,7 +85,12 @@ describe('makeUniqSelectorForCombinator', () => {
   test('Allows for differing combinator values', () => {
     const combinator = '+'
     const selector = '.Card + .Nope'
-    const results = makeUniqSelectorForCombinator(combinator, selector, uuid, id)
+    const results = makeUniqSelectorForCombinator(
+      combinator,
+      selector,
+      uuid,
+      id
+    )
 
     expect(results).toBe('.Card__abc-123+.Nope')
   })
@@ -91,7 +98,12 @@ describe('makeUniqSelectorForCombinator', () => {
   test('Allows for differing combinator values, but is aware of repeated base class', () => {
     const combinator = '+'
     const selector = '.Card + .Nope + .Card'
-    const results = makeUniqSelectorForCombinator(combinator, selector, uuid, id)
+    const results = makeUniqSelectorForCombinator(
+      combinator,
+      selector,
+      uuid,
+      id
+    )
 
     expect(results).toBe('.Card__abc-123+.Nope+.Card__abc-123')
   })
@@ -99,7 +111,12 @@ describe('makeUniqSelectorForCombinator', () => {
   test('Allows for differing combinator values, but is aware of repeated base class with underscore', () => {
     const combinator = '+'
     const selector = '.Card + .Nope + .Card__block'
-    const results = makeUniqSelectorForCombinator(combinator, selector, uuid, id)
+    const results = makeUniqSelectorForCombinator(
+      combinator,
+      selector,
+      uuid,
+      id
+    )
 
     expect(results).toBe('.Card__abc-123+.Nope+.Card__block__abc-123')
   })
@@ -120,14 +137,19 @@ describe('makeUniqSelector', () => {
 
   test('Returns uniq selector for classNames', () => {
     expect(makeUniqSelector('.card', uuid, id)).toBe('.card__abc-123')
-    expect(makeUniqSelector('.card:hover', uuid, id)).toBe('.card__abc-123:hover')
+    expect(makeUniqSelector('.card:hover', uuid, id)).toBe(
+      '.card__abc-123:hover'
+    )
 
-    expect(makeUniqSelector('.card:hover:focus', uuid, id))
-      .toBe('.card__abc-123:hover:focus')
-    expect(makeUniqSelector('.card + .card:hover:focus', uuid, id))
-      .toBe('.card__abc-123+.card__abc-123:hover:focus')
-    expect(makeUniqSelector('.card ~ .card:hover:focus', uuid, id))
-      .toBe('.card__abc-123~.card__abc-123:hover:focus')
+    expect(makeUniqSelector('.card:hover:focus', uuid, id)).toBe(
+      '.card__abc-123:hover:focus'
+    )
+    expect(makeUniqSelector('.card + .card:hover:focus', uuid, id)).toBe(
+      '.card__abc-123+.card__abc-123:hover:focus'
+    )
+    expect(makeUniqSelector('.card ~ .card:hover:focus', uuid, id)).toBe(
+      '.card__abc-123~.card__abc-123:hover:focus'
+    )
 
     expect(makeUniqSelector('.card\\@md', uuid, id)).toBe('.card\\@md__abc-123')
   })
@@ -147,14 +169,20 @@ describe('makeUniqSelector', () => {
   test('Returns uniq selector for chained classNames', () => {
     expect(makeUniqSelector('.a.b.c', uuid, id)).toBe('.a__abc-123.b.c')
     expect(makeUniqSelector('.a.b .c', uuid, id)).toBe('.a__abc-123.b .c')
-    expect(makeUniqSelector('.a.is-awesome .a__child', uuid, id)).toBe('.a__abc-123.is-awesome .a__child')
+    expect(makeUniqSelector('.a.is-awesome .a__child', uuid, id)).toBe(
+      '.a__abc-123.is-awesome .a__child'
+    )
   })
 
   test('Returns uniq selector for classNames with wildcard', () => {
     expect(makeUniqSelector('.c *', uuid, id)).toBe('.c__abc-123 *')
     expect(makeUniqSelector('* .c', uuid, id)).toBe('* .c')
     expect(makeUniqSelector('.c > *', uuid, id)).toBe('.c__abc-123 > *')
-    expect(makeUniqSelector('.c + .c *', uuid, id)).toBe('.c__abc-123+.c__abc-123 *')
-    expect(makeUniqSelector('.c + .c > *', uuid, id)).toBe('.c__abc-123+.c__abc-123 > *')
+    expect(makeUniqSelector('.c + .c *', uuid, id)).toBe(
+      '.c__abc-123+.c__abc-123 *'
+    )
+    expect(makeUniqSelector('.c + .c > *', uuid, id)).toBe(
+      '.c__abc-123+.c__abc-123 > *'
+    )
   })
 })

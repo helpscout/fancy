@@ -4,11 +4,8 @@
  * @param   {object} React.Component
  * @returns {string}
  */
-export const getComponentName = (Component = {}) => (
-  Component.displayName ||
-  Component.name ||
-  'Component'
-)
+export const getComponentName = (Component = {}) =>
+  Component.displayName || Component.name || 'Component'
 
 /**
  * Attempts to return the document node, based on React's internals.
@@ -17,12 +14,11 @@ export const getComponentName = (Component = {}) => (
  * @param   {object} React.Component
  * @returns {NodeElement}
  */
-export const fastGetReactDOMDocument = (Component) => (
+export const fastGetReactDOMDocument = Component =>
   Component &&
   Component._reactInternalInstance &&
   Component._reactInternalInstance._context &&
   Component._reactInternalInstance._context.document
-)
 
 /**
  * Gets the closest document Node.
