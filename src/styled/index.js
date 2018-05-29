@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Style from './Style'
 import { getStyleTag } from '../utilities/styleTag'
 import { getComponentName } from '../utilities/components'
-import { STYLESHEET as StyleSheet } from '../ThemeProvider'
+import { STYLESHEET as StyleSheet } from '../ThemeProvider/index'
 
 export const STYLESHEET = StyleSheet
 

@@ -8,7 +8,7 @@
   "module": "dist/index.m.js",
   "source": "lib/index.js",
   "scripts": {
-    "babel": "babel -d lib --ignore '*.test.js' src",
+    "babel": "babel --presets=react,flow --plugins=transform-object-rest-spread --no-babelrc -d lib --ignore '*.test.js' src",
     "build": "npm run lint && npm run clean && npm run babel && npm run bundle",
     "bundle": "microbundle build --external all --jsx React.createElement",
     "clean": "rm -rf dist",
