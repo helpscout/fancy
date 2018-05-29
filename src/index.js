@@ -1,3 +1,6 @@
-import withStyles from './withStyles/index'
+import styled from './styled/index'
+import ThemeProvider from './ThemeProvider/index'
 
-export default withStyles
+export default styled
+
+export { styled, ThemeProvider }

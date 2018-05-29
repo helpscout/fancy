@@ -1,6 +1,8 @@
 import { DELIMETER, SEP } from '../constants/stylis'
 import { has, hasMany } from './strings'
 
+export const SCOPE_TOKEN = '/*00*/'
+
 /**
  * Returns an array of classNames prepped for React.
  *
@@ -8,9 +10,7 @@ import { has, hasMany } from './strings'
  * @returns {string}
  */
 export const classNames = (...classes) => {
-  return classes
-    .filter(name => name && typeof name !== 'boolean')
-    .join(' ')
+  return classes.filter(name => name && typeof name !== 'boolean').join(' ')
 }
 
 /**
@@ -51,7 +51,10 @@ export const getBaseSelector = selector => {
  * @returns {array}
  */
 export const getPreCompileSelectors = (rule, token) => {
-  return rule.split(token).filter(r => r).map(r => r.trim())
+  return rule
+    .split(token)
+    .filter(r => r)
+    .map(r => r.trim())
 }
 
 /**
@@ -62,7 +65,13 @@ export const getPreCompileSelectors = (rule, token) => {
  * @param   {function} compiler
  * @returns {string}
  */
-export const compileRule = (rule, token, compiler, prefix = '', suffix = '') => {
+export const compileRule = (
+  rule,
+  token,
+  compiler,
+  prefix = '',
+  suffix = ''
+) => {
   const selectors = getPreCompileSelectors(rule, token)
   return prefix + selectors.map(compiler).join(token) + suffix
 }
@@ -108,7 +117,12 @@ export const makeUniqClassName = (selector, uuid, id) => {
  * @param   {string} id
  * @returns {string}
  */
-export const makeUniqSelectorForCombinator = (combinator, selector, uuid, id) => {
+export const makeUniqSelectorForCombinator = (
+  combinator,
+  selector,
+  uuid,
+  id
+) => {
   const selectors = getPreCompileSelectors(selector, combinator)
   const compiler = (s, index) => {
     const base = getBaseSelector(s)
@@ -137,7 +151,7 @@ export const makeUniqSelector = (selector, uuid, id) => {
   /* Sibling (+) */
   if (selector.indexOf('+') >= 0) {
     newSelector = makeUniqSelectorForCombinator('+', selector, uuid, id)
-  /* Sibling (~) */
+    /* Sibling (~) */
   } else if (selector.indexOf('~') >= 0) {
     newSelector = makeUniqSelectorForCombinator('~', selector, uuid, id)
   }
@@ -150,13 +164,22 @@ export const makeUniqSelector = (selector, uuid, id) => {
  *
  * @param   {string} rule
  * @param   {string} selector
- * @param   {string} newSelector
+ * @param   {string} scope
  * @returns {string}
  */
-export const makeRuleFromStylis = (rule, selector, uniqSelector) => {
-  if (!isClassName(selector)) return rule
+export const makeRuleFromStylis = (
+  rule,
+  selector = '',
+  uniqSelector = '',
+  scope = ''
+) => {
+  if (!selector) return rule
 
-  return rule.replace(selector, `${selector}, ${uniqSelector}`)
+  const scopelessSelector = selector.replace(scope, '').trim()
+  if (!isClassName(scopelessSelector)) return rule
+
+  const parsedSelector = uniqSelector.replace(SCOPE_TOKEN, scope)
+  return rule.replace(selector, parsedSelector)
 }
 
 /**
@@ -168,7 +191,13 @@ export const makeRuleFromStylis = (rule, selector, uniqSelector) => {
  * @param   {string} id
  * @returns {string}
  */
-export const decodeStylisRules = (cssRules, uuid, id) => {
+export const decodeStylisRules = (
+  cssRules,
+  uuid,
+  id,
+  /* istanbul ignore next */
+  scope = ''
+) => {
   return cssRules.split(DELIMETER).map(cssRule => {
     /**
      * Extract values from (parsed) stylis output
@@ -176,16 +205,27 @@ export const decodeStylisRules = (cssRules, uuid, id) => {
     const values = cssRule.split(SEP)
     const selector = values[1]
     const initialRule = values[0]
-    const isClass = isClassName(selector)
+    const scopelessSelector = selector
+      ? scope
+        ? selector.replace(`${scope} `, '')
+        : selector
+      : selector
+    const isClass = isClassName(scopelessSelector)
 
-    const uniqSelector = makeUniqSelector(selector, uuid, id)
+    const uniqSelector = makeUniqSelector(scopelessSelector, uuid, id)
+    const tokenedUniqSelector = `${SCOPE_TOKEN} ${uniqSelector}`
 
     return {
       selector: {
-        name: isClass ? selector.substring(1) : selector,
-        className: isClass ? uniqSelector.substring(1) : selector
+        name: isClass ? scopelessSelector.substring(1) : selector,
+        className: isClass ? uniqSelector.substring(1) : selector,
       },
-      rule: makeRuleFromStylis(initialRule, selector, uniqSelector)
+      rule: makeRuleFromStylis(
+        initialRule,
+        selector,
+        tokenedUniqSelector,
+        scope
+      ),
     }
   })
 }

@@ -1,9 +1,6 @@
 import React from 'react'
 import { mount } from 'enzyme'
-import {
-  getClosestDocument,
-  getComponentName
-} from '../components'
+import { getClosestDocument, getComponentName } from '../components'
 
 describe('getComponentName', () => {
   test('Returns component by default', () => {
@@ -23,12 +20,12 @@ describe('getClosestDocument', () => {
   test('Returns document element from a React component', () => {
     const spy = jest.fn()
     class Button extends React.Component {
-      componentDidMount () {
+      componentDidMount() {
         spy(getClosestDocument(this))
       }
 
-      render () {
-        return (<button />)
+      render() {
+        return <button />
       }
     }
 

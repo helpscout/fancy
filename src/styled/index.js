@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import Style from './Style'
 import { getStyleTag } from '../utilities/styleTag'
 import { getComponentName } from '../utilities/components'
-import StyleSheet from '../StyleSheet/index'
+import { STYLESHEET as StyleSheet } from '../ThemeProvider/index'
 
-export const STYLESHEET = StyleSheet()
+export const STYLESHEET = StyleSheet
 
 /**
  * HOC that renders specified CSS rules.
@@ -13,11 +13,11 @@ export const STYLESHEET = StyleSheet()
  * @param   {React.Component} - Composed
  * @returns {React.Component}
  */
-const withStyles = (styles = '', options = { scope: '' }) => Composed => {
+const styled = Composed => (styles = '', options = { scope: '' }) => {
   const { id, CSSRules, uuid } = STYLESHEET.makeRule(styles)
 
   class WithStylesComponent extends Component {
-    constructor (props) {
+    constructor(props) {
       super(props)
       this.state = options
       this.styleSheet = STYLESHEET
@@ -27,18 +27,18 @@ const withStyles = (styles = '', options = { scope: '' }) => Composed => {
       this.setStyles()
     }
 
-    componentDidMount () {
+    componentDidMount() {
       this.addRule()
     }
 
-    componentDidUpdate (prevProps) {
+    componentDidUpdate(prevProps) {
       this.maybeUpdateRule(prevProps)
     }
 
     /**
      * Adds the CSS Rule to the <style> tag node.
      */
-    addRule () {
+    addRule() {
       if (!id || !CSSRules || this.styleSheet.hasRule(id)) return
 
       const cssStyles = this.makeStyles().rule
@@ -57,7 +57,7 @@ const withStyles = (styles = '', options = { scope: '' }) => Composed => {
     /**
      * Updates CSS Rule based on prop changes, if applicable.
      */
-    maybeUpdateRule (prevProps) {
+    maybeUpdateRule(prevProps) {
       /**
        * No need to update if the rule is static. This guard is to help
        * with performance.
@@ -104,7 +104,7 @@ const withStyles = (styles = '', options = { scope: '' }) => Composed => {
      *
      * @return {NodeElement}
      */
-    getTagNode () {
+    getTagNode() {
       if (this.tagNode) return this.tagNode
       this.tagNode = getStyleTag(this)
 
@@ -114,11 +114,10 @@ const withStyles = (styles = '', options = { scope: '' }) => Composed => {
     /**
      * Sets the initial style classNames.
      */
-    setStyles () {
-      this.makeStyles().selectors
-        .map(({name, className}) => {
-          this.styles[name] = className
-        })
+    setStyles() {
+      this.makeStyles().selectors.map(({ name, className }) => {
+        this.styles[name] = className
+      })
     }
 
     /**
@@ -126,22 +125,22 @@ const withStyles = (styles = '', options = { scope: '' }) => Composed => {
      *
      * @return {object} { rule: *string*, selectors: *array* }
      */
-    makeStyles () {
+    makeStyles() {
       return this.styleSheet.makeStyles({
         CSSRules,
         id,
         props: this.props,
         scope: this.state.scope,
-        uuid
+        uuid,
       })
     }
 
-    render () {
-      return (<Composed {...this.props} styles={this.styles} />)
+    render() {
+      return <Composed {...this.props} styles={this.styles} />
     }
   }
 
-  WithStylesComponent.displayName = `withStyle(${getComponentName(Composed)})`
+  WithStylesComponent.displayName = `styled(${getComponentName(Composed)})`
   WithStylesComponent._styleId = id
   WithStylesComponent._styleSheet = STYLESHEET
 
@@ -150,7 +149,7 @@ const withStyles = (styles = '', options = { scope: '' }) => Composed => {
 /**
  * Sub-components
  */
-withStyles.Style = Style
-withStyles.StyleSheet = STYLESHEET
+styled.Style = Style
+styled.StyleSheet = STYLESHEET
 
-export default withStyles
+export default styled

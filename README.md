@@ -1,14 +1,13 @@
-# ❄️  Fancy [![npm version](https://badge.fury.io/js/%40helpscout%2Ffancy.svg)](https://badge.fury.io/js/%40helpscout%2Ffancy) [![Build Status](https://travis-ci.org/helpscout/fancy.svg?branch=master)](https://travis-ci.org/helpscout/fancy) [![Coverage Status](https://coveralls.io/repos/github/helpscout/fancy/badge.svg?branch=master)](https://coveralls.io/github/helpscout/fancy?branch=master)
+# ❄️ Fancy [![npm version](https://badge.fury.io/js/%40helpscout%2Ffancy.svg)](https://badge.fury.io/js/%40helpscout%2Ffancy) [![Build Status](https://travis-ci.org/helpscout/fancy.svg?branch=master)](https://travis-ci.org/helpscout/fancy) [![Coverage Status](https://coveralls.io/repos/github/helpscout/fancy/badge.svg?branch=master)](https://coveralls.io/github/helpscout/fancy?branch=master)
 
 > A simple way to include CSS with React Components.
 
-* **Tiny**, around 1.7 KB gzipped
-* **One dependency** - ([Stylis](https://github.com/thysultan/stylis.js))
-* **Write** plain ol' CSS. Period.
-* **Pre-processing** when you need it. Powered by [Stylis](https://github.com/thysultan/stylis.js).
-* **Uniquely** generated classNames, [CSS Modules](https://github.com/css-modules/css-modules) style.
-* **Integrate** with ease into your existing setup. No fiddling with Webpack required.
-
+- **Tiny**, around 2.05 KB gzipped
+- **One dependency** - ([Stylis](https://github.com/thysultan/stylis.js))
+- **Write** plain ol' CSS. Period.
+- **Pre-processing** when you need it. Powered by [Stylis](https://github.com/thysultan/stylis.js).
+- **Uniquely** generated classNames, [CSS Modules](https://github.com/css-modules/css-modules) style.
+- **Integrate** with ease into your existing setup. No fiddling with Webpack required.
 
 ## 🔧 Installation
 
@@ -16,14 +15,13 @@
 npm install --save @helpscout/fancy
 ```
 
-
 ## 🕹 Usage
 
 Here's a quick example of how you can compose regular CSS with your React components.
 
 ```jsx
 import React from 'react'
-import fancy from '@helpscout/fancy'
+import styled from '@helpscout/fancy'
 
 const css = `
   .Button {
@@ -40,9 +38,8 @@ const Button = props => {
   </button>
 }
 
-export default fancy(css)(Button)
+export default styled(Button)(css)
 ```
-
 
 ## 📘 Documentation
 

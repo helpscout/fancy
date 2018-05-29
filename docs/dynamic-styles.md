@@ -9,17 +9,16 @@ You can define dynamic styles by passing a `function` into `fancy`. It will have
 ### Example
 
 ```jsx
-const Card = props => (<div {...props} />)
-const css = (props) => `
+const Card = props => <div {...props} />
+const css = props => `
   div {
     background: ${props.title ? 'red' : 'blue'};
     position: relative;
     border: 1px solid black;
   }
 `
-const StyledCard = fancy(css)(Card)
+const StyledCard = styled(Card)(css)
 ```
-
 
 ### 🤔 How does it work…
 
