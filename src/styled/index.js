@@ -1,18 +1,13 @@
+// @flow
 import React, { Component } from 'react'
 import Style from './Style'
 import { getStyleTag } from '../utilities/styleTag'
 import { getComponentName } from '../utilities/components'
 import { STYLESHEET as StyleSheet } from '../ThemeProvider/index'
 
+export const FANCY_PRIMATIVE = '__IS_FANCY_PRIMATIVE__'
 export const STYLESHEET = StyleSheet
 
-/**
- * HOC that renders specified CSS rules.
- *
- * @param   {object}
- * @param   {React.Component} - Composed
- * @returns {React.Component}
- */
 const styled = Composed => (styles = '', options = { scope: '' }) => {
   const { id, CSSRules, uuid } = STYLESHEET.makeRule(styles)
 
@@ -126,8 +121,10 @@ const styled = Composed => (styles = '', options = { scope: '' }) => {
      * @return {object} { rule: *string*, selectors: *array* }
      */
     makeStyles() {
+      const isPrimative = options[FANCY_PRIMATIVE]
+
       return this.styleSheet.makeStyles({
-        CSSRules,
+        CSSRules: isPrimative ? CSSRules(this.props) : CSSRules,
         id,
         props: this.props,
         scope: this.state.scope,
@@ -136,7 +133,14 @@ const styled = Composed => (styles = '', options = { scope: '' }) => {
     }
 
     render() {
-      return <Composed {...this.props} styles={this.styles} />
+      return typeof Composed === 'string' ? (
+        React.createElement(Composed, {
+          ...this.props,
+          className: [this.styles.fancy, this.props.className].join(' '),
+        })
+      ) : (
+        <Composed {...this.props} styles={this.styles} />
+      )
     }
   }
 
@@ -146,10 +150,78 @@ const styled = Composed => (styles = '', options = { scope: '' }) => {
 
   return WithStylesComponent
 }
+
+/**
+ * Determines if a component is a primative.
+ *
+ * @param   {string} component
+ * @param   {array}  args
+ * @returns {boolean}
+ */
+const isPrimativeComponent = (component: string, args: Array) => {
+  return (
+    typeof component === 'string' && (Array.isArray(args) || args === undefined)
+  )
+}
+
+/**
+ * Magical function that achieves the destructured construction of CSS styles
+ * a-la styled-components.
+ *
+ * @param   {string} component
+ * @param   {array}  args
+ * @param   {object} props
+ * @returns {string}
+ */
+export const makePrimativeStyles = (component: string, args: Array) => (
+  props: Object
+) => {
+  if (!isPrimativeComponent(component, args)) return ''
+
+  const amanda = args.map(a => (typeof a === 'function' ? a(props) : a))
+  const [css, ...cssProps] = amanda
+
+  const rules = [...css].slice(0, -1)
+  const end = [...css].slice(-1)
+
+  const styles = rules
+    .map((rule, index) => rule.trim() + cssProps[index])
+    .join('')
+    .concat(end)
+
+  return `.fancy {${styles}}`
+}
+
+/**
+ * Creates the Fancy styled component.
+ *
+ * @param   {React.Component | string} component
+ * @param   {any} args
+ * @returns {React.Component}
+ */
+export const makeStyled = component => {
+  return (...args) => {
+    const [styleArg, ...otherArgs] = args
+    let cssRules
+    let styledArgs
+
+    if (isPrimativeComponent(component, styleArg)) {
+      cssRules = makePrimativeStyles(component, args)
+      styledArgs = {}
+      styledArgs[FANCY_PRIMATIVE] = true
+    } else {
+      cssRules = styleArg
+      styledArgs = otherArgs[1]
+    }
+
+    return styled(component)(cssRules, styledArgs)
+  }
+}
+
 /**
  * Sub-components
  */
-styled.Style = Style
-styled.StyleSheet = STYLESHEET
+makeStyled.Style = Style
+makeStyled.StyleSheet = STYLESHEET
 
-export default styled
+export default makeStyled
