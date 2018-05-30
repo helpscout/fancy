@@ -1,17 +1,25 @@
 // @flow
 import React, { Component } from 'react'
 import Style from './Style'
+import { isArray, isFunction, isObject, isString } from '../utilities/is'
 import { getStyleTag } from '../utilities/styleTag'
 import { getComponentName } from '../utilities/components'
+import {
+  FANCY_PRIMATIVE,
+  isPrimitiveComponent,
+  makePrimitiveCSSRules,
+} from '../utilities/primitives'
 import { STYLESHEET as StyleSheet } from '../ThemeProvider/index'
 
-export const FANCY_PRIMATIVE = '__IS_FANCY_PRIMATIVE__'
 export const STYLESHEET = StyleSheet
 
-const styled = Composed => (styles = '', options = { scope: '' }) => {
+const styled = (Composed, composedProps) => (
+  styles = '',
+  options = { scope: '' }
+) => {
   const { id, CSSRules, uuid } = STYLESHEET.makeRule(styles)
 
-  class WithStylesComponent extends Component {
+  class StyledComponent extends Component {
     constructor(props) {
       super(props)
       this.state = options
@@ -57,7 +65,7 @@ const styled = Composed => (styles = '', options = { scope: '' }) => {
        * No need to update if the rule is static. This guard is to help
        * with performance.
        */
-      if (typeof CSSRules === 'string') return
+      if (isString(CSSRules)) return
       /**
        * Tested in Enzyme, but difficult to set up Istanbul to report.
        */
@@ -121,10 +129,8 @@ const styled = Composed => (styles = '', options = { scope: '' }) => {
      * @return {object} { rule: *string*, selectors: *array* }
      */
     makeStyles() {
-      const isPrimative = options[FANCY_PRIMATIVE]
-
       return this.styleSheet.makeStyles({
-        CSSRules: isPrimative ? CSSRules(this.props) : CSSRules,
+        CSSRules,
         id,
         props: this.props,
         scope: this.state.scope,
@@ -133,63 +139,26 @@ const styled = Composed => (styles = '', options = { scope: '' }) => {
     }
 
     render() {
-      return typeof Composed === 'string' ? (
+      const props = {
+        ...composedProps,
+        ...this.props,
+      }
+      return isString(Composed) ? (
         React.createElement(Composed, {
-          ...this.props,
+          ...props,
           className: [this.styles.fancy, this.props.className].join(' '),
         })
       ) : (
-        <Composed {...this.props} styles={this.styles} />
+        <Composed {...props} styles={this.styles} />
       )
     }
   }
 
-  WithStylesComponent.displayName = `styled(${getComponentName(Composed)})`
-  WithStylesComponent._styleId = id
-  WithStylesComponent._styleSheet = STYLESHEET
+  StyledComponent.displayName = `styled(${getComponentName(Composed)})`
+  StyledComponent._styleId = id
+  StyledComponent._styleSheet = STYLESHEET
 
-  return WithStylesComponent
-}
-
-/**
- * Determines if a component is a primative.
- *
- * @param   {string} component
- * @param   {array}  args
- * @returns {boolean}
- */
-const isPrimativeComponent = (component: string, args: Array) => {
-  return (
-    typeof component === 'string' && (Array.isArray(args) || args === undefined)
-  )
-}
-
-/**
- * Magical function that achieves the destructured construction of CSS styles
- * a-la styled-components.
- *
- * @param   {string} component
- * @param   {array}  args
- * @param   {object} props
- * @returns {string}
- */
-export const makePrimativeStyles = (component: string, args: Array) => (
-  props: Object
-) => {
-  if (!isPrimativeComponent(component, args)) return ''
-
-  const amanda = args.map(a => (typeof a === 'function' ? a(props) : a))
-  const [css, ...cssProps] = amanda
-
-  const rules = [...css].slice(0, -1)
-  const end = [...css].slice(-1)
-
-  const styles = rules
-    .map((rule, index) => rule.trim() + cssProps[index])
-    .join('')
-    .concat(end)
-
-  return `.fancy {${styles}}`
+  return StyledComponent
 }
 
 /**
@@ -199,23 +168,26 @@ export const makePrimativeStyles = (component: string, args: Array) => (
  * @param   {any} args
  * @returns {React.Component}
  */
-export const makeStyled = component => {
-  return (...args) => {
-    const [styleArg, ...otherArgs] = args
-    let cssRules
-    let styledArgs
+export const makeStyled = (component, componentOptions = {}) => (...args) => {
+  const [styleArg, ...otherArgs] = args
+  let cssRules
+  let options
 
-    if (isPrimativeComponent(component, styleArg)) {
-      cssRules = makePrimativeStyles(component, args)
-      styledArgs = {}
-      styledArgs[FANCY_PRIMATIVE] = true
-    } else {
-      cssRules = styleArg
-      styledArgs = otherArgs[1]
-    }
+  // Primitive Check
+  if (isString(component)) {
+    const primitiveArgs = isPrimitiveComponent(component, styleArg)
+      ? args
+      : styleArg
+    options = { ...componentOptions }
+    options[FANCY_PRIMATIVE] = true
 
-    return styled(component)(cssRules, styledArgs)
+    cssRules = makePrimitiveCSSRules(component, componentOptions, primitiveArgs)
+  } else {
+    cssRules = styleArg
+    options = otherArgs[0]
   }
+
+  return styled(component)(cssRules, options)
 }
 
 /**

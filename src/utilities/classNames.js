@@ -1,4 +1,5 @@
 import { DELIMETER, SEP } from '../constants/stylis'
+import { isBool } from './is'
 import { has, hasMany } from './strings'
 
 export const SCOPE_TOKEN = '/*00*/'
@@ -10,7 +11,7 @@ export const SCOPE_TOKEN = '/*00*/'
  * @returns {string}
  */
 export const classNames = (...classes) => {
-  return classes.filter(name => name && typeof name !== 'boolean').join(' ')
+  return classes.filter(name => name && !isBool(name)).join(' ')
 }
 
 /**

@@ -1,3 +1,4 @@
+// @flow
 import Stylis from 'stylis'
 import ruleParserPlugin from './ruleParserPlugin'
 import { uuid } from '../utilities/id'
@@ -59,7 +60,7 @@ function StyleSheet() {
    * @param   {string} selectors
    * @returns {string}
    */
-  function addStyles(id, selectors) {
+  function addStyles(id: string, selectors: string) {
     if (!_styles[id]) {
       _styles[id] = selectors
     }
@@ -123,7 +124,12 @@ function StyleSheet() {
  * @param   {string} id
  * @returns {string}
  */
-export function tokenize(cssRules, uuid, id, scope) {
+export function tokenize(
+  cssRules: string,
+  uuid: string,
+  id: string,
+  scope: string
+) {
   /**
    * Decode and add unique classNames to rule
    */
