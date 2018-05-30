@@ -1,8 +1,6 @@
 // @flow
 import { isArray, isFunction, isString } from './is'
-
-export const FANCY_PRIMITIVE = '__IS_FANCY_PRIMITIVE__'
-export const PRIMITIVE_CLASSNAME = 'fancy'
+import { FANCY_PRIMITIVE, PRIMITIVE_CLASSNAME } from '../constants'
 
 /**
  * Determines if a component is a primitive.

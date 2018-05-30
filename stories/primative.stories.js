@@ -19,12 +19,10 @@ const Thing = styled('p')`
   }
 `
 
-const Pi = styled('span')(
-  props => `
+const Pi = styled.a`
   background: yellow;
   padding: 20px;
 `
-)
 
 stories.add('Component', () => {
   return (

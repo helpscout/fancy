@@ -1,4 +1,4 @@
-import { ID } from '../constants/id'
+import { ID } from '../constants'
 import { getClosestDocument } from '../utilities/components'
 
 /**

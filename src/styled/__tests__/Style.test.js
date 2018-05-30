@@ -1,7 +1,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import Style from '../Style'
-import { ID } from '../../constants/id'
+import { ID } from '../../constants'
 
 describe('Style', () => {
   test('Renders a <style> tag', () => {

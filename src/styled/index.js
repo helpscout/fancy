@@ -1,11 +1,11 @@
 // @flow
 import React, { Component } from 'react'
 import Style from './Style'
+import { ELEMENT_TAGS_LIST } from '../constants'
 import { isArray, isFunction, isObject, isString } from '../utilities/is'
 import { getStyleTag } from '../utilities/styleTag'
 import { getComponentName } from '../utilities/components'
 import {
-  FANCY_PRIMATIVE,
   isPrimitiveComponent,
   makePrimitiveCSSRules,
 } from '../utilities/primitives'
@@ -179,7 +179,6 @@ export const makeStyled = (component, componentOptions = {}) => (...args) => {
       ? args
       : styleArg
     options = { ...componentOptions }
-    options[FANCY_PRIMATIVE] = true
 
     cssRules = makePrimitiveCSSRules(component, componentOptions, primitiveArgs)
   } else {
@@ -195,5 +194,8 @@ export const makeStyled = (component, componentOptions = {}) => (...args) => {
  */
 makeStyled.Style = Style
 makeStyled.StyleSheet = STYLESHEET
+
+// Generate primatives
+ELEMENT_TAGS_LIST.forEach(tag => (makeStyled[tag] = makeStyled(tag)))
 
 export default makeStyled
