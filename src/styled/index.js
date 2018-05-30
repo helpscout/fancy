@@ -1,13 +1,15 @@
 // @flow
 import React, { Component } from 'react'
 import Style from './Style'
-import { ELEMENT_TAGS_LIST } from '../constants'
+import { FANCY_PRIMITIVE, ELEMENT_TAGS_LIST } from '../constants'
+import { classNames } from '../utilities/classNames'
 import { isArray, isFunction, isObject, isString } from '../utilities/is'
 import { getStyleTag } from '../utilities/styleTag'
 import { getComponentName } from '../utilities/components'
 import {
   isPrimitiveComponent,
-  makePrimitiveCSSRules,
+  makeInterpolatedCSSRules,
+  shouldInterpolateStyles,
 } from '../utilities/primitives'
 import { STYLESHEET as StyleSheet } from '../ThemeProvider/index'
 
@@ -143,11 +145,15 @@ const styled = (Composed, composedProps) => (
         ...composedProps,
         ...this.props,
       }
+      const className = classNames(this.styles.fancy, this.props.className)
+
       return isString(Composed) ? (
         React.createElement(Composed, {
           ...props,
-          className: [this.styles.fancy, this.props.className].join(' '),
+          className,
         })
+      ) : options[FANCY_PRIMITIVE] ? (
+        <Composed {...props} className={className} />
       ) : (
         <Composed {...props} styles={this.styles} />
       )
@@ -170,20 +176,15 @@ const styled = (Composed, composedProps) => (
  */
 export const makeStyled = (component, componentOptions = {}) => (...args) => {
   const [styleArg, ...otherArgs] = args
-  let cssRules
-  let options
+  let cssRules = styleArg
+  let options = otherArgs[0]
 
-  // Primitive Check
-  if (isString(component)) {
-    const primitiveArgs = isPrimitiveComponent(component, styleArg)
-      ? args
-      : styleArg
+  // Interpolation Check
+  if (shouldInterpolateStyles(styleArg)) {
     options = { ...componentOptions }
+    options[FANCY_PRIMITIVE] = true
 
-    cssRules = makePrimitiveCSSRules(component, componentOptions, primitiveArgs)
-  } else {
-    cssRules = styleArg
-    options = otherArgs[0]
+    cssRules = makeInterpolatedCSSRules(component, componentOptions, args)
   }
 
   return styled(component)(cssRules, options)

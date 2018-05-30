@@ -26,10 +26,7 @@ const StyledCard = styled(Card)(css)
 
 #### Result (CSS)
 
-Fancy **preserves** your original className. This is allow for reusability of your style rules, potentially with components from a different scope or even outside of React.
-
 ```css
-.Card,
 .Card__l14h91-1 {
   background: white;
   position: relative;
@@ -74,14 +71,12 @@ const StyledCard = styled(css)(Card)
 #### Result (CSS)
 
 ```css
-.Card,
 .Card__l14h91-1 {
   background: white;
   position: relative;
   border: 1px solid black;
 }
 
-.Card__block,
 .Card__block__l14h91-1 {
   padding: 20px;
 }
@@ -116,14 +111,12 @@ const StyledCard = styled(css)(Card)
 #### Result (CSS)
 
 ```css
-.Card,
 .Card__l14h91-1 {
   background: white;
   position: relative;
   border: 1px solid black;
 }
 
-.Block,
 .Block__l14h91-1 {
   padding: 20px;
 }
@@ -156,14 +149,12 @@ const StyledCard = styled(css)(Card)
 #### Result (CSS)
 
 ```css
-.Card,
 .Card__l14h91-1 {
   background: white;
   position: relative;
   border: 1px solid black;
 }
 
-.Card + .Card,
 .Card__l14h91-1 + .Card__l14h91-1 {
   background: red;
 }

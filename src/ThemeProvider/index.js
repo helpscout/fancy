@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from 'react'
 import StyleSheet from '../StyleSheet/index'
+import { classNames } from '../utilities/classNames'
 
 export const STYLESHEET = StyleSheet()
 
@@ -46,7 +47,7 @@ class ThemeProvider extends Component {
 
   render() {
     return (
-      <div className={['FancyThemeProvider', this.props.className].join(' ')}>
+      <div className={classNames('FancyThemeProvider', this.props.className)}>
         {this.props.children}
       </div>
     )

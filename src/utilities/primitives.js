@@ -2,33 +2,45 @@
 import { isArray, isFunction, isString } from './is'
 import { FANCY_PRIMITIVE, PRIMITIVE_CLASSNAME } from '../constants'
 
+type Primitive = () => void | string
+
 /**
  * Determines if a component is a primitive.
  *
- * @param   {string} component
+ * @param   {function|string} component
  * @param   {array}  args
  * @returns {boolean}
  */
-export const isPrimitiveComponent = (component: string, args: Array) => {
-  return isString(component) && (isArray(args) || args === undefined)
+export const isPrimitiveComponent = (component: Primitive, args: Array) => {
+  return !!(
+    (isString(component) || isFunction(component)) &&
+    shouldInterpolateStyles(args)
+  )
 }
+
+/**
+ * Checks if styles should be interpolated, a-la styled-components.
+ *
+ * @param   {array} args
+ * @returns {boolean}
+ */
+export const shouldInterpolateStyles = (args: Array) => isArray(args)
 
 /**
  * Magical function that achieves the destructured construction of CSS styles
  * a-la styled-components.
  *
- * @param   {string} component
+ * @param   {function|string} component
  * @param   {array}  args
  * @param   {object} options
  * @param   {object} props
  * @returns {string}
  */
-export const makePrimitiveStyles = (
-  component: string,
+export const makeInterpolatedStyles = (
+  component: Primitive,
   options: Object = {},
   args: Array | string
 ) => (props: Object) => {
-  if (!isString(component)) return ''
   let styles
 
   if (isPrimitiveComponent(component, args)) {
@@ -57,17 +69,16 @@ export const makePrimitiveStyles = (
 // @param   {object} options
 // @param   {array|function} arg
 // @returns {string}
-export const makePrimitiveCSSRules = (
-  component: string,
+export const makeInterpolatedCSSRules = (
+  component: Primitive,
   options: Object = {},
   args
 ) => {
-  if (!isString(component)) return ''
   // Special handling in case the styles is a functional callback
   if (isFunction(args)) {
     const className = options.className || 'fancy'
     return props => `.${className} { ${args(props)}`
   } else {
-    return makePrimitiveStyles(component, options, args)
+    return makeInterpolatedStyles(component, options, args)
   }
 }
