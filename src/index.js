@@ -1,5 +1,7 @@
 import styled from './styled/index'
-export { default as Style } from './styled/Style'
-export { default as ThemeProvider } from './ThemeProvider/index'
+import Style from './styled/Style'
+import ThemeProvider from './ThemeProvider/index'
 
 export default styled
+
+export { Style, ThemeProvider }
