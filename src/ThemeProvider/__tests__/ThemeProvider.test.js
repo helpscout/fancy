@@ -1,6 +1,6 @@
 import React from 'react'
 import { mount } from 'enzyme'
-import ThemeProvider from '../index'
+import { ThemeProvider } from '../../index'
 import styled from '../../styled'
 
 const removeStyle = styled.StyleSheet.removeRule
