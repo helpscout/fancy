@@ -46,3 +46,7 @@ export default styled(Button)(css)
 ## 📘 Documentation
 
 [View the docs](./docs/) to get started with Fancy!
+
+## Migration
+
+- [From v0.x to v1.x](./docs/migration/migration-0x-1x.md)
