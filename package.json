@@ -23,6 +23,7 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "prettier": "prettier \"src/**/*.js\" --write",
+    "pretty": "npm run prettier",
     "precommit": "pretty-quick --staged"
   },
   "author": "Jon Quach <hello@jonquach.com> (https://jonquach.com)",
@@ -89,6 +90,7 @@
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}",
+      "!src/**/testHelpers.{js,jsx}",
       "!src/StyleSheet/ruleParserPlugin.{js,jsx}"
     ]
   },

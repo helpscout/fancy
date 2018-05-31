@@ -1,8 +1,7 @@
 import React from 'react'
 import { mount } from 'enzyme'
 import styled from '../index'
-
-const removeStyle = styled.StyleSheet.removeRule
+import { resetStyleTags } from '../../utilities/testHelpers'
 
 describe('HOC Composition', () => {
   const Button = props => {
@@ -19,12 +18,8 @@ describe('HOC Composition', () => {
   const StyledButton = styled(Button)(css)
 
   afterEach(() => {
-    global.document.head.innerHTML = ''
-    /**
-     * Removing styles ID, just for testing. This is to help
-     * reset the environment.
-     */
-    removeStyle(StyledButton._styleId)
+    resetStyleTags()
+    styled.StyleSheet.__dangerouslyResetStyleSheet()
   })
 
   test('Renders component, without styles if non are defined', () => {
@@ -135,13 +130,8 @@ describe('Multiple Composed Components', () => {
   const StyledTag = styled(Tag)(tagCSS)
 
   afterEach(() => {
-    global.document.head.innerHTML = ''
-    /**
-     * Removing styles ID, just for testing. This is to help
-     * reset the environment.
-     */
-    removeStyle(StyledCard._styleId)
-    removeStyle(StyledTag._styleId)
+    resetStyleTags()
+    styled.StyleSheet.__dangerouslyResetStyleSheet()
   })
 
   test('Renders styles declared when composing the component', () => {

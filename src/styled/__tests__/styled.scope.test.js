@@ -1,8 +1,7 @@
 import React from 'react'
 import { mount } from 'enzyme'
 import styled from '../index'
-
-const removeStyle = styled.StyleSheet.removeRule
+import { resetStyleTags } from '../../utilities/testHelpers'
 
 describe('Scoped styles', () => {
   const Card = props => {
@@ -20,12 +19,8 @@ describe('Scoped styles', () => {
   const StyledCard = styled(Card)(css, { scope: '.Scope' })
 
   afterEach(() => {
-    global.document.head.innerHTML = ''
-    /**
-     * Removing styles ID, just for testing. This is to help
-     * reset the environment.
-     */
-    removeStyle(StyledCard._styleId)
+    resetStyleTags()
+    styled.StyleSheet.__dangerouslyResetStyleSheet()
   })
 
   test('Can update styles based on prop changes', () => {

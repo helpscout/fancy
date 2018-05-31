@@ -7,19 +7,23 @@ import { decodeStylisRules } from '../utilities/classNames'
 const stylis = new Stylis()
 stylis.use([ruleParserPlugin])
 
+const initialState = {
+  _cssRules: {},
+  _id: 0,
+  _styles: {},
+  _scope: '',
+  _theme: {},
+}
+
 function StyleSheet() {
-  let cssRules = {}
-  let _id = 0
-  let _styles = {}
-  let _scope = ''
-  let _theme = {}
+  let state = initialState
 
   function addRule(id, styles) {
-    cssRules[id] = styles
+    state._cssRules[id] = styles
   }
 
   function getRule(id) {
-    return cssRules[id]
+    return state._cssRules[id]
   }
 
   function hasRule(id) {
@@ -27,45 +31,67 @@ function StyleSheet() {
   }
 
   function removeRule(id) {
-    delete cssRules[id]
+    delete state._cssRules[id]
   }
 
   function makeRule(CSSRules) {
-    _id = _id + 1
-    return { id: _id, CSSRules, uuid: uuid() }
+    state._id = state._id + 1
+    return { id: state._id, CSSRules, uuid: uuid() }
   }
 
   function updateScope(scope) {
-    _scope = scope
-    return _scope
+    state._scope = scope
+    return state._scope
   }
 
   function updateTheme(theme) {
-    _theme = theme
-    return _theme
+    state._theme = theme
+    return state._theme
+  }
+
+  function getCSSRules() {
+    return state._cssRules
+  }
+
+  function getId() {
+    return state._id
   }
 
   function getScope() {
-    return _scope
+    return state._scope
+  }
+
+  function getStyles() {
+    return state._styles
   }
 
   function getTheme() {
-    return _theme
+    return state._theme
+  }
+
+  function __getState() {
+    return state
+  }
+
+  function __dangerouslyResetStyleSheet() {
+    state = initialState
+    // Force reset
+    state._cssRules = {}
   }
 
   /**
-   * Adds the unique selectors to _styles.
+   * Adds the unique selectors to state._styles.
    *
    * @param   {string} id
    * @param   {string} selectors
    * @returns {string}
    */
   function addStyles(id: string, selectors: string) {
-    if (!_styles[id]) {
-      _styles[id] = selectors
+    if (!state._styles[id]) {
+      state._styles[id] = selectors
     }
 
-    return _styles[id]
+    return state._styles[id]
   }
 
   /**
@@ -81,10 +107,10 @@ function StyleSheet() {
   function makeStyles({ id, props, CSSRules, scope, uuid }) {
     const parsedCSSRules =
       typeof CSSRules !== 'string'
-        ? CSSRules({ ...props, theme: _theme })
+        ? CSSRules({ ...props, theme: state._theme })
         : CSSRules
 
-    const enhancedScope = _scope ? _scope : scope || ''
+    const enhancedScope = state._scope ? state._scope : scope || ''
     const styles = tokenize(
       stylis(enhancedScope, parsedCSSRules),
       uuid,
@@ -108,11 +134,13 @@ function StyleSheet() {
     makeRule,
     addStyles,
     makeStyles,
-    cssRules,
-    id: _id,
-    styles: _styles,
-    getScope: getScope,
-    getTheme: getTheme,
+    getCSSRules,
+    getId,
+    getScope,
+    getStyles,
+    getTheme,
+    __getState,
+    __dangerouslyResetStyleSheet,
   }
 }
 
