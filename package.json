@@ -20,6 +20,7 @@
     "release": "np --no-yarn --no-publish",
     "version": "npm run build",
     "postversion": "npm publish",
+    "start": "npm run storybook",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "prettier": "prettier \"src/**/*.js\" --write",
