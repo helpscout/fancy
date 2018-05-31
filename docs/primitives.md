@@ -13,11 +13,11 @@ const Card = styled.div`
   border: 1px solid black;
 `
 
-const App = () => {
-  ;<div id="App">
+const App = () => (
+  <div id="App">
     <Card />
   </div>
-}
+)
 ```
 
 Alternatively, you can create primitive components by passing a `string` that represents the component name:

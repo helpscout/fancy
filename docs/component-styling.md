@@ -15,11 +15,11 @@ const FancyCard = styled(Card)`
   border: 1px solid black;
 `
 
-const App = () => {
-  ;<div id="App">
+const App = () => (
+  <div id="App">
     <Card />
   </div>
-}
+)
 ```
 
 ## See also

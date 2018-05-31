@@ -25,8 +25,8 @@ const Card = props => (
 
 const StyledCard = styled(Card)(css)
 
-const App = () => {
-  ;<div id="App">
+const App = () => (
+  <div id="App">
     <ThemeProvider theme={{ dark: true }}>
       <div>
         ...
@@ -35,7 +35,7 @@ const App = () => {
       </div>
     </ThemeProvider>
   </div>
-}
+)
 ```
 
 ## Scoping
