@@ -1,4 +1,4 @@
-# Style Interpolation
+# Style interpolation
 
 Fancy provides a handful of ways to add and interpolate styles with your component.
 

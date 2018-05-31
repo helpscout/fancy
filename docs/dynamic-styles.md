@@ -23,3 +23,10 @@ const StyledCard = styled(Card)(css)
 ### 🤔 How does it work…
 
 Under the hood, Fancy does a `diff` check in it's virtual Stylesheet (not unlike how React handles VDOM diffing) every time a [component updates](https://reactjs.org/docs/react-component.html#componentdidupdate). If an update occurs, it regenerates the style rules and re-injects it into the document stylesheet.
+
+## See also
+
+- [Primitives](./primitives.md)
+- [Component styling](./component-styling.md)
+- [Style interpolation](./style-interpolation.md)
+- [Theming](./theming.md)

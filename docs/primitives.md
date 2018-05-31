@@ -34,6 +34,6 @@ const Card = styled('div')`
 
 ## See also
 
-- [Primitives](./primitives.md)
-- [Style Interpolation](./style-interpolation.md)
+- [Component styling](./component-styling.md)
+- [Style interpolation](./style-interpolation.md)
 - [Theming](./theming.md)

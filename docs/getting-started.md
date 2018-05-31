@@ -1,4 +1,4 @@
-# Getting Started
+# Getting started
 
 In this guide, we're going to be "fancifying" a React component with some basic CSS styles.
 
@@ -81,3 +81,10 @@ export default styled(Button)(css)
 ```
 
 That's it! You're done 🙌. You've created a CSS-ready component.
+
+## See also
+
+- [Primitives](./primitives.md)
+- [Component styling](./component-styling.md)
+- [Style interpolation](./style-interpolation.md)
+- [Theming](./theming.md)

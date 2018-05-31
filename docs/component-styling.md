@@ -1,4 +1,4 @@
-# Component Styling
+# Component styling
 
 Fancy provides an easy to to enhance/style existing components, using conventions inspired by [styled-components](https://www.styled-components.com/).
 
@@ -25,5 +25,5 @@ const App = () => (
 ## See also
 
 - [Primitives](./primitives.md)
-- [Style Interpolation](./style-interpolation.md)
+- [Style interpolation](./style-interpolation.md)
 - [Theming](./theming.md)

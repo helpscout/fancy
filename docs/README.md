@@ -1,10 +1,10 @@
 # Documentation
 
-- [Getting Started](./getting-started.md)
+- [Getting started](./getting-started.md)
 - [Nesting](./nesting.md)
-- [Dynamic Styles](./dynamic-styles.md)
-- [Dynamic ClassNames](./dynamic-classnames.md)
+- [Dynamic styles](./dynamic-styles.md)
+- [Dynamic classNames](./dynamic-classnames.md)
 - [Theming](./theming.md)
-- [HTML Primitives](./primitives.md)
-- [Styling Components](./styling-components.md)
-- [Style Interpolation](./style-interpolation.md)
+- [HTML primitives](./primitives.md)
+- [Component styling](./component-styling.md)
+- [Style interpolation](./style-interpolation.md)
