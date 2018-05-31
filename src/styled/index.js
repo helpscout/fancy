@@ -185,14 +185,14 @@ export const makeStyled = (component, componentOptions = {}) => (...args) => {
     options = { ...componentOptions }
     options[FANCY_PRIMITIVE] = true
 
-    cssRules = makeInterpolatedCSSRules(component, componentOptions, args)
+    cssRules = makeInterpolatedCSSRules(component, args, componentOptions)
   }
   // Special case Primitive
   else if (isString(component) && isFunction(styleArg)) {
     options = { ...componentOptions }
     options[FANCY_PRIMITIVE] = true
 
-    cssRules = makeInterpolatedCSSRules(component, componentOptions, styleArg)
+    cssRules = makeInterpolatedCSSRules(component, styleArg, componentOptions)
   }
 
   return styled(component)(cssRules, options)

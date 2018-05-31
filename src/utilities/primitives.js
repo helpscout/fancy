@@ -38,8 +38,8 @@ export const shouldInterpolateStyles = (args: Array) => isArray(args)
  */
 export const makeInterpolatedStyles = (
   component: Primitive,
-  options: Object = {},
-  args: Array | string
+  args: Array | string,
+  options: Object = {}
 ) => (props: Object) => {
   let styles
 
@@ -66,19 +66,19 @@ export const makeInterpolatedStyles = (
 // Creates the primitive CSS Rules for stylis
 //
 // @param   {string} component
-// @param   {object} options
 // @param   {array|function} arg
+// @param   {object} options
 // @returns {string}
 export const makeInterpolatedCSSRules = (
   component: Primitive,
-  options: Object = {},
-  args
+  args,
+  options: Object = {}
 ) => {
   // Special handling in case the styles is a functional callback
   if (isFunction(args)) {
     const className = options.className || 'fancy'
     return props => `.${className} { ${args(props)} }`
   } else {
-    return makeInterpolatedStyles(component, options, args)
+    return makeInterpolatedStyles(component, args, options)
   }
 }

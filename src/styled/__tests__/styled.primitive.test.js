@@ -259,3 +259,52 @@ describe('Key primitive', () => {
     })
   })
 })
+
+describe('Component primitive', () => {
+  afterEach(() => {
+    resetStyleTags()
+    styled.StyleSheet.__dangerouslyResetStyleSheet()
+  })
+
+  const Psy = props => <div {...props} />
+
+  describe('String styles', () => {
+    test('Automatically generates unique className', () => {
+      const Psyduck = styled(Psy)`
+        background: yellow;
+      `
+      const wrapper = mount(<Psyduck />)
+      const el = wrapper.find('div')
+
+      expect(el.prop('className')).toContain(PRIMITIVE_CLASSNAME)
+    })
+
+    test('Creates and applies styles', () => {
+      const Psyduck = styled(Psy)`
+        background: yellow;
+      `
+      const wrapper = mount(<Psyduck />)
+      const el = wrapper.find('div').node
+
+      expect(styleProp(el, 'background')).toBe('yellow')
+    })
+
+    test('Can properly create nested styles', () => {
+      const Psyduck = styled(Psy)`
+        background: yellow;
+
+        span {
+          background: white;
+        }
+      `
+      const wrapper = mount(
+        <Psyduck>
+          <span>Psyduck!</span>
+        </Psyduck>
+      )
+      const el = wrapper.find('span').node
+
+      expect(styleProp(el, 'background')).toBe('white')
+    })
+  })
+})
