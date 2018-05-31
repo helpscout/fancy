@@ -1,5 +1,5 @@
 import React from 'react'
-import { ID } from '../constants/id'
+import { ID } from '../constants'
 
 /**
  * withStyle <style> component

@@ -1,22 +1,27 @@
+// @flow
 import React, { Component } from 'react'
 import Style from './Style'
+import { FANCY_PRIMITIVE, ELEMENT_TAGS_LIST } from '../constants'
+import { classNames } from '../utilities/classNames'
+import { isArray, isFunction, isString } from '../utilities/is'
 import { getStyleTag } from '../utilities/styleTag'
 import { getComponentName } from '../utilities/components'
+import {
+  isPrimitiveComponent,
+  makeInterpolatedCSSRules,
+  shouldInterpolateStyles,
+} from '../utilities/primitives'
 import { STYLESHEET as StyleSheet } from '../ThemeProvider/index'
 
 export const STYLESHEET = StyleSheet
 
-/**
- * HOC that renders specified CSS rules.
- *
- * @param   {object}
- * @param   {React.Component} - Composed
- * @returns {React.Component}
- */
-const styled = Composed => (styles = '', options = { scope: '' }) => {
+const styled = (Composed, composedProps) => (
+  styles = '',
+  options = { scope: '' }
+) => {
   const { id, CSSRules, uuid } = STYLESHEET.makeRule(styles)
 
-  class WithStylesComponent extends Component {
+  class StyledComponent extends Component {
     constructor(props) {
       super(props)
       this.state = options
@@ -62,7 +67,7 @@ const styled = Composed => (styles = '', options = { scope: '' }) => {
        * No need to update if the rule is static. This guard is to help
        * with performance.
        */
-      if (typeof CSSRules === 'string') return
+      if (isString(CSSRules)) return
       /**
        * Tested in Enzyme, but difficult to set up Istanbul to report.
        */
@@ -136,20 +141,70 @@ const styled = Composed => (styles = '', options = { scope: '' }) => {
     }
 
     render() {
-      return <Composed {...this.props} styles={this.styles} />
+      const { theme, ...rest } = this.props
+      const props = {
+        ...composedProps,
+        ...rest,
+      }
+      const className = classNames(this.styles.fancy, this.props.className)
+
+      return isString(Composed) ? (
+        React.createElement(Composed, {
+          ...props,
+          className,
+        })
+      ) : options[FANCY_PRIMITIVE] ? (
+        <Composed {...props} className={className} />
+      ) : (
+        <Composed {...props} styles={this.styles} />
+      )
     }
   }
 
-  WithStylesComponent.displayName = `styled(${getComponentName(Composed)})`
-  WithStylesComponent._styleId = id
-  WithStylesComponent._styleSheet = STYLESHEET
+  StyledComponent.displayName = `styled(${getComponentName(Composed)})`
+  StyledComponent._styleId = id
+  StyledComponent._styleSheet = STYLESHEET
 
-  return WithStylesComponent
+  return StyledComponent
 }
+
+/**
+ * Creates the Fancy styled component.
+ *
+ * @param   {React.Component | string} component
+ * @param   {any} args
+ * @returns {React.Component}
+ */
+export const makeStyled = (component, componentOptions = {}) => (...args) => {
+  const [styleArg, ...otherArgs] = args
+  let cssRules = styleArg
+  let options = otherArgs[0]
+
+  // Interpolation Check
+  if (shouldInterpolateStyles(styleArg)) {
+    options = { ...componentOptions }
+    options[FANCY_PRIMITIVE] = true
+
+    cssRules = makeInterpolatedCSSRules(component, args, componentOptions)
+  }
+  // Special case Primitive
+  else if (isString(component) && isFunction(styleArg)) {
+    options = { ...componentOptions }
+    options[FANCY_PRIMITIVE] = true
+
+    cssRules = makeInterpolatedCSSRules(component, styleArg, componentOptions)
+  }
+
+  return styled(component)(cssRules, options)
+}
+
 /**
  * Sub-components
  */
-styled.Style = Style
-styled.StyleSheet = STYLESHEET
+makeStyled.Style = Style
+makeStyled.StyleSheet = STYLESHEET
 
-export default styled
+// Generate primatives
+ELEMENT_TAGS_LIST.forEach(tag => (makeStyled[tag] = makeStyled(tag)))
+
+export default makeStyled

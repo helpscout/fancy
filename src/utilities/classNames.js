@@ -1,7 +1,6 @@
-import { DELIMETER, SEP } from '../constants/stylis'
+import { DELIMETER, SCOPE, SEP } from '../constants'
+import { isBool } from './is'
 import { has, hasMany } from './strings'
-
-export const SCOPE_TOKEN = '/*00*/'
 
 /**
  * Returns an array of classNames prepped for React.
@@ -10,7 +9,7 @@ export const SCOPE_TOKEN = '/*00*/'
  * @returns {string}
  */
 export const classNames = (...classes) => {
-  return classes.filter(name => name && typeof name !== 'boolean').join(' ')
+  return classes.filter(name => name && !isBool(name)).join(' ')
 }
 
 /**
@@ -178,7 +177,7 @@ export const makeRuleFromStylis = (
   const scopelessSelector = selector.replace(scope, '').trim()
   if (!isClassName(scopelessSelector)) return rule
 
-  const parsedSelector = uniqSelector.replace(SCOPE_TOKEN, scope)
+  const parsedSelector = uniqSelector.replace(SCOPE, scope)
   return rule.replace(selector, parsedSelector)
 }
 
@@ -213,7 +212,7 @@ export const decodeStylisRules = (
     const isClass = isClassName(scopelessSelector)
 
     const uniqSelector = makeUniqSelector(scopelessSelector, uuid, id)
-    const tokenedUniqSelector = `${SCOPE_TOKEN} ${uniqSelector}`
+    const tokenedUniqSelector = `${SCOPE} ${uniqSelector}`
 
     return {
       selector: {

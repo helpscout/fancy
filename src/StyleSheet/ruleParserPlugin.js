@@ -1,4 +1,4 @@
-import { DELIMETER, SEP } from '../constants/stylis'
+import { DELIMETER, SEP } from '../constants'
 
 /**
  * Identifies and transforms individual cssRules for parsing.
