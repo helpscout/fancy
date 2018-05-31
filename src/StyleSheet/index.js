@@ -7,16 +7,16 @@ import { decodeStylisRules } from '../utilities/classNames'
 const stylis = new Stylis()
 stylis.use([ruleParserPlugin])
 
-const initialState = {
+const getInitialState = () => ({
   _cssRules: {},
   _id: 0,
   _styles: {},
   _scope: '',
   _theme: {},
-}
+})
 
 function StyleSheet() {
-  let state = initialState
+  let state = getInitialState()
 
   function addRule(id, styles) {
     state._cssRules[id] = styles
@@ -74,9 +74,7 @@ function StyleSheet() {
   }
 
   function __dangerouslyResetStyleSheet() {
-    state = initialState
-    // Force reset
-    state._cssRules = {}
+    state = getInitialState()
   }
 
   /**

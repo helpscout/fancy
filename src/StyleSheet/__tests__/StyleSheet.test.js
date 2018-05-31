@@ -56,4 +56,41 @@ describe('StyleSheet', () => {
       expect(stylesheet.getTheme()).toBe(theme)
     })
   })
+
+  describe('getCSSRules', () => {
+    test('Returns cssRules value', () => {
+      const stylesheet = StyleSheet()
+      stylesheet.addRule('1', 'abc')
+
+      expect(stylesheet.getCSSRules()['1']).toBe('abc')
+    })
+  })
+
+  describe('getId', () => {
+    test('Returns id value', () => {
+      const stylesheet = StyleSheet()
+
+      stylesheet.makeRule('1', 'abc')
+      expect(stylesheet.getId()).toBe(1)
+
+      stylesheet.makeRule('1213', 'abc')
+      expect(stylesheet.getId()).toBe(2)
+    })
+  })
+
+  describe('getState', () => {
+    test('Returns state value', () => {
+      const stylesheet = StyleSheet()
+
+      stylesheet.addRule('1', 'abc')
+      stylesheet.makeRule('1', 'abc')
+      stylesheet.makeRule('1213', 'abc')
+
+      const state = stylesheet.__getState()
+
+      expect(state._id).toBe(2)
+      expect(state._cssRules['1']).toBe('abc')
+      // console.log(stylesheet.__getState())
+    })
+  })
 })

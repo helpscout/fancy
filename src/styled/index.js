@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import Style from './Style'
 import { FANCY_PRIMITIVE, ELEMENT_TAGS_LIST } from '../constants'
 import { classNames } from '../utilities/classNames'
-import { isArray, isFunction, isObject, isString } from '../utilities/is'
+import { isArray, isFunction, isString } from '../utilities/is'
 import { getStyleTag } from '../utilities/styleTag'
 import { getComponentName } from '../utilities/components'
 import {
@@ -141,9 +141,10 @@ const styled = (Composed, composedProps) => (
     }
 
     render() {
+      const { theme, ...rest } = this.props
       const props = {
         ...composedProps,
-        ...this.props,
+        ...rest,
       }
       const className = classNames(this.styles.fancy, this.props.className)
 
@@ -185,6 +186,13 @@ export const makeStyled = (component, componentOptions = {}) => (...args) => {
     options[FANCY_PRIMITIVE] = true
 
     cssRules = makeInterpolatedCSSRules(component, componentOptions, args)
+  }
+  // Special case Primitive
+  else if (isString(component) && isFunction(styleArg)) {
+    options = { ...componentOptions }
+    options[FANCY_PRIMITIVE] = true
+
+    cssRules = makeInterpolatedCSSRules(component, componentOptions, styleArg)
   }
 
   return styled(component)(cssRules, options)
