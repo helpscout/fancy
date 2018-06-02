@@ -187,6 +187,63 @@ describe('makeUniqSelector', () => {
       '.c__abc-123+.c__abc-123 > *'
     )
   })
+
+  test('Returns uniq selector for chained + modifier', () => {
+    expect(makeUniqSelector('.c.is-m', uuid, id)).toBe('.c__abc-123.is-m')
+    expect(makeUniqSelector('.c.is-m.is-o', uuid, id)).toBe(
+      '.c__abc-123.is-m.is-o'
+    )
+  })
+
+  test('Returns uniq selector for chained + (BEM) element', () => {
+    expect(makeUniqSelector('.c .c__el', uuid, id)).toBe('.c__abc-123 .c__el')
+  })
+
+  test('Returns uniq selector for [attribute]', () => {
+    expect(makeUniqSelector('.c[class*=b]', uuid, id)).toBe(
+      '.c__abc-123[class*=b]'
+    )
+    expect(makeUniqSelector('.c[class*=b] .m', uuid, id)).toBe(
+      '.c__abc-123[class*=b] .m'
+    )
+    expect(makeUniqSelector('.c[class*=b].is-m', uuid, id)).toBe(
+      '.c__abc-123[class*=b].is-m'
+    )
+  })
+
+  test('Returns uniq selector for pseudo', () => {
+    expect(makeUniqSelector('.c:hover', uuid, id)).toBe('.c__abc-123:hover')
+    expect(makeUniqSelector('.c:hover:active', uuid, id)).toBe(
+      '.c__abc-123:hover:active'
+    )
+    expect(makeUniqSelector('.c:hover:active:focus span', uuid, id)).toBe(
+      '.c__abc-123:hover:active:focus span'
+    )
+  })
+
+  test('Returns uniq selector for [attribute] and pseudo', () => {
+    expect(makeUniqSelector('.c[class*=b]:hover', uuid, id)).toBe(
+      '.c__abc-123[class*=b]:hover'
+    )
+    expect(makeUniqSelector('.c[class*=b]:hover:active', uuid, id)).toBe(
+      '.c__abc-123[class*=b]:hover:active'
+    )
+    expect(
+      makeUniqSelector('.c[class*=b]:hover:active:focus span', uuid, id)
+    ).toBe('.c__abc-123[class*=b]:hover:active:focus span')
+  })
+
+  test('Returns uniq selector for chained and [attribute] and pseudo', () => {
+    expect(makeUniqSelector('.c.b[class*=b]:hover', uuid, id)).toBe(
+      '.c__abc-123.b[class*=b]:hover'
+    )
+    expect(makeUniqSelector('.c.b[class*=b]:hover:active', uuid, id)).toBe(
+      '.c__abc-123.b[class*=b]:hover:active'
+    )
+    expect(
+      makeUniqSelector('.c.b[class*=b]:hover:active:focus span', uuid, id)
+    ).toBe('.c__abc-123.b[class*=b]:hover:active:focus span')
+  })
 })
 
 describe('makeRuleFromStylis', () => {

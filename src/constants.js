@@ -3,7 +3,7 @@
  */
 export const ID = '__REACT_FANCY_STYLES__'
 export const FANCY_PRIMITIVE = '__IS_TOTES_A_FANCY_PRIMITIVE__'
-export const PRIMITIVE_CLASSNAME = 'fancy'
+export const PRIMITIVE_CLASSNAME = 'fs'
 
 /**
  * Stylis / Tokens

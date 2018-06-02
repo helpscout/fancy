@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { storiesOf } from '@storybook/react'
-import styled from '../src'
+import styled from '../src/styled/index'
 import ThemeProvider from '../src/ThemeProvider'
 
 const stories = storiesOf('Primitives', module)
@@ -34,6 +34,22 @@ class Changer extends Component {
     return (
       <div>
         <Thing color={this.state.color}>
+          Another Styled <span className="span">Components</span>
+        </Thing>
+
+        <Thing title="ddd">
+          Another Styled <span className="span">Components</span>
+        </Thing>
+        <Thing>
+          Another Styled <span className="span">Components</span>
+        </Thing>
+        <Thing>
+          Another Styled <span className="span">Components</span>
+        </Thing>
+        <Thing>
+          Another Styled <span className="span">Components</span>
+        </Thing>
+        <Thing>
           Another Styled <span className="span">Components</span>
         </Thing>
         <button onClick={this.changeColor}>Change!</button>
