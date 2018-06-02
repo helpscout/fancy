@@ -76,7 +76,7 @@ export const makeInterpolatedCSSRules = (
 ) => {
   // Special handling in case the styles is a functional callback
   if (isFunction(args)) {
-    const className = options.className || 'fancy'
+    const className = options.className || PRIMITIVE_CLASSNAME
     return props => `.${className} { ${args(props)} }`
   } else {
     return makeInterpolatedStyles(component, args, options)

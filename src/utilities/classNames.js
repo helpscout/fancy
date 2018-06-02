@@ -90,13 +90,19 @@ export const makeUniqClassName = (selector, uuid, id) => {
     let className = generateClassName(item, index)
 
     if (index === 0) {
-      if (hasMany(item, /\./)) {
+      if (hasMany(item, /\./) && has(item, /\[/)) {
+        if (item.substring(1).indexOf('.') < item.indexOf('[')) {
+          className = compileRule(item, '.', generateClassName, '.')
+        } else {
+          className = compileRule(item, '[', generateClassName)
+        }
+      } else if (has(item, /\[/)) {
+        className = compileRule(item, '[', generateClassName)
+      } else if (hasMany(item, /\./)) {
         className = compileRule(item, '.', generateClassName, '.')
-      }
-      if (has(item, ':')) {
+      } else if (has(item, ':')) {
         className = compileRule(item, ':', generateClassName)
-      }
-      if (has(item, ',')) {
+      } else if (has(item, ',')) {
         className = compileRule(item, ',', generateClassName, '', ',')
       }
     }
@@ -125,6 +131,7 @@ export const makeUniqSelectorForCombinator = (
   const selectors = getPreCompileSelectors(selector, combinator)
   const compiler = (s, index) => {
     const base = getBaseSelector(s)
+
     if (index > 0 && base !== selectors[0]) return s
     return makeUniqClassName(s, uuid, id)
   }

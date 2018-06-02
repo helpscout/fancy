@@ -1,4 +1,5 @@
 import { makeInterpolatedStyles, makeInterpolatedCSSRules } from '../primitives'
+import { PRIMITIVE_CLASSNAME } from '../../constants'
 
 describe('makeInterpolatedStyles', () => {
   test('Can render component (string) with string args', () => {
@@ -8,7 +9,7 @@ describe('makeInterpolatedStyles', () => {
 
     const styles = makeInterpolatedStyles(Jolteon, args, options)
 
-    expect(styles()).toContain('fancy')
+    expect(styles()).toContain(PRIMITIVE_CLASSNAME)
     expect(styles()).toContain('color: yellow')
   })
 
@@ -19,7 +20,7 @@ describe('makeInterpolatedStyles', () => {
 
     const styles = makeInterpolatedStyles(Jolteon, args, options)
 
-    expect(styles()).toContain('fancy')
+    expect(styles()).toContain(PRIMITIVE_CLASSNAME)
     expect(styles()).toContain('color: yellow')
   })
 
@@ -30,7 +31,7 @@ describe('makeInterpolatedStyles', () => {
 
     const styles = makeInterpolatedStyles(Jolteon, args, options)
 
-    expect(styles()).toContain('fancy')
+    expect(styles()).toContain(PRIMITIVE_CLASSNAME)
     expect(styles()).toContain('color: yellow')
   })
 
@@ -40,7 +41,7 @@ describe('makeInterpolatedStyles', () => {
 
     const styles = makeInterpolatedStyles(Jolteon, args)
 
-    expect(styles()).toContain('fancy')
+    expect(styles()).toContain(PRIMITIVE_CLASSNAME)
     expect(styles()).toContain('color: yellow')
   })
 })
@@ -52,7 +53,7 @@ describe('makeInterpolatedCSSRules', () => {
 
     const styles = makeInterpolatedCSSRules(Jolteon, args)
 
-    expect(styles()).toContain('fancy')
+    expect(styles()).toContain(PRIMITIVE_CLASSNAME)
     expect(styles()).toContain('color: yellow')
   })
 })

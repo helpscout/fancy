@@ -1,7 +1,11 @@
 // @flow
 import React, { Component } from 'react'
 import Style from './Style'
-import { FANCY_PRIMITIVE, ELEMENT_TAGS_LIST } from '../constants'
+import {
+  FANCY_PRIMITIVE,
+  ELEMENT_TAGS_LIST,
+  PRIMITIVE_CLASSNAME,
+} from '../constants'
 import { classNames } from '../utilities/classNames'
 import { isArray, isFunction, isString } from '../utilities/is'
 import { getStyleTag } from '../utilities/styleTag'
@@ -146,7 +150,10 @@ const styled = (Composed, composedProps) => (
         ...composedProps,
         ...rest,
       }
-      const className = classNames(this.styles.fancy, this.props.className)
+      const className = classNames(
+        this.styles[PRIMITIVE_CLASSNAME],
+        this.props.className
+      )
 
       return isString(Composed) ? (
         React.createElement(Composed, {
