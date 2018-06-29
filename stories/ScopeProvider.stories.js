@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { storiesOf } from '@storybook/react'
-import styled from '../src/styled/index'
-import ThemeProvider from '../src/ThemeProvider'
+import styled from '../src'
+import ScopeProvider from '../src/ScopeProvider'
 
-const stories = storiesOf('Primitives', module)
+const stories = storiesOf('ScopeProvider', module)
 
 const RC = props => <div {...props} />
 
@@ -36,22 +36,6 @@ class Changer extends Component {
         <Thing color={this.state.color}>
           Another Styled <span className="span">Components</span>
         </Thing>
-
-        <Thing title="ddd">
-          Another Styled <span className="span">Components</span>
-        </Thing>
-        <Thing>
-          Another Styled <span className="span">Components</span>
-        </Thing>
-        <Thing>
-          Another Styled <span className="span">Components</span>
-        </Thing>
-        <Thing>
-          Another Styled <span className="span">Components</span>
-        </Thing>
-        <Thing>
-          Another Styled <span className="span">Components</span>
-        </Thing>
         <button onClick={this.changeColor}>Change!</button>
       </div>
     )
@@ -68,14 +52,28 @@ const Pi = styled.p`
   padding: 20px;
 `
 
-stories.add('Component', () => {
+stories.add('Default', () => {
   return (
     <div>
-      <ThemeProvider theme={{ size: 'lg' }}>
+      <ScopeProvider scope="html">
         <Card>Card</Card>
         <Pi>Paragraph</Pi>
         <Changer />
-      </ThemeProvider>
+      </ScopeProvider>
+    </div>
+  )
+})
+
+stories.add('Branched', () => {
+  return (
+    <div>
+      <Card>Card</Card>
+      <div id="branch">
+        <ScopeProvider scope="#branch">
+          <Pi>Paragraph</Pi>
+          <Changer />
+        </ScopeProvider>
+      </div>
     </div>
   )
 })

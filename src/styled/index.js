@@ -15,7 +15,7 @@ import {
   makeInterpolatedCSSRules,
   shouldInterpolateStyles,
 } from '../utilities/primitives'
-import { STYLESHEET as StyleSheet } from '../ThemeProvider/index'
+import StyleSheet from '../StyleSheet/index'
 
 export const STYLESHEET = StyleSheet
 
@@ -26,6 +26,11 @@ const styled = (Composed, composedProps) => (
   const { id, CSSRules, uuid } = STYLESHEET.makeRule(styles)
 
   class StyledComponent extends Component {
+    static contextTypes = {
+      getScope: () => null,
+      getTheme: () => null,
+    }
+
     constructor(props) {
       super(props)
       this.state = options
@@ -129,6 +134,18 @@ const styled = (Composed, composedProps) => (
       })
     }
 
+    getScope() {
+      return this.context && this.context.getScope
+        ? this.context.getScope()
+        : this.state.scope
+    }
+
+    getTheme() {
+      return this.context && this.context.getTheme
+        ? this.context.getTheme()
+        : this.state.theme
+    }
+
     /**
      * Creates the CSS rules.
      *
@@ -139,7 +156,8 @@ const styled = (Composed, composedProps) => (
         CSSRules,
         id,
         props: this.props,
-        scope: this.state.scope,
+        scope: this.getScope(),
+        theme: this.getTheme(),
         uuid,
       })
     }
