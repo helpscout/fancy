@@ -1,4 +1,4 @@
-import StyleSheet from '../'
+import StyleSheet from '../createStyleSheet'
 
 describe('StyleSheet', () => {
   describe('addStyles', () => {
@@ -53,7 +53,7 @@ describe('StyleSheet', () => {
       }
       stylesheet.updateTheme(theme)
 
-      expect(stylesheet.getTheme()).toBe(theme)
+      expect(stylesheet.getTheme()).toEqual(theme)
     })
   })
 
@@ -90,7 +90,6 @@ describe('StyleSheet', () => {
 
       expect(state._id).toBe(2)
       expect(state._cssRules['1']).toBe('abc')
-      // console.log(stylesheet.__getState())
     })
   })
 })

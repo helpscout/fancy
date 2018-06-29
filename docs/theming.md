@@ -1,8 +1,8 @@
 # Theming
 
-Fancy comes with `Theme.Provider`. Added to the top-level of your app, it can modify fancy styled components via a special `props.theme` prop.
+Fancy comes with `ThemeProvider`. Added to the top-level of your app, it can modify fancy styled components via a special `props.theme` prop.
 
-Define your theme props to `Theme.Provider` as `theme`.
+Define your theme props to `ThemeProvider` as `theme`.
 
 ### Example
 
@@ -38,22 +38,9 @@ const App = () => (
 )
 ```
 
-## Scoping
-
-`Theme.Provider` has another special `scope` prop that allows you to define additional selectors to scope your fancy `styled` component CSS under.
-
-### Example
-
-```jsx
-<ThemeProvider scope="html #App">
-  <StyledCard />
-</ThemeProvider>
-```
-
-If the hashed CSS classes for `StyledCard` was `.Card__213jdhx`, they will now render as `html #App .Card__213jdhx`.
-
 ## See also
 
 - [Primitives](./primitives.md)
 - [Component styling](./component-styling.md)
+- [Scoping](./scoping.md)
 - [Style interpolation](./style-interpolation.md)

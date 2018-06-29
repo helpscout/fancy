@@ -1,6 +1,6 @@
 import React from 'react'
 import { mount } from 'enzyme'
-import { ThemeProvider } from '../../index'
+import ThemeProvider from '../index'
 import styled from '../../styled'
 
 const removeStyle = styled.StyleSheet.removeRule
@@ -14,6 +14,13 @@ describe('ThemeProvider', () => {
     props => `
     div {
       background: ${props.theme.bg};
+      ${
+        props.theme.color
+          ? `
+        color: ${props.theme.color};
+      `
+          : null
+      }
     }
   `
   )
@@ -28,13 +35,6 @@ describe('ThemeProvider', () => {
   })
 
   describe('internals', () => {
-    test('Updates state if scope prop changes', () => {
-      const wrapper = mount(<ThemeProvider />)
-      wrapper.setProps({ scope: 'html' })
-
-      expect(wrapper.state().scope).toBe('html')
-    })
-
     test('Updates state if theme prop changes', () => {
       const wrapper = mount(<ThemeProvider />)
       wrapper.setProps({ theme: 'html' })
@@ -47,15 +47,6 @@ describe('ThemeProvider', () => {
       const wrapper = mount(<ThemeProvider />)
 
       expect(spy).toHaveBeenCalledTimes(1)
-      spy.mockRestore()
-    })
-
-    test('Update callback fires if scope changes', () => {
-      const spy = jest.spyOn(ThemeProvider.prototype, 'update')
-      const wrapper = mount(<ThemeProvider />)
-      wrapper.setProps({ scope: 'html' })
-
-      expect(spy).toHaveBeenCalledTimes(2)
       spy.mockRestore()
     })
 
@@ -92,18 +83,19 @@ describe('ThemeProvider', () => {
     })
   })
 
-  describe('scope', () => {
-    test('Can provide styled component with scoping', () => {
-      const theme = { bg: 'red' }
+  describe('nesting', () => {
+    test('Can nest ThemeProvider components', () => {
       const wrapper = mount(
-        <ThemeProvider scope="h1" theme={theme}>
-          <h1>Words</h1>
-          <StyledCard />
+        <ThemeProvider theme={{ bg: 'red' }}>
+          <ThemeProvider theme={{ color: 'blue' }}>
+            <StyledCard />
+          </ThemeProvider>
         </ThemeProvider>
       )
       const el = wrapper.find('.card').node
 
-      expect(window.getComputedStyle(el).background).not.toBe('red')
+      expect(window.getComputedStyle(el).background).toBe('red')
+      expect(window.getComputedStyle(el).color).toBe('blue')
     })
   })
 })

@@ -4,3 +4,4 @@ stories
 node_modules
 coverage
 src
+__tests__

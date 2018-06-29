@@ -11,7 +11,7 @@ import {
   makeInterpolatedCSSRules,
   shouldInterpolateStyles,
 } from '../utilities/primitives'
-import { STYLESHEET as StyleSheet } from '../ThemeProvider/index'
+import StyleSheet from '../StyleSheet/index'
 
 export const STYLESHEET = StyleSheet
 
