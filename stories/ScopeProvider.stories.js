@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { storiesOf } from '@storybook/react'
 import styled from '../src'
-import ThemeProvider from '../src/ThemeProvider'
+import ScopeProvider from '../src/ScopeProvider'
 
-const stories = storiesOf('Primitives', module)
+const stories = storiesOf('ScopeProvider', module)
 
 const RC = props => <div {...props} />
 
@@ -52,14 +52,28 @@ const Pi = styled.p`
   padding: 20px;
 `
 
-stories.add('Component', () => {
+stories.add('Default', () => {
   return (
     <div>
-      <ThemeProvider theme={{ size: 'lg' }}>
+      <ScopeProvider scope="html">
         <Card>Card</Card>
         <Pi>Paragraph</Pi>
         <Changer />
-      </ThemeProvider>
+      </ScopeProvider>
+    </div>
+  )
+})
+
+stories.add('Branched', () => {
+  return (
+    <div>
+      <Card>Card</Card>
+      <div id="branch">
+        <ScopeProvider scope="#branch">
+          <Pi>Paragraph</Pi>
+          <Changer />
+        </ScopeProvider>
+      </div>
     </div>
   )
 })

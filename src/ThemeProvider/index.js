@@ -1,43 +1,43 @@
 // @flow
 import React, { Component } from 'react'
+import ThemeManager from './ThemeManager'
 import Fragment from '../Fragment/index'
 import StyleSheet from '../StyleSheet/index'
 import { classNames } from '../utilities/classNames'
 
 class ThemeProvider extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      theme: props.theme,
-    }
-    this.StyleSheet = StyleSheet
+  static contextTypes = {
+    getTheme: () => null,
   }
 
+  static childContextTypes = {
+    getTheme: () => null,
+  }
+
+  StyleSheet = StyleSheet
+  ThemeManager = ThemeManager
+
   componentWillMount() {
-    this.update()
+    this.ThemeManager.addTheme(this.props.theme)
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.theme !== this.state.theme) {
-      this.setState({
-        theme: nextProps.theme,
-      })
+    if (nextProps.theme !== this.props.theme) {
+      this.ThemeManager.addTheme(nextProps.theme)
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.theme !== this.state.theme) {
-      this.update()
+  getChildContext() {
+    return {
+      getTheme: () => this.ThemeManager.getTheme(),
     }
-  }
-
-  update() {
-    this.StyleSheet.updateTheme(this.state.theme)
   }
 
   render() {
     return (
-      <Fragment className={classNames('FancyProvider', this.props.className)}>
+      <Fragment
+        className={classNames('FancyThemeProvider', this.props.className)}
+      >
         {this.props.children}
       </Fragment>
     )

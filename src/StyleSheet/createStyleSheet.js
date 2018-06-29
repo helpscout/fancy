@@ -12,8 +12,6 @@ const getInitialState = () => ({
   _cssRules: {},
   _id: 0,
   _styles: {},
-  _scope: '',
-  _theme: {},
 })
 
 function StyleSheet() {
@@ -40,18 +38,6 @@ function StyleSheet() {
     return { id: state._id, CSSRules, uuid: uuid() }
   }
 
-  function updateScope(scope) {
-    state._scope = scope
-    return state._scope
-  }
-
-  function updateTheme(theme) {
-    if (isObject(theme)) {
-      state._theme = { ...state._theme, ...theme }
-    }
-    return state._theme
-  }
-
   function getCSSRules() {
     return state._cssRules
   }
@@ -60,16 +46,8 @@ function StyleSheet() {
     return state._id
   }
 
-  function getScope() {
-    return state._scope
-  }
-
   function getStyles() {
     return state._styles
-  }
-
-  function getTheme() {
-    return state._theme
   }
 
   function __getState() {
@@ -105,13 +83,14 @@ function StyleSheet() {
    * @param   {string} uuid
    * @returns {string} object
    */
-  function makeStyles({ id, props, CSSRules, scope, uuid }) {
+  function makeStyles({ id, props, CSSRules, scope, theme, uuid }) {
+    const themeProps = theme || state._theme || ''
     const parsedCSSRules =
       typeof CSSRules !== 'string'
-        ? CSSRules({ ...props, theme: state._theme })
+        ? CSSRules({ ...props, theme: themeProps })
         : CSSRules
 
-    const enhancedScope = state._scope ? state._scope : scope || ''
+    const enhancedScope = scope || ''
     const styles = tokenize(
       stylis(enhancedScope, parsedCSSRules),
       uuid,
@@ -130,16 +109,12 @@ function StyleSheet() {
     getRule,
     hasRule,
     removeRule,
-    updateScope,
-    updateTheme,
     makeRule,
     addStyles,
     makeStyles,
     getCSSRules,
     getId,
-    getScope,
     getStyles,
-    getTheme,
     __getState,
     __dangerouslyResetStyleSheet,
   }

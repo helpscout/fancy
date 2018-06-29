@@ -30,37 +30,42 @@ describe('ThemeProvider', () => {
   })
 
   describe('internals', () => {
-    test('Updates state if theme prop changes', () => {
-      const wrapper = mount(<ThemeProvider />)
-      wrapper.setProps({ theme: 'html' })
+    test('Provides theme as context', () => {
+      const theme = { bg: 'red' }
+      const wrapper = mount(
+        <ThemeProvider theme={theme}>
+          <StyledCard />
+        </ThemeProvider>
+      )
+      const el = wrapper.find(StyledCard).getNode()
 
-      expect(wrapper.state().theme).toBe('html')
+      expect(el.context.getTheme()).toEqual(theme)
     })
 
-    test('Update callback fires during mount', () => {
-      const spy = jest.spyOn(ThemeProvider.prototype, 'update')
-      const wrapper = mount(<ThemeProvider />)
+    test('Updates theme context on propChange', () => {
+      const theme = { bg: 'red' }
+      const wrapper = mount(
+        <ThemeProvider theme={{ bg: 'old' }}>
+          <StyledCard />
+        </ThemeProvider>
+      )
+      wrapper.setProps({ theme })
+      const el = wrapper.find(StyledCard).getNode()
 
-      expect(spy).toHaveBeenCalledTimes(1)
-      spy.mockRestore()
+      expect(el.context.getTheme()).toEqual(theme)
     })
 
-    test('Update callback fires if theme changes', () => {
-      const spy = jest.spyOn(ThemeProvider.prototype, 'update')
-      const wrapper = mount(<ThemeProvider />)
-      wrapper.setProps({ theme: 'html' })
+    test('Theme context stays the same on non-theme prop change', () => {
+      const theme = { bg: 'red' }
+      const wrapper = mount(
+        <ThemeProvider theme={theme}>
+          <StyledCard />
+        </ThemeProvider>
+      )
+      wrapper.setProps({ anotherProp: true })
+      const el = wrapper.find(StyledCard).getNode()
 
-      expect(spy).toHaveBeenCalledTimes(2)
-      spy.mockRestore()
-    })
-
-    test('Update callback does not fire if other props changes', () => {
-      const spy = jest.spyOn(ThemeProvider.prototype, 'update')
-      const wrapper = mount(<ThemeProvider />)
-      wrapper.setProps({ other: 'html' })
-
-      expect(spy).toHaveBeenCalledTimes(1)
-      spy.mockRestore()
+      expect(el.context.getTheme()).toEqual(theme)
     })
   })
 
