@@ -2,8 +2,7 @@ import React from 'react'
 import { mount } from 'enzyme'
 import ScopeProvider from '../index'
 import styled from '../../styled'
-
-const removeStyle = styled.StyleSheet.removeRule
+import { styleProp, resetStyleTags } from '../../utilities/testHelpers'
 
 describe('ScopeProvider', () => {
   const Card = () => {
@@ -13,25 +12,14 @@ describe('ScopeProvider', () => {
   const StyledCard = styled(Card)(
     props => `
     div {
-      background: ${props.theme.bg};
-      ${
-        props.theme.color
-          ? `
-        color: ${props.theme.color};
-      `
-          : null
-      }
+      background: red;
     }
   `
   )
 
   afterEach(() => {
-    global.document.head.innerHTML = ''
-    /**
-     * Removing styles ID, just for testing. This is to help
-     * reset the environment.
-     */
-    removeStyle(StyledCard._styleId)
+    resetStyleTags()
+    styled.StyleSheet.__dangerouslyResetStyleSheet()
   })
 
   describe('internals', () => {
@@ -74,13 +62,17 @@ describe('ScopeProvider', () => {
       const theme = { bg: 'red' }
       const wrapper = mount(
         <ScopeProvider scope="h1" theme={theme}>
-          <h1>Words</h1>
           <StyledCard />
+          <h1>
+            <StyledCard />
+          </h1>
         </ScopeProvider>
       )
-      const el = wrapper.find('.card').node
+      const el = wrapper.find('div').first().node
+      const card = wrapper.find('h1 div').node
 
-      expect(window.getComputedStyle(el).background).not.toBe('red')
+      expect(styleProp(el, 'background')).not.toBe('red')
+      expect(styleProp(card, 'background')).toBe('red')
     })
   })
 })

@@ -2,8 +2,7 @@ import React from 'react'
 import { mount } from 'enzyme'
 import ThemeProvider from '../index'
 import styled from '../../styled'
-
-const removeStyle = styled.StyleSheet.removeRule
+import { styleProp, resetStyleTags } from '../../utilities/testHelpers'
 
 describe('ThemeProvider', () => {
   const Card = () => {
@@ -26,12 +25,8 @@ describe('ThemeProvider', () => {
   )
 
   afterEach(() => {
-    global.document.head.innerHTML = ''
-    /**
-     * Removing styles ID, just for testing. This is to help
-     * reset the environment.
-     */
-    removeStyle(StyledCard._styleId)
+    resetStyleTags()
+    styled.StyleSheet.__dangerouslyResetStyleSheet()
   })
 
   describe('internals', () => {
@@ -79,7 +74,7 @@ describe('ThemeProvider', () => {
       )
       const el = wrapper.find('.card').node
 
-      expect(window.getComputedStyle(el).background).toBe('red')
+      expect(styleProp(el, 'background')).toBe('red')
     })
   })
 
@@ -94,8 +89,8 @@ describe('ThemeProvider', () => {
       )
       const el = wrapper.find('.card').node
 
-      expect(window.getComputedStyle(el).background).toBe('red')
-      expect(window.getComputedStyle(el).color).toBe('blue')
+      expect(styleProp(el, 'background')).toBe('red')
+      expect(styleProp(el, 'color')).toBe('blue')
     })
   })
 })
