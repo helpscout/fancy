@@ -6,11 +6,11 @@
 export const shortUUID = () =>
   Math.random()
     .toString(36)
-    .substring(2, 5)
+    .substring(2, 9)
 
 /**
  * Generates a (short) UUID.
  *
  * @returns {string}
  */
-export const uuid = () => shortUUID() + shortUUID()
+export const uuid = () => shortUUID()
