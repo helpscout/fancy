@@ -9,10 +9,6 @@ module.exports = {
       {
         targets: {
           ie: 11,
-          edge: 14,
-          firefox: 45,
-          chrome: 49,
-          safari: 10,
           node: '6.11',
         },
         modules: ENV === 'modules' ? false : 'commonjs',
