@@ -5,12 +5,16 @@
  * @param {string} prop
  * @returns {string}
  */
-export const styleProp = (node: HTMLElement, prop: string) =>
+export const styleProp = (node: HTMLElement, prop: string = 'display') =>
   window.getComputedStyle(node)[prop]
 
 /**
  * Resets the <head> tag to remove stray <style> tags.
  */
 export const resetStyleTags = () => {
-  global.document.head.innerHTML = ''
+  if (global.__SECRET_EMOTION__) {
+    global.__SECRET_EMOTION__.flush()
+  } else {
+    global.document.head.innerHTML = ''
+  }
 }

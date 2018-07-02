@@ -54,10 +54,22 @@
     "node": ">=8"
   },
   "peerDependencies": {
-    "react": "^15"
+    "react": "^16 || ^15"
   },
   "dependencies": {
-    "stylis": "3.5.0"
+    "@emotion/hash": "^0.6.2",
+    "@emotion/is-prop-valid": "^0.6.1",
+    "@emotion/memoize": "^0.6.1",
+    "@emotion/stylis": "^0.6.10",
+    "@emotion/unitless": "^0.6.2",
+    "create-emotion": "9.2.4",
+    "create-emotion-styled": "9.2.3",
+    "csstype": "^2.5.2",
+    "emotion-theming": "9.2.4",
+    "hoist-non-react-statics": "^2.3.1",
+    "react-scripts": "1.1.4",
+    "stylis": "^3.5.0",
+    "stylis-rule-sheet": "^0.0.10"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^3.4.3",
