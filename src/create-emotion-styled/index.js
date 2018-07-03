@@ -86,6 +86,7 @@ function createEmotionStyled(emotion: Object, view: ReactType) {
 
       class Styled extends view.Component<*, { theme: Object }> {
         unsubscribe: number
+        unsubscribeFrame: number
         mergedProps: Object
         static toString: () => string
         static __emotion_real: any
@@ -109,7 +110,7 @@ function createEmotionStyled(emotion: Object, view: ReactType) {
            * Extra channel for the Frame
            */
           if (this.context[frameChannel] !== undefined) {
-            this.unsubscribe = this.context[frameChannel].subscribe(
+            this.unsubscribeFrame = this.context[frameChannel].subscribe(
               setFrame.bind(this)
             )
           }
@@ -121,7 +122,7 @@ function createEmotionStyled(emotion: Object, view: ReactType) {
           /**
            * Extra channel for the Frame
            */
-          if (this.unsubscribe !== undefined) {
+          if (this.unsubscribeFrame !== undefined) {
             this.context[frameChannel].unsubscribe(this.unsubscribe)
           }
         }
