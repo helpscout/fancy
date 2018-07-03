@@ -1,156 +1,91 @@
 import React from 'react'
 import { mount } from 'enzyme'
 import styled from '../index'
-import { resetStyleTags } from '../../utilities/testHelpers'
+import { getStyleProp, resetStyleTags } from '../../utils/testHelpers'
 
-describe('HOC Composition', () => {
-  const Button = props => {
-    const { styles, ...rest } = props
-    return <button {...rest} />
-  }
-  const css = `
-    button {
-      appearance: none;
-      background: red;
-      position: absolute;
-    }
-  `
-  const StyledButton = styled(Button)(css)
-
+describe('styled', () => {
   afterEach(() => {
     resetStyleTags()
-    styled.StyleSheet.__dangerouslyResetStyleSheet()
   })
 
-  test('Renders component, without styles if non are defined', () => {
-    const NonStyledButton = styled(Button)()
-    const wrapper = mount(<NonStyledButton />)
-    const el = wrapper.find('button').node
+  describe('Styled Components', () => {
+    test('Can create a styled primitive', () => {
+      const Compo = styled('span')`
+        background: red;
+      `
+      const wrapper = mount(<Compo />)
+      const el = wrapper.find('span').getNode()
 
-    expect(el).toBeTruthy()
-  })
+      expect(el).toBeTruthy()
+      expect(getStyleProp(el, 'background')).toBe('red')
+    })
 
-  test('Renders styles declared when composing the component', () => {
-    const wrapper = mount(<StyledButton />)
-    const el = wrapper.find('button').node
-    const styles = window.getComputedStyle(el)
+    test('Can create a styled component', () => {
+      const Base = props => <p {...props} />
+      const Compo = styled(Base)`
+        background: yellow;
+      `
+      const wrapper = mount(<Compo />)
+      const el = wrapper.find('p').getNode()
 
-    expect(styles.appearance).toBe('none')
-    expect(styles.background).toBe('red')
-    expect(styles.position).toBe('absolute')
-  })
+      expect(getStyleProp(el, 'background')).toBe('yellow')
+    })
 
-  test('Does not re-inject styles for multiple components', () => {
-    mount(<StyledButton />)
-    const headStyles = document.head.innerHTML
+    test('Can pass classNames into a styled component', () => {
+      const Base = props => <p {...props} />
+      const Compo = styled(Base)`
+        background: yellow;
+      `
+      const wrapper = mount(<Compo className="raptor" />)
+      const el = wrapper.find('p').getNode()
 
-    mount(
-      <div>
-        <StyledButton />
-        <StyledButton />
-        <StyledButton />
-        <StyledButton />
-      </div>
-    )
+      expect(getStyleProp(el, 'background')).toBe('yellow')
+      expect(el.classList.contains('raptor')).toBe(true)
+    })
 
-    expect(headStyles).toBe(document.head.innerHTML)
-  })
+    test('Can create a styled component with Object styles', () => {
+      const Base = props => <p {...props} />
+      const Compo = styled(Base)({
+        background: 'yellow',
+        padding: 20,
+      })
 
-  test('Does not re-inject styles for multiple components, even if they unmount', () => {
-    mount(<StyledButton />)
-    const headStyles = document.head.innerHTML
-    const b1 = mount(<StyledButton />)
+      const wrapper = mount(<Compo />)
+      const el = wrapper.find('p').getNode()
 
-    expect(headStyles).toBe(document.head.innerHTML)
+      expect(getStyleProp(el, 'background')).toBe('yellow')
+      expect(getStyleProp(el, 'padding')).toBe('20px')
+    })
 
-    b1.unmount()
+    test('Can create a styled component with prop interpolation', () => {
+      const Compo = styled('span')`
+        background: yellow;
+        ${props => props.title && 'color: red;'};
+      `
 
-    expect(headStyles).toBe(document.head.innerHTML)
-    mount(
-      <div>
-        <StyledButton />
-        <StyledButton />
-        <StyledButton />
-        <StyledButton />
-      </div>
-    )
+      const wrapper = mount(<Compo title="Clever" />)
+      const el = wrapper.find('span').getNode()
 
-    expect(headStyles).toBe(document.head.innerHTML)
-  })
+      expect(getStyleProp(el, 'background')).toBe('yellow')
+      expect(getStyleProp(el, 'color')).toBe('red')
+    })
 
-  test('Does not swallow props', () => {
-    const wrapper = mount(<StyledButton type="submit" />)
-    const el = wrapper.find('button')
-    const styles = window.getComputedStyle(el.node)
+    test('Can re-compute className on prop changes', () => {
+      const Compo = styled('span')`
+        background: yellow;
+        ${props => props.title && 'color: red;'};
+      `
 
-    expect(styles.appearance).toBe('none')
-    expect(styles.background).toBe('red')
-    expect(styles.position).toBe('absolute')
-    expect(el.prop('type')).toBe('submit')
-  })
+      const wrapper = mount(<Compo />)
+      const el = wrapper.find('span').getNode()
 
-  test('Styles are preserved on re-renders', () => {
-    const wrapper = mount(<StyledButton />)
-    const el = wrapper.find('button').node
+      expect(getStyleProp(el, 'background')).toBe('yellow')
+      expect(getStyleProp(el, 'color')).not.toBe('red')
 
-    wrapper.setProps({ title: 'yup' })
-    wrapper.update()
+      wrapper.setProps({ title: 'Clever' })
 
-    const styles = window.getComputedStyle(el)
-
-    expect(styles.appearance).toBe('none')
-    expect(styles.background).toBe('red')
-    expect(styles.position).toBe('absolute')
-  })
-})
-
-describe('Multiple Composed Components', () => {
-  const Card = props => {
-    const { styles, ...rest } = props
-    return <div {...rest} />
-  }
-  const Tag = props => {
-    const { styles, ...rest } = props
-    return <span {...rest} />
-  }
-  const cardCSS = `
-    div {
-      background: red;
-      position: relative;
-      border: 1px solid black;
-    }
-  `
-  const tagCSS = `
-    span {
-      display: inline-flex;
-      padding: 8px
-    }
-  `
-  const StyledCard = styled(Card)(cardCSS)
-  const StyledTag = styled(Tag)(tagCSS)
-
-  afterEach(() => {
-    resetStyleTags()
-    styled.StyleSheet.__dangerouslyResetStyleSheet()
-  })
-
-  test('Renders styles declared when composing the component', () => {
-    const wrapper = mount(
-      <div>
-        <StyledCard />
-        <StyledTag />
-      </div>
-    )
-    const card = wrapper.find('div').node
-    const tag = wrapper.find('span').node
-    const cardStyles = window.getComputedStyle(card)
-    const tagStyles = window.getComputedStyle(tag)
-
-    expect(cardStyles.background).toBe('red')
-    expect(cardStyles.border).toBe('1px solid black')
-    expect(cardStyles.position).toBe('relative')
-
-    expect(tagStyles.display).toBe('inline-flex')
-    expect(tagStyles.padding).toBe('8px')
+      expect(getStyleProp(el, 'background')).toBe('yellow')
+      expect(getStyleProp(el, 'color')).toBe('red')
+    })
   })
 })

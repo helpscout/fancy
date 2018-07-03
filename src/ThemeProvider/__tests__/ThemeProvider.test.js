@@ -1,101 +1,110 @@
 import React from 'react'
 import { mount } from 'enzyme'
+import styled from '../../styled/index'
 import ThemeProvider from '../index'
-import styled from '../../styled'
-import { styleProp, resetStyleTags } from '../../utilities/testHelpers'
+import { getStyleProp, resetStyleTags } from '../../utils/testHelpers'
 
 describe('ThemeProvider', () => {
-  const Card = () => {
-    return <div className="card" />
-  }
-
-  const StyledCard = styled(Card)(
-    props => `
-    div {
-      background: ${props.theme.bg};
-      ${
-        props.theme.color
-          ? `
-        color: ${props.theme.color};
-      `
-          : null
-      }
-    }
-  `
-  )
-
   afterEach(() => {
     resetStyleTags()
-    styled.StyleSheet.__dangerouslyResetStyleSheet()
   })
 
-  describe('internals', () => {
-    test('Provides theme as context', () => {
-      const theme = { bg: 'red' }
+  describe('Basic', () => {
+    test('Can stylize components with theme props', () => {
+      const theme = {
+        color: 'red',
+      }
+      const Compo = styled('span')`
+        ${props => `color: ${props.theme.color};`};
+      `
+
       const wrapper = mount(
         <ThemeProvider theme={theme}>
-          <StyledCard />
+          <Compo />
         </ThemeProvider>
       )
-      const el = wrapper.find(StyledCard).getNode()
+      const el = wrapper.find('span').getNode()
 
-      expect(el.context.getTheme()).toEqual(theme)
+      expect(getStyleProp(el, 'color')).toBe('red')
     })
 
-    test('Updates theme context on propChange', () => {
-      const theme = { bg: 'red' }
-      const wrapper = mount(
-        <ThemeProvider theme={{ bg: 'old' }}>
-          <StyledCard />
-        </ThemeProvider>
-      )
-      wrapper.setProps({ theme })
-      const el = wrapper.find(StyledCard).getNode()
+    test('Can stylize components with nested theme props', () => {
+      const theme = {
+        brand: {
+          color: 'red',
+        },
+      }
+      const Compo = styled('span')`
+        ${props => `color: ${props.theme.brand.color};`};
+      `
 
-      expect(el.context.getTheme()).toEqual(theme)
-    })
-
-    test('Theme context stays the same on non-theme prop change', () => {
-      const theme = { bg: 'red' }
       const wrapper = mount(
         <ThemeProvider theme={theme}>
-          <StyledCard />
+          <Compo />
         </ThemeProvider>
       )
-      wrapper.setProps({ anotherProp: true })
-      const el = wrapper.find(StyledCard).getNode()
+      const el = wrapper.find('span').getNode()
 
-      expect(el.context.getTheme()).toEqual(theme)
+      expect(getStyleProp(el, 'color')).toBe('red')
+    })
+
+    test('Can re-render styles with theme prop change', () => {
+      const theme = {
+        color: 'blue',
+      }
+      const Compo = styled('span')`
+        ${props => `color: ${props.theme.color};`};
+      `
+
+      const wrapper = mount(
+        <ThemeProvider theme={theme}>
+          <Compo />
+        </ThemeProvider>
+      )
+      wrapper.setProps({
+        theme: {
+          color: 'red',
+        },
+      })
+      const el = wrapper.find('span').getNode()
+
+      expect(getStyleProp(el, 'color')).toBe('red')
     })
   })
 
-  describe('theme', () => {
-    test('Can provide styled component with theme props', () => {
-      const theme = { bg: 'red' }
-      const wrapper = mount(
-        <ThemeProvider theme={theme}>
-          <StyledCard />
-        </ThemeProvider>
-      )
-      const el = wrapper.find('.card').node
+  describe('Nesting', () => {
+    test('Extends themes with varying props, if nested', () => {
+      const Compo = styled('span')`
+        ${props => `color: ${props.theme.color};`};
+      `
 
-      expect(styleProp(el, 'background')).toBe('red')
-    })
-  })
-
-  describe('nesting', () => {
-    test('Can nest ThemeProvider components', () => {
       const wrapper = mount(
-        <ThemeProvider theme={{ bg: 'red' }}>
-          <ThemeProvider theme={{ color: 'blue' }}>
-            <StyledCard />
+        <ThemeProvider theme={{ color: 'red' }}>
+          <ThemeProvider theme={{ backgroundColor: 'blue' }}>
+            <Compo />
           </ThemeProvider>
         </ThemeProvider>
       )
-      const el = wrapper.find('.card').node
+      const el = wrapper.find('span').getNode()
 
-      expect(styleProp(el, 'background')).toBe('red')
-      expect(styleProp(el, 'color')).toBe('blue')
+      expect(getStyleProp(el, 'color')).toBe('red')
+    })
+
+    test('Merges themes props, if nested', () => {
+      const Compo = styled('span')`
+        ${props => `color: ${props.theme.color};`};
+      `
+
+      const wrapper = mount(
+        <ThemeProvider theme={{ color: 'blue' }}>
+          <ThemeProvider theme={{ color: 'red' }}>
+            <Compo />
+          </ThemeProvider>
+        </ThemeProvider>
+      )
+      const el = wrapper.find('span').getNode()
+
+      expect(getStyleProp(el, 'color')).toBe('red')
     })
   })
 })

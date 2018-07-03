@@ -2,14 +2,13 @@
 
 > A simple way to include CSS with React Components.
 
-- **Tiny**, around 4 KB gzipped
-- **One dependency** - ([Stylis](https://github.com/thysultan/stylis.js))
+- **[Emotion](https://github.com/emotion-js/emotion)**, under the hood.
 - **Write** plain ol' CSS. Period.
 - **Pre-processing** when you need it. Powered by [Stylis](https://github.com/thysultan/stylis.js).
-- **Uniquely** generated classNames, [CSS Modules](https://github.com/css-modules/css-modules) style.
 - **Integrate** with ease into your existing setup. No fiddling with Webpack required.
-- **HTML primitive** creation, [Styled Components](https://www.styled-components.com/) style.
+- **iFrame** support, out-of-the-box!
 - **Theming** support!
+- **Scoping**, to integrate into older (more hostile) CSS systems.
 
 ## 🔧 Installation
 
@@ -25,13 +24,6 @@ Here's a quick example of how you can compose regular CSS with your React compon
 import React from 'react'
 import styled from '@helpscout/fancy'
 
-const css = `
-  .Button {
-    background: white;
-    border: 1px solid #eee;
-  }
-`
-
 const Button = props => {
   const { children, styles, ...rest } = props
 
@@ -40,13 +32,21 @@ const Button = props => {
   </button>
 }
 
-export default styled(Button)(css)
+export default styled(Button)`
+  background: white;
+  border: 1px solid #eee;
+`
 ```
 
 ## 📘 Documentation
 
 [View the docs](./docs/) to get started with Fancy!
 
-## Migration
+## 💼 Migration
 
+- [From v1.x to v2.x](./docs/migration/migration-1x-2x.md)
 - [From v0.x to v1.x](./docs/migration/migration-0x-1x.md)
+
+## ❤️ Credit
+
+Many thanks to the folks who built [Emotion](https://github.com/emotion-js/emotion) and [Styled Components](https://github.com/styled-components/styled-components).

@@ -9,25 +9,26 @@ Define your theme props to `ThemeProvider` as `theme`.
 ```jsx
 import styled, { ThemeProvider } from '@helpscout/fancy'
 
-const css = props => `
-  .Card {
-    background: ${props.theme.dark ? 'black' : 'white'};
-    position: relative;
-    border: 1px solid black;
-  }
-`
-
 const Card = props => (
   <div className="Card">
     <div className="Card__block">{props.children}</div>
   </div>
 )
 
-const StyledCard = styled(Card)(css)
+const StyledCard = styled(Card)`
+  .Card {
+    ${props =>
+      props.theme.color &&
+      `
+      background: ${props.theme.color};
+    `} position: relative;
+    border: 1px solid black;
+  }
+`
 
 const App = () => (
   <div id="App">
-    <ThemeProvider theme={{ dark: true }}>
+    <ThemeProvider theme={{ color: 'red' }}>
       <div>
         ...
         <StyledCard />
@@ -41,6 +42,4 @@ const App = () => (
 ## See also
 
 - [Primitives](./primitives.md)
-- [Component styling](./component-styling.md)
 - [Scoping](./scoping.md)
-- [Style interpolation](./style-interpolation.md)
