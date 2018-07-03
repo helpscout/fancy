@@ -5,7 +5,7 @@
  * @param {string} prop
  * @returns {string}
  */
-export const styleProp = (node: HTMLElement, prop: string = 'display') =>
+export const getStyleProp = (node: HTMLElement, prop: string = 'display') =>
   window.getComputedStyle(node)[prop]
 
 /**

@@ -7,7 +7,7 @@ Fancy has the ability to create styled HTML primitive components (heavily inspir
 ```jsx
 import styled from '@helpscout/fancy'
 
-const Card = styled.div`
+const Card = styled('div')`
   background: yellow;
   position: relative;
   border: 1px solid black;
@@ -20,20 +20,7 @@ const App = () => (
 )
 ```
 
-Alternatively, you can create primitive components by passing a `string` that represents the component name:
-
-```jsx
-import styled from '@helpscout/fancy'
-
-const Card = styled('div')`
-  background: yellow;
-  position: relative;
-  border: 1px solid black;
-`
-```
-
 ## See also
 
-- [Component styling](./component-styling.md)
-- [Style interpolation](./style-interpolation.md)
+- [Scoping](./scoping.md)
 - [Theming](./theming.md)

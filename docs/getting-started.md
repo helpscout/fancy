@@ -1,5 +1,7 @@
 # Getting started
 
+Under the hood, Fancy is powered by an enhanced fork of [Emotion](https://emotion.sh/). It can do everything that Emotion can!
+
 In this guide, we're going to be "fancifying" a React component with some basic CSS styles.
 
 ### Step 1: Import Fancy
@@ -14,11 +16,9 @@ import fancy from '@helpscout/fancy'
 Write your CSS styles as a string. This is default out-of-the-box CSS. Use things like `:hover`, `@media` queries, as you normally would!
 
 ```jsx
-const css = `
-  .Button {
-    background: white;
-    border: 1px solid #eee;
-  }
+;`
+  background: white;
+  border: 1px solid #eee;
 `
 ```
 
@@ -48,16 +48,12 @@ export default styled(Buton)(css)
 import React from 'react'
 import fancy from '@helpscout/fancy'
 
-const css = `
-  .Button {
-    background: white;
-    border: 1px solid #eee;
-  }
-`
-
 const Button = props => <button className="Button" {...props} />
 
-export default styled(Button)(css)
+export default styled(Button)`
+  background: white;
+  border: 1px solid #eee;
+`
 ```
 
 ### Results
@@ -66,7 +62,7 @@ export default styled(Button)(css)
 <html>
   <head>
     <style type='text/css'>
-    .Button {
+    .css-123nd1 {
       background: white;
       border: 1px solid #eee;
     }
@@ -74,7 +70,7 @@ export default styled(Button)(css)
   </head>
   <body>
     ...
-    <button class='Button'>Button</button>
+    <button class='css-123nd1'>Button</button>
     ...
   </body>
 </html>
@@ -84,7 +80,5 @@ That's it! You're done 🙌. You've created a CSS-ready component.
 
 ## See also
 
-- [Primitives](./primitives.md)
-- [Component styling](./component-styling.md)
-- [Style interpolation](./style-interpolation.md)
+- [Scoping](./scoping.md)
 - [Theming](./theming.md)

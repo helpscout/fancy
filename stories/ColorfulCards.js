@@ -1,8 +1,5 @@
 import React from 'react'
-import { storiesOf } from '@storybook/react'
-import styled, { ThemeProvider } from '../src'
-
-const stories = storiesOf('ThemeProvider', module)
+import styled, { ThemeProvider } from '../src/index'
 
 const Card = props => {
   const { className } = props
@@ -26,7 +23,7 @@ const FancyCard = styled(Card)`
   }
 `
 
-class App extends React.Component {
+class ColorfulCards extends React.Component {
   constructor() {
     super()
     this.state = {
@@ -67,6 +64,4 @@ class App extends React.Component {
   }
 }
 
-stories.add('Example', () => {
-  return <App />
-})
+export default ColorfulCards

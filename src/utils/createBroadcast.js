@@ -11,6 +11,7 @@ const createBroadcast = (initialState: any) => {
     for (const key in listeners) {
       // $FlowFixMe
       const listener = listeners[key]
+      /* istanbul ignore if */
       if (listener === undefined) {
         continue
       }
@@ -27,6 +28,7 @@ const createBroadcast = (initialState: any) => {
     return currentId
   }
 
+  /* istanbul ignore next */
   function unsubscribe(unsubID: number) {
     listeners[unsubID] = undefined
   }

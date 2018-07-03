@@ -33,6 +33,7 @@ export const pickAssign: (
     let source = arguments[i]
     let key
     for (key in source) {
+      /* istanbul ignore else */
       if (testFn(key)) {
         target[key] = source[key]
       }

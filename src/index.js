@@ -5,4 +5,6 @@ import ThemeProvider from './ThemeProvider/index'
 
 export default styled
 
-export { Style, FrameProvider, ScopeProvider, ThemeProvider }
+export * from './emotion/index'
+
+export { FrameProvider, ScopeProvider, ThemeProvider }
