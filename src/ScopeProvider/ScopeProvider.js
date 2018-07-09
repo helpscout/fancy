@@ -1,10 +1,10 @@
 // @flow
-import { Component, Children, type Node as ReactNode } from 'react'
+import {Component, Children, type Node as ReactNode} from 'react'
 import PropTypes from 'prop-types'
 import channel from './channel'
 
 type Props = {
-  scope: Scope,
+  scope: string,
   children: ReactNode,
 }
 
