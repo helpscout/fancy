@@ -3,10 +3,10 @@
  * Retrieves the document where the React Component has been
  * mounted to.
  *
- * @param   {React.Component} Component
- * @returns {document}
+ * @param   {React.Component} Component A React.Component.
+ * @returns {document} The closest document.
  */
-function getDocumentFromReactComponent(Component: Object): document {
+function getDocumentFromReactComponent(Component: Object): Document {
   if (!Component || typeof Component !== 'object') return document
 
   // React 16.x

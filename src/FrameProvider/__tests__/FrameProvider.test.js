@@ -1,11 +1,9 @@
 import React from 'react'
-import { mount } from 'enzyme'
+import {mount} from 'enzyme'
 import Frame from 'react-frame-component'
 import styled from '../../styled/index'
 import FrameProvider from '../index'
-import ScopeProvider from '../../ScopeProvider'
-import ThemeProvider from '../../ThemeProvider'
-import { getStyleProp, resetStyleTags } from '../../utils/testHelpers'
+import {getStyleProp, resetStyleTags} from '../../utils/testHelpers'
 
 describe('FrameProvider', () => {
   afterEach(() => {
@@ -25,7 +23,7 @@ describe('FrameProvider', () => {
     const wrapper = mount(
       <FrameProvider>
         <Compo />
-      </FrameProvider>
+      </FrameProvider>,
     )
     const el = wrapper.find('span').getNode()
 
@@ -41,7 +39,7 @@ describe('FrameProvider', () => {
         <FrameProvider>
           <Compo />
         </FrameProvider>
-      </Frame>
+      </Frame>,
     )
 
     expect(wrapper.instance()).toBeTruthy()

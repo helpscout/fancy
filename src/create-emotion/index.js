@@ -10,13 +10,13 @@ import {
   isBrowser,
 } from './utils'
 import StyleSheet from './sheet'
-import type { PrefixOption, ClassNameArg } from './utils'
+import type {PrefixOption, ClassNameArg} from './utils'
 
 type StylisPlugins = Function[] | null | Function
 
 type EmotionCaches = {|
-  registered: { [key: string]: string },
-  inserted: { [key: string]: string | true },
+  registered: {[key: string]: string},
+  inserted: {[key: string]: string | true},
   nonce?: string,
   key: string,
 |}
@@ -43,7 +43,7 @@ export type Emotion = {
   flush: () => void,
   getRegisteredStyles: (
     registeredStyles: Array<string>,
-    classNames: string
+    classNames: string,
   ) => string,
   hydrate: (ids: Array<string>) => void,
   injectGlobal: CreateStyles<void>,
@@ -62,8 +62,8 @@ type EmotionOptions = {
 }
 
 function createEmotion(
-  context: { __SECRET_EMOTION__?: Emotion },
-  options?: EmotionOptions
+  context: {__SECRET_EMOTION__?: Emotion},
+  options?: EmotionOptions,
 ): Emotion {
   if (context.__SECRET_EMOTION__ !== undefined) {
     return context.__SECRET_EMOTION__
@@ -73,7 +73,7 @@ function createEmotion(
   if (process.env.NODE_ENV !== 'production') {
     if (/[^a-z-]/.test(key)) {
       throw new Error(
-        `Emotion key must only contain lower case alphabetical characters and - but "${key}" was passed`
+        `Emotion key must only contain lower case alphabetical characters and - but "${key}" was passed`,
       )
     }
   }
@@ -115,7 +115,7 @@ function createEmotion(
 
   function handleInterpolation(
     interpolation: Interpolation,
-    couldBeSelectorInterpolation: boolean
+    couldBeSelectorInterpolation: boolean,
   ): string | number {
     if (interpolation == null) {
       return ''
@@ -132,7 +132,7 @@ function createEmotion(
             process.env.NODE_ENV !== 'production'
           ) {
             throw new Error(
-              'Component selectors can only be used in conjunction with babel-plugin-emotion.'
+              'Component selectors can only be used in conjunction with babel-plugin-emotion.',
             )
           }
           return selector
@@ -143,7 +143,7 @@ function createEmotion(
               'If you want to have a css call based on props, create a function that returns a css call like this\n' +
               'let dynamicStyle = (props) => css`color: ${props.color}`\n' +
               'It can be called directly with props or interpolated in a styled call like this\n' +
-              "let SomeComponent = styled('div')`${dynamicStyle}`"
+              "let SomeComponent = styled('div')`${dynamicStyle}`",
           )
         }
         return handleInterpolation.call(
@@ -152,7 +152,7 @@ function createEmotion(
             ? interpolation()
             : // $FlowFixMe
               interpolation(this.mergedProps, this.context),
-          couldBeSelectorInterpolation
+          couldBeSelectorInterpolation,
         )
       case 'object':
         return createStringFromObject.call(this, interpolation)
@@ -166,9 +166,7 @@ function createEmotion(
 
   const objectToStringCache = new WeakMap()
 
-  function createStringFromObject(obj: {
-    [key: string]: Interpolation,
-  }): string {
+  function createStringFromObject(obj: {[key: string]: Interpolation}): string {
     if (objectToStringCache.has(obj)) {
       // $FlowFixMe
       return objectToStringCache.get(obj)
@@ -187,7 +185,7 @@ function createEmotion(
           } else {
             string += `${processStyleName(key)}:${processStyleValue(
               key,
-              obj[key]
+              obj[key],
             )};`
           }
         } else {
@@ -196,7 +194,7 @@ function createEmotion(
             process.env.NODE_ENV !== 'production'
           ) {
             throw new Error(
-              'Component selectors can only be used in conjunction with babel-plugin-emotion.'
+              'Component selectors can only be used in conjunction with babel-plugin-emotion.',
             )
           }
           if (
@@ -207,14 +205,14 @@ function createEmotion(
             obj[key].forEach(value => {
               string += `${processStyleName(key)}:${processStyleValue(
                 key,
-                value
+                value,
               )};`
             })
           } else {
             string += `${key}{${handleInterpolation.call(
               this,
               obj[key],
-              false
+              false,
             )}}`
           }
         }
@@ -249,7 +247,7 @@ function createEmotion(
       styles += handleInterpolation.call(
         this,
         interpolation,
-        styles.charCodeAt(styles.length - 1) === 46 // .
+        styles.charCodeAt(styles.length - 1) === 46, // .
       )
       if (stringMode === true && strings[i + 1] !== undefined) {
         styles += strings[i + 1]
@@ -300,8 +298,8 @@ function createEmotion(
    * @param  {string} scope
    * @return {function}
    */
-  const cssWithScope: CreateStyles<string> = (scope: string = '') =>
-    function cssWithScope() {
+  const cssWithScope = (scope: string = '') =>
+    function() {
       const styles = createStyles.apply(this, arguments)
       const selector = `${key}-${name}`
       const namespace = scope

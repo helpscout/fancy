@@ -1,0 +1,9 @@
+src/typings/**/*
+src/create-emotion-styled/**/*
+src/create-emotion/**/*
+src/emotion/**/*
+stories
+docs
+dist
+coverage
+other

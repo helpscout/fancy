@@ -1,5 +1,12 @@
-.DS_Store
 node_modules
 coverage
-lib
 dist
+.opt-in
+.opt-out
+.DS_Store
+.eslintcache
+
+# these cause more harm than good
+# when working with contributors
+package-lock.json
+yarn.lock

@@ -1,11 +1,10 @@
 // @flow
-import { Component, Children, type Node as ReactNode } from 'react'
+import {Component, Children, type Node as ReactNode} from 'react'
+import {getDocumentFromReactComponent} from '../utils'
 import createBroadcast from './createBroadcast'
-import { channel, contextTypes, type Frame } from './utils'
-import { getDocumentFromReactComponent } from '../utils'
+import {channel, contextTypes} from './utils'
 
 type Props = {
-  frame: Frame,
   children: ReactNode,
 }
 
