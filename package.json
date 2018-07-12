@@ -70,7 +70,7 @@
     "stylis-rule-sheet": "^0.0.10"
   },
   "devDependencies": {
-    "@helpscout/zero": "0.0.5",
+    "@helpscout/zero": "0.0.6",
     "@storybook/addon-actions": "^3.4.3",
     "@storybook/addon-links": "^3.4.3",
     "@storybook/addons": "^3.4.3",
