@@ -65,7 +65,6 @@
     "emotion-theming": "9.2.4",
     "hoist-non-react-statics": "^2.3.1",
     "prop-types": "15.6.2",
-    "react-scripts": "1.1.4",
     "stylis": "^3.5.0",
     "stylis-rule-sheet": "^0.0.10"
   },
@@ -83,6 +82,7 @@
     "react": "^15",
     "react-dom": "^15",
     "react-frame-component": "2.0.2",
+    "react-scripts": "1.1.4",
     "react-test-renderer": "16.2.0"
   }
 }
