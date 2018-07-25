@@ -39,6 +39,7 @@ type CreateStyles<ReturnValue> = (...args: Interpolations) => ReturnValue
 
 export type Emotion = {
   css: CreateStyles<string>,
+  cssWithScope: Function,
   cx: (...classNames: Array<ClassNameArg>) => string,
   flush: () => void,
   getRegisteredStyles: (
@@ -62,11 +63,11 @@ type EmotionOptions = {
 }
 
 function createEmotion(
-  context: {__SECRET_EMOTION__?: Emotion},
+  context: {__SECRET_FANCY_EMOTION__?: Emotion},
   options?: EmotionOptions,
 ): Emotion {
-  if (context.__SECRET_EMOTION__ !== undefined) {
-    return context.__SECRET_EMOTION__
+  if (context.__SECRET_FANCY_EMOTION__ !== undefined) {
+    return context.__SECRET_FANCY_EMOTION__
   }
   if (options === undefined) options = {}
   let key = options.key || 'css'
@@ -399,7 +400,7 @@ function createEmotion(
     sheet,
     caches,
   }
-  context.__SECRET_EMOTION__ = emotion
+  context.__SECRET_FANCY_EMOTION__ = emotion
   return emotion
 }
 

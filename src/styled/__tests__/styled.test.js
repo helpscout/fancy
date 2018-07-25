@@ -1,7 +1,7 @@
 import React from 'react'
-import { mount } from 'enzyme'
+import {mount} from 'enzyme'
 import styled from '../index'
-import { getStyleProp, resetStyleTags } from '../../utils/testHelpers'
+import {getStyleProp, resetStyleTags} from '../../utils/testHelpers'
 
 describe('styled', () => {
   afterEach(() => {
@@ -82,10 +82,28 @@ describe('styled', () => {
       expect(getStyleProp(el, 'background')).toBe('yellow')
       expect(getStyleProp(el, 'color')).not.toBe('red')
 
-      wrapper.setProps({ title: 'Clever' })
+      wrapper.setProps({title: 'Clever'})
 
       expect(getStyleProp(el, 'background')).toBe('yellow')
       expect(getStyleProp(el, 'color')).toBe('red')
+    })
+
+    test('Falls back to emotion.css if emotion.cssWithScope is unavailable', () => {
+      const spy = jest.fn()
+      const Compo = styled('span')`
+        background: yellow;
+        ${props => props.title && 'color: red;'};
+      `
+
+      const wrapper = mount(<Compo />)
+      const el = wrapper.find('span').getNode()
+
+      wrapper.instance().emotion.cssWithScope = undefined
+      wrapper.instance().emotion.css = spy
+
+      wrapper.setProps({title: 'Clever'})
+
+      expect(spy).toHaveBeenCalled()
     })
   })
 })

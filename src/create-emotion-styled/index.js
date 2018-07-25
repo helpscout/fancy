@@ -1,8 +1,8 @@
 // @flow
 import PropTypes from 'prop-types'
-import type { ElementType } from 'react'
+import type {ElementType} from 'react'
 import typeof ReactType from 'react'
-import type { CreateStyled, StyledOptions } from './utils'
+import type {CreateStyled, StyledOptions} from './utils'
 import {
   themeChannel as channel,
   testPickPropsOnComponent,
@@ -13,9 +13,9 @@ import {
   setFrame,
 } from './utils'
 import FrameManager from './FrameManager'
-import { getDocumentFromReactComponent } from '../utils'
-import { channel as frameChannel } from '../FrameProvider'
-import { channel as scopeChannel } from '../ScopeProvider'
+import {getDocumentFromReactComponent} from '../utils'
+import {channel as frameChannel} from '../FrameProvider'
+import {channel as scopeChannel} from '../ScopeProvider'
 
 const contextTypes = {
   [channel]: PropTypes.object,
@@ -28,7 +28,7 @@ function createEmotionStyled(emotion: Object, view: ReactType) {
     if (process.env.NODE_ENV !== 'production') {
       if (tag === undefined) {
         throw new Error(
-          'You are trying to create a styled element with an undefined component.\nYou may have forgotten to import it.'
+          'You are trying to create a styled element with an undefined component.\nYou may have forgotten to import it.',
         )
       }
     }
@@ -84,7 +84,7 @@ function createEmotionStyled(emotion: Object, view: ReactType) {
         }
       }
 
-      class Styled extends view.Component<*, { theme: Object }> {
+      class Styled extends view.Component<*, {theme: Object}> {
         unsubscribe: number
         unsubscribeFrame: number
         mergedProps: Object
@@ -95,6 +95,7 @@ function createEmotionStyled(emotion: Object, view: ReactType) {
         static __emotion_target: string
         static __emotion_forwardProp: void | (string => boolean)
         static withComponent: (ElementType, options?: StyledOptions) => any
+        // $FlowFixMe
         state = {}
         // Custom instance properties
         emotion = emotion
@@ -103,7 +104,7 @@ function createEmotionStyled(emotion: Object, view: ReactType) {
         componentWillMount() {
           if (this.context[channel] !== undefined) {
             this.unsubscribe = this.context[channel].subscribe(
-              setTheme.bind(this)
+              setTheme.bind(this),
             )
           }
           /**
@@ -111,7 +112,7 @@ function createEmotionStyled(emotion: Object, view: ReactType) {
            */
           if (this.context[frameChannel] !== undefined) {
             this.unsubscribeFrame = this.context[frameChannel].subscribe(
-              setFrame.bind(this)
+              setFrame.bind(this),
             )
           }
         }
@@ -135,6 +136,7 @@ function createEmotionStyled(emotion: Object, view: ReactType) {
          * custom container.
          */
         setEmotion() {
+          // $FlowFixMe
           const frame = this.state.frame
 
           if (!frame) return
@@ -166,7 +168,7 @@ function createEmotionStyled(emotion: Object, view: ReactType) {
           }
         }
         render() {
-          const { props, state } = this
+          const {props, state} = this
           this.mergedProps = pickAssign(testAlwaysTrue, {}, props, {
             theme: (state !== null && state.theme) || props.theme || {},
           })
@@ -179,17 +181,27 @@ function createEmotionStyled(emotion: Object, view: ReactType) {
             if (staticClassName === undefined) {
               className += this.emotion.getRegisteredStyles(
                 classInterpolations,
-                props.className
+                props.className,
               )
             } else {
               className += `${props.className} `
             }
           }
           if (staticClassName === undefined) {
-            className += this.emotion
-              /* Replaces emotion.css, with enhanced emotion.cssWithScope */
-              .cssWithScope(this.getScope())
-              .apply(this, styles.concat(classInterpolations))
+            /* Replaces emotion.css, with enhanced emotion.cssWithScope */
+            if (
+              this.emotion.hasOwnProperty('cssWithScope') &&
+              typeof this.emotion.cssWithScope === 'function'
+            ) {
+              className += this.emotion
+                .cssWithScope(this.getScope())
+                .apply(this, styles.concat(classInterpolations))
+            } else {
+              className += this.emotion.css.apply(
+                this,
+                styles.concat(classInterpolations),
+              )
+            }
           } else {
             className += staticClassName
           }
@@ -204,7 +216,7 @@ function createEmotionStyled(emotion: Object, view: ReactType) {
             pickAssign(shouldForwardProp, {}, props, {
               className,
               ref: props.innerRef,
-            })
+            }),
           )
         }
       }
@@ -242,14 +254,14 @@ function createEmotionStyled(emotion: Object, view: ReactType) {
 
       Styled.withComponent = (
         nextTag: ElementType,
-        nextOptions?: StyledOptions
+        nextOptions?: StyledOptions,
       ) => {
         return createStyled(
           nextTag,
           nextOptions !== undefined
             ? // $FlowFixMe
               pickAssign(testAlwaysTrue, {}, options, nextOptions)
-            : options
+            : options,
         )(...styles)
       }
 
@@ -270,7 +282,7 @@ function createEmotionStyled(emotion: Object, view: ReactType) {
           default: {
             throw new Error(
               `You're trying to use the styled shorthand without babel-plugin-this.` +
-                `\nPlease install and setup babel-plugin-emotion or use the function call syntax(\`styled('${property}')\` instead of \`styled.${property}\`)`
+                `\nPlease install and setup babel-plugin-emotion or use the function call syntax(\`styled('${property}')\` instead of \`styled.${property}\`)`,
             )
           }
         }
