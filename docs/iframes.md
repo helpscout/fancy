@@ -27,5 +27,6 @@ If you use the **same** component outside the iFrame, as long as the `FrameProvi
 
 ## See also
 
-- [Scoping](./Scoping.md)
-- [Theming](./theming.md)
+* [Scoping](https://github.com/helpscout/fancy/tree/a901a54d4ef8493038992d182d4bc28995839c3b/docs/Scoping.md)
+* [Theming](theming.md)
+

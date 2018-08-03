@@ -28,6 +28,7 @@ import styled, {
 
 ## See also
 
-- [iFrames](./iframes.md)
-- [Scoping](./scoping.md)
-- [Theming](./theming.md)
+* [iFrames](iframes.md)
+* [Scoping](scoping.md)
+* [Theming](theming.md)
+

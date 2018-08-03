@@ -4,17 +4,17 @@
 
 > A simple way to include CSS with React Components.
 
-- **[Emotion](https://github.com/emotion-js/emotion)**, under the hood.
-- **Write** plain ol' CSS. Period.
-- **Pre-processing** when you need it. Powered by [Stylis](https://github.com/thysultan/stylis.js).
-- **Integrate** with ease into your existing setup. No fiddling with Webpack required.
-- **iFrame** support, out-of-the-box!
-- **Theming** support!
-- **Scoping**, to integrate into older (more hostile) CSS systems.
+* [**Emotion**](https://github.com/emotion-js/emotion), under the hood.
+* **Write** plain ol' CSS. Period.
+* **Pre-processing** when you need it. Powered by [Stylis](https://github.com/thysultan/stylis.js).
+* **Integrate** with ease into your existing setup. No fiddling with Webpack required.
+* **iFrame** support, out-of-the-box!
+* **Theming** support!
+* **Scoping**, to integrate into older \(more hostile\) CSS systems.
 
 ## 🔧 Installation
 
-```
+```text
 npm install --save @helpscout/fancy
 ```
 
@@ -42,13 +42,14 @@ export default styled(Button)`
 
 ## 📘 Documentation
 
-[View the docs](./docs/) to get started with Fancy!
+[View the docs](docs/) to get started with Fancy!
 
 ## 💼 Migration
 
-- [From v1.x to v2.x](./docs/migration/migration-1x-2x.md)
-- [From v0.x to v1.x](./docs/migration/migration-0x-1x.md)
+* [From v1.x to v2.x](docs/migration/migration-1x-2x.md)
+* [From v0.x to v1.x](docs/migration/migration-0x-1x.md)
 
 ## ❤️ Credit
 
 Many thanks to the folks who built [Emotion](https://github.com/emotion-js/emotion) and [Styled Components](https://github.com/styled-components/styled-components).
+

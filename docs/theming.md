@@ -41,5 +41,6 @@ const App = () => (
 
 ## See also
 
-- [Primitives](./primitives.md)
-- [Scoping](./scoping.md)
+* [Primitives](primitives.md)
+* [Scoping](scoping.md)
+

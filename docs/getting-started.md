@@ -58,7 +58,7 @@ export default styled(Button)`
 
 ### Results
 
-```html
+```markup
 <html>
   <head>
     <style type='text/css'>
@@ -80,5 +80,6 @@ That's it! You're done 🙌. You've created a CSS-ready component.
 
 ## See also
 
-- [Scoping](./scoping.md)
-- [Theming](./theming.md)
+* [Scoping](scoping.md)
+* [Theming](theming.md)
+

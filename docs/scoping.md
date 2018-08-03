@@ -14,5 +14,6 @@ If the hashed CSS classes for `StyledCard` was `.css-213jdhx`, they will now ren
 
 ## See also
 
-- [Primitives](./primitives.md)
-- [Theming](./theming.md)
+* [Primitives](primitives.md)
+* [Theming](theming.md)
+

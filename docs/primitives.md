@@ -1,6 +1,6 @@
 # Primitives
 
-Fancy has the ability to create styled HTML primitive components (heavily inspired by [styled-components](https://www.styled-components.com/)).
+Fancy has the ability to create styled HTML primitive components \(heavily inspired by [styled-components](https://www.styled-components.com/)\).
 
 ### Example
 
@@ -22,5 +22,6 @@ const App = () => (
 
 ## See also
 
-- [Scoping](./scoping.md)
-- [Theming](./theming.md)
+* [Scoping](scoping.md)
+* [Theming](theming.md)
+
