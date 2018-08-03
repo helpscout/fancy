@@ -1,6 +1,6 @@
 // @flow
-import isPropValid from '@emotion/is-prop-valid'
-import type { Interpolations } from 'create-emotion'
+import isPropValid from '@helpscout/react-utils/dist/isPropValid'
+import type {Interpolations} from 'create-emotion'
 
 export const themeChannel = '__EMOTION_THEMING__'
 
@@ -9,11 +9,11 @@ export const themeChannel = '__EMOTION_THEMING__'
  * @param {*} frame
  */
 export function setFrame(frame: Object) {
-  this.setState({ frame })
+  this.setState({frame})
 }
 
 export function setTheme(theme: Object) {
-  this.setState({ theme })
+  this.setState({theme})
 }
 
 export const testPickPropsOnStringTag = isPropValid
@@ -53,7 +53,7 @@ type CreateStyledComponent = (...args: Interpolations) => *
 
 type BaseCreateStyled = (
   tag: any,
-  options?: StyledOptions
+  options?: StyledOptions,
 ) => CreateStyledComponent
 
 export type CreateStyled = {
