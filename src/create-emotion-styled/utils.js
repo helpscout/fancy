@@ -57,6 +57,7 @@ type BaseCreateStyled = (
 ) => CreateStyledComponent
 
 export type CreateStyled = {
+  // $FlowFixMe
   $call: BaseCreateStyled,
   [key: string]: CreateStyledComponent,
 }

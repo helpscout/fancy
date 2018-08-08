@@ -106,4 +106,64 @@ describe('styled', () => {
       expect(spy).toHaveBeenCalled()
     })
   })
+
+  describe('Statics', () => {
+    test('Hoists statics when created a styled-component', () => {
+      const anotherStatic = []
+      class StaticComponent extends React.Component {
+        render() {
+          return null
+        }
+      }
+      class InnerComponent extends React.Component {
+        static firstStatic = StaticComponent
+        static secondStatic = anotherStatic
+        render() {
+          return null
+        }
+      }
+      const TestComponent = styled(InnerComponent)()
+
+      expect(TestComponent.firstStatic).toBe(StaticComponent)
+      expect(TestComponent.secondStatic).toBe(anotherStatic)
+    })
+
+    test('Hoists a SFC static when created a styled-component', () => {
+      const anotherStatic = []
+      class StaticComponent extends React.Component {
+        render() {
+          return null
+        }
+      }
+      const InnerComponent = () => {
+        return null
+      }
+      InnerComponent.firstStatic = StaticComponent
+      InnerComponent.secondStatic = anotherStatic
+
+      const TestComponent = styled(InnerComponent)()
+
+      expect(TestComponent.firstStatic).toBe(StaticComponent)
+      expect(TestComponent.secondStatic).toBe(anotherStatic)
+    })
+
+    test('Hoists styled-component statics when created a styled-component', () => {
+      class StaticComponent extends React.Component {
+        render() {
+          return null
+        }
+      }
+      const StyledStaticComponent = styled(StaticComponent)()
+
+      class InnerComponent extends React.Component {
+        static StaticComponent = StyledStaticComponent
+        render() {
+          return null
+        }
+      }
+      const TestComponent = styled(InnerComponent)()
+
+      expect(TestComponent.StaticComponent).toBe(StyledStaticComponent)
+    })
+  })
 })

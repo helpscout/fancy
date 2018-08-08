@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import type {ElementType} from 'react'
 import typeof ReactType from 'react'
 import type {CreateStyled, StyledOptions} from './utils'
+import hoistNonReactStatics from '@helpscout/react-utils/dist/hoistNonReactStatics'
 import {
   themeChannel as channel,
   testPickPropsOnComponent,
@@ -265,7 +266,7 @@ function createEmotionStyled(emotion: Object, view: ReactType) {
         )(...styles)
       }
 
-      return Styled
+      return hoistNonReactStatics(Styled, baseTag)
     }
   }
   if (process.env.NODE_ENV !== 'production' && typeof Proxy !== 'undefined') {
