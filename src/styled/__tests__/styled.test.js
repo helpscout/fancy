@@ -89,7 +89,6 @@ describe('styled', () => {
     })
 
     test('Falls back to emotion.css if emotion.cssWithScope is unavailable', () => {
-      const spy = jest.fn()
       const Compo = styled('span')`
         background: yellow;
         ${props => props.title && 'color: red;'};
@@ -99,11 +98,35 @@ describe('styled', () => {
       const el = wrapper.find('span').getNode()
 
       wrapper.instance().emotion.cssWithScope = undefined
-      wrapper.instance().emotion.css = spy
+      const spy = jest.spyOn(wrapper.instance().emotion, 'css')
 
       wrapper.setProps({title: 'Clever'})
 
       expect(spy).toHaveBeenCalled()
+      spy.mockRestore()
+    })
+  })
+
+  describe('className', () => {
+    test('Autogenerates a hashed className', () => {
+      const Compo = styled('span')(`
+        display: block;
+      `)
+      const wrapper = mount(<Compo />)
+      const el = wrapper.find('span').getNode()
+
+      expect(el.classList.toString()).toContain('css-')
+    })
+
+    test('Accepts custom classNames', () => {
+      const Compo = styled('span')(`
+        display: block;
+      `)
+      const wrapper = mount(<Compo className="custom" />)
+      const el = wrapper.find('span').getNode()
+
+      expect(el.classList.toString()).toContain('css-')
+      expect(el.classList.toString()).toContain('custom')
     })
   })
 
