@@ -16,7 +16,7 @@ import fancy from '@helpscout/fancy'
 Write your CSS styles as a string. This is default out-of-the-box CSS. Use things like `:hover`, `@media` queries, as you normally would!
 
 ```jsx
-;`
+`
   background: white;
   border: 1px solid #eee;
 `
@@ -39,7 +39,7 @@ Note: The reference the CSS `className` to match the CSS you wrote. Fancy does n
 When exporting your component, compose it with the `fancy` higher-order component along with your CSS styles.
 
 ```jsx
-export default styled(Buton)(css)
+export default styled(Button)(css)
 ```
 
 ### Final code
