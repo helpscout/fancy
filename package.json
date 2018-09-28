@@ -58,7 +58,7 @@
     "@emotion/memoize": "^0.6.1",
     "@emotion/stylis": "^0.6.10",
     "@emotion/unitless": "^0.6.2",
-    "@helpscout/react-utils": "^1.0.0",
+    "@helpscout/react-utils": "^1.0.1",
     "create-emotion": "9.2.4",
     "create-emotion-styled": "9.2.3",
     "csstype": "^2.5.2",
