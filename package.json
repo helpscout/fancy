@@ -68,6 +68,7 @@
     "stylis-rule-sheet": "^0.0.10"
   },
   "devDependencies": {
+    "@helpscout/blue": "^1.6.6-0",
     "@helpscout/zero": "^0.0.9",
     "@storybook/addon-actions": "^3.4.3",
     "@storybook/addon-links": "^3.4.3",
