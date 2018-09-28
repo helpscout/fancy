@@ -58,7 +58,7 @@
     "@emotion/memoize": "^0.6.1",
     "@emotion/stylis": "^0.6.10",
     "@emotion/unitless": "^0.6.2",
-    "@helpscout/react-utils": "^1.0.0",
+    "@helpscout/react-utils": "^1.0.1",
     "create-emotion": "9.2.4",
     "create-emotion-styled": "9.2.3",
     "csstype": "^2.5.2",
@@ -68,6 +68,7 @@
     "stylis-rule-sheet": "^0.0.10"
   },
   "devDependencies": {
+    "@helpscout/blue": "^1.6.6-0",
     "@helpscout/zero": "^0.0.9",
     "@storybook/addon-actions": "^3.4.3",
     "@storybook/addon-links": "^3.4.3",

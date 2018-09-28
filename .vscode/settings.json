@@ -1,20 +1,23 @@
+// Place your settings in this file to overwrite default and user settings
 {
+  "editor.formatOnSave": true,
+  "editor.rulers": [80, 120],
+  "editor.tabSize": 2,
   "files.exclude": {
-    "**/.DS_Store": true,
+    "lib/**/*": true,
     "**/.git": true,
-    "**/.hg": true,
     "**/.svn": true,
-    "**/node_modules": true,
-    "dist/": true,
-    "lib/": true
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "coverage": true
   },
   "search.exclude": {
-    "**/.DS_Store": true,
-    "**/.git": true,
-    "**/.hg": true,
-    "**/.svn": true,
     "**/node_modules": true,
-    "dist/": true,
-    "lib/": true
-  }
+    "**/bower_components": true,
+    "**/dist": true
+  },
+  "javascript.validate.enable": false,
+  "prettier.eslintIntegration": true,
+  "eslint.enable": true
 }

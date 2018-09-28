@@ -189,4 +189,83 @@ describe('styled', () => {
       expect(TestComponent.StaticComponent).toBe(StyledStaticComponent)
     })
   })
+
+  describe('Extending', () => {
+    test('Can extend another styled component, with different CSS props', () => {
+      const Card = styled('div')`
+        background: red;
+      `
+
+      const FancyCard = styled(Card)`
+        padding: 20px;
+      `
+
+      const wrapper = mount(
+        <span>
+          <FancyCard className="fancy" />
+        </span>,
+      )
+      const el = wrapper.find('div.fancy').getNode()
+
+      expect(getStyleProp(el, 'background')).toBe('red')
+      expect(getStyleProp(el, 'padding')).toBe('20px')
+    })
+
+    test('Can extend another styled component, with conflicting CSS props', () => {
+      const Card = styled('div')`
+        background: red;
+      `
+
+      const FancyCard = styled(Card)`
+        background: blue;
+      `
+
+      const wrapper = mount(
+        <span>
+          <FancyCard className="fancy" />
+        </span>,
+      )
+      const el = wrapper.find('div.fancy').getNode()
+
+      expect(getStyleProp(el, 'background')).toBe('blue')
+    })
+
+    test('Can extend another component, with an inner styled component', () => {
+      const SomeBaseCard = styled('div')`
+        background: red;
+        padding: 20px;
+      `
+
+      const CardComponent = props => {
+        return <SomeBaseCard {...props} />
+      }
+
+      const someHOC = () => Component => {
+        class withWrapper extends React.Component {
+          render() {
+            return <Component {...this.props} />
+          }
+        }
+
+        return withWrapper
+      }
+
+      const SuperCard = someHOC()(someHOC()(CardComponent))
+
+      const FancyCard = styled(SuperCard)`
+        background: blue;
+        color: red;
+      `
+
+      const wrapper = mount(<FancyCard className="fancy">Hallo</FancyCard>)
+      const el = wrapper
+        .find('.fancy')
+        .first()
+        .getNode()
+
+      expect(getStyleProp(el, 'background')).toBe('blue')
+      expect(getStyleProp(el, 'color')).toBe('red')
+      expect(getStyleProp(el, 'padding')).toBe('20px')
+    })
+  })
 })
