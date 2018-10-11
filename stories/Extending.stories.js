@@ -14,7 +14,7 @@ const BaseCard = styled(Card)`
 
 class Example extends React.PureComponent {
   render() {
-    return <BaseCard {...this.props}>Should Be Red!</BaseCard>
+    return <BaseCard {...this.props} />
   }
 }
 
@@ -30,10 +30,24 @@ const someHOC = () => Component => {
 
 const EnhancedExample = someHOC()(Example)
 
+const ExtendedCard = styled(EnhancedExample)`
+  background: blue;
+  padding: 20px;
+`
+
 stories.add('Example', () => {
-  return <Example />
+  return <Example>Should be red</Example>
 })
 
 stories.add('EnhancedExample', () => {
-  return <EnhancedExample />
+  return <EnhancedExample>Should be red</EnhancedExample>
+})
+
+stories.add('ExtendedExample', () => {
+  return (
+    <div>
+      <ExtendedCard>Should be blue</ExtendedCard>
+      <EnhancedExample>Should be red</EnhancedExample>
+    </div>
+  )
 })
