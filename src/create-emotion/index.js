@@ -273,11 +273,11 @@ function createEmotion(
       currentSourceMap = ''
     }
   }
-  function insert(scope, styles, namespace = name) {
-    if (caches.inserted[namespace] === undefined) {
+  function insert(scope, styles) {
+    if (caches.inserted[name] === undefined) {
       current = ''
       stylis(scope, styles)
-      caches.inserted[namespace] = current
+      caches.inserted[name] = current
     }
   }
   const css: CreateStyles<string> = function css() {
@@ -311,7 +311,7 @@ function createEmotion(
         caches.registered[namespace] = stylesWithLabel
       }
       const scopeSelector = scope ? scope.concat(' ') : ''
-      insert(`${scopeSelector}.${selector}`, styles, namespace)
+      insert(`${scopeSelector}.${selector}`, styles)
 
       return selector
     }

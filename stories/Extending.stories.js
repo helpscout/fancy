@@ -1,7 +1,8 @@
 import React from 'react'
 import {storiesOf} from '@storybook/react'
+
 import Card from '@helpscout/blue/components/Card'
-import styled, {css} from '../src'
+import styled, {css, ScopeProvider} from '../src'
 
 const stories = storiesOf('Extending', module)
 
@@ -45,9 +46,11 @@ stories.add('EnhancedExample', () => {
 
 stories.add('ExtendedExample', () => {
   return (
-    <div>
-      <ExtendedCard>Should be blue</ExtendedCard>
-      <EnhancedExample>Should be red</EnhancedExample>
-    </div>
+    <ScopeProvider scope="#APP">
+      <div id="APP">
+        <ExtendedCard>Should be blue</ExtendedCard>
+        <EnhancedExample>Should be red</EnhancedExample>
+      </div>
+    </ScopeProvider>
   )
 })
