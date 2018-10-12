@@ -266,7 +266,9 @@ function createEmotionStyled(emotion: Object, view: ReactType) {
         )(...styles)
       }
 
-      return hoistNonReactStatics(Styled, baseTag)
+      return Styled
+
+      // return hoistNonReactStatics(Styled, baseTag)
     }
   }
   if (process.env.NODE_ENV !== 'production' && typeof Proxy !== 'undefined') {
