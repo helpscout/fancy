@@ -16,6 +16,28 @@ describe('FrameProvider', () => {
     expect(wrapper.instance()).toBeTruthy()
   })
 
+  test('Can render a single child', () => {
+    const wrapper = mount(
+      <FrameProvider>
+        <div />
+      </FrameProvider>,
+    )
+
+    expect(wrapper.instance()).toBeTruthy()
+  })
+
+  test('Can render a multiple children', () => {
+    const wrapper = mount(
+      <FrameProvider>
+        <div />
+        <div />
+        <div />
+      </FrameProvider>,
+    )
+
+    expect(wrapper.instance()).toBeTruthy()
+  })
+
   test('Does not affect styles if no iFrame is present', () => {
     const Compo = styled('span')`
       color: red;

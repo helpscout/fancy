@@ -1,5 +1,5 @@
 // @flow
-import {Component, Children, type Node as ReactNode} from 'react'
+import React, {Component, Children, type Node as ReactNode} from 'react'
 import {getDocumentFromReactComponent} from '../utils'
 import createBroadcast from './createBroadcast'
 import {channel, contextTypes} from './utils'
@@ -37,10 +37,13 @@ class FrameProvider extends Component<Props> {
   }
 
   render() {
-    if (!this.props.children) {
-      return null
-    }
-    return Children.only(this.props.children)
+    const {children} = this.props
+    const childCount = Children.count(children)
+
+    if (childCount === 0) return null
+    if (childCount === 1) return children
+
+    return <div className="FancyFrameProvider">{children}</div>
   }
 }
 
