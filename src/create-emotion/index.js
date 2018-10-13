@@ -307,15 +307,14 @@ function createEmotion(
         ? `${scope.replace(/ /g, '-')}-${selector}`
         : selector
 
-      if (caches.registered[namespace] === undefined) {
-        caches.registered[namespace] = stylesWithLabel
+      if (caches.registered[selector] === undefined) {
+        caches.registered[selector] = stylesWithLabel
       }
       const scopeSelector = scope ? scope.concat(' ') : ''
       insert(`${scopeSelector}.${selector}`, styles, namespace)
 
       return selector
     }
-
   const keyframes: CreateStyles<string> = function keyframes() {
     const styles = createStyles.apply(this, arguments)
     const animation = `animation-${name}`
