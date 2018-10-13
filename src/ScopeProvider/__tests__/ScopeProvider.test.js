@@ -1,9 +1,9 @@
 import React from 'react'
-import { mount } from 'enzyme'
+import {mount} from 'enzyme'
 import styled from '../../styled/index'
 import ScopeProvider from '../index'
 import ThemeProvider from '../../ThemeProvider'
-import { getStyleProp, resetStyleTags } from '../../utils/testHelpers'
+import {getStyleProp, resetStyleTags} from '../../utils/testHelpers'
 
 describe('ScopeProvider', () => {
   afterEach(() => {
@@ -13,6 +13,28 @@ describe('ScopeProvider', () => {
   describe('Basic', () => {
     test('Can render without children', () => {
       const wrapper = mount(<ScopeProvider />)
+
+      expect(wrapper.instance()).toBeTruthy()
+    })
+
+    test('Can render a single child', () => {
+      const wrapper = mount(
+        <ScopeProvider>
+          <div />
+        </ScopeProvider>,
+      )
+
+      expect(wrapper.instance()).toBeTruthy()
+    })
+
+    test('Can render a multiple children', () => {
+      const wrapper = mount(
+        <ScopeProvider>
+          <div />
+          <div />
+          <div />
+        </ScopeProvider>,
+      )
 
       expect(wrapper.instance()).toBeTruthy()
     })
@@ -27,7 +49,7 @@ describe('ScopeProvider', () => {
           <div id="app">
             <Compo />
           </div>
-        </ScopeProvider>
+        </ScopeProvider>,
       )
       const el = wrapper.find('span').getNode()
 
@@ -46,7 +68,7 @@ describe('ScopeProvider', () => {
               <Compo />
             </div>
           </div>
-        </ScopeProvider>
+        </ScopeProvider>,
       )
       const el = wrapper.find('span').getNode()
       const html = document.head.innerHTML
@@ -65,7 +87,7 @@ describe('ScopeProvider', () => {
           <ScopeProvider scope="#app">
             <Compo />
           </ScopeProvider>
-        </div>
+        </div>,
       )
       const el = wrapper.find('span').getNode()
 
@@ -85,7 +107,7 @@ describe('ScopeProvider', () => {
               <Compo />
             </ScopeProvider>
           </div>
-        </div>
+        </div>,
       )
       const first = wrapper
         .find('span')
@@ -119,7 +141,7 @@ describe('ScopeProvider', () => {
               </ScopeProvider>
             </ScopeProvider>
           </div>
-        </div>
+        </div>,
       )
 
       const el = wrapper.find('span').getNode()
@@ -146,12 +168,12 @@ describe('ScopeProvider', () => {
         <div className="body">
           <div id="app">
             <ScopeProvider scope=".body">
-              <ThemeProvider theme={{ color: 'red' }}>
+              <ThemeProvider theme={{color: 'red'}}>
                 <Compo />
               </ThemeProvider>
             </ScopeProvider>
           </div>
-        </div>
+        </div>,
       )
 
       const el = wrapper.find('span').getNode()
