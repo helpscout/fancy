@@ -1,6 +1,7 @@
 import React from 'react'
 import {mount} from 'enzyme'
 import styled from '../index'
+import ScopeProvider from '../../ScopeProvider'
 import {getStyleProp, resetStyleTags} from '../../utils/testHelpers'
 
 describe('styled', () => {
@@ -266,6 +267,86 @@ describe('styled', () => {
       expect(getStyleProp(el, 'background')).toBe('blue')
       expect(getStyleProp(el, 'color')).toBe('red')
       expect(getStyleProp(el, 'padding')).toBe('20px')
+    })
+
+    test('Can extend another component, within a ScopeProvider', () => {
+      const SomeBaseCard = styled('div')`
+        background: red;
+        padding: 20px;
+      `
+
+      const CardComponent = props => {
+        return <SomeBaseCard {...props} />
+      }
+
+      const someHOC = () => Component => {
+        class withWrapper extends React.Component {
+          render() {
+            return <Component {...this.props} />
+          }
+        }
+
+        return withWrapper
+      }
+
+      const SuperCard = someHOC()(someHOC()(CardComponent))
+
+      const FancyCard = styled(SuperCard)`
+        background: blue;
+        color: red;
+      `
+
+      const wrapper = mount(
+        <ScopeProvider scope="#OK">
+          <div id="OK">
+            <SomeBaseCard className="base">Base</SomeBaseCard>
+            <CardComponent className="card">Card</CardComponent>
+            <SuperCard className="super">Super</SuperCard>
+            <FancyCard className="fancy">Fancy</FancyCard>
+          </div>
+          <FancyCard className="outerFancy">Fancy</FancyCard>
+        </ScopeProvider>,
+      )
+
+      const baseNode = wrapper.find('div.base').getNode()
+      const cardNode = wrapper.find('div.card').getNode()
+      const superNode = wrapper.find('div.super').getNode()
+      const fancyNode = wrapper.find('div.fancy').getNode()
+      const outerFancyNode = wrapper.find('div.outerFancy').getNode()
+
+      //
+      // First, check to see if the className is extended, instead of added on.
+      //
+      expect(baseNode.classList.length).toBe(2)
+      expect(cardNode.classList.length).toBe(2)
+      expect(superNode.classList.length).toBe(2)
+      expect(fancyNode.classList.length).toBe(2)
+
+      //
+      // Second, check to see if the extended classNames are correct.
+      //
+      const styledClassName = baseNode.classList.toString().split(' ')[1]
+      const fancyStyledClassName = fancyNode.classList.toString().split(' ')[1]
+
+      expect(cardNode.classList.toString()).toContain(styledClassName)
+      expect(superNode.classList.toString()).toContain(styledClassName)
+      // FancyCard should NOT have the same styledClassName, because it is
+      // extended.
+      expect(fancyNode.classList.toString()).not.toContain(styledClassName)
+
+      // The non-scoped FancyCard should still the same generated (extended)
+      // styled className.
+      expect(outerFancyNode.classList.toString()).toContain(
+        fancyStyledClassName,
+      )
+
+      //
+      // Lastly, check to see if the styles take.
+      //
+      expect(getStyleProp(baseNode, 'background')).toBe('red')
+      expect(getStyleProp(baseNode, 'color')).toEqual('')
+      expect(getStyleProp(fancyNode, 'background')).toBe('blue')
+      expect(getStyleProp(fancyNode, 'color')).toBe('red')
     })
   })
 })
