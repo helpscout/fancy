@@ -171,7 +171,7 @@ function createEmotionStyled(emotion: Object, view: ReactType) {
         render() {
           const {props, state} = this
           this.mergedProps = pickAssign(testAlwaysTrue, {}, props, {
-            theme: (state !== null && state.theme) || props.theme || {},
+            theme: props.theme || (state !== null && state.theme) || {},
           })
 
           let className = ''
