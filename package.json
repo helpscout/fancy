@@ -75,6 +75,7 @@
     "@storybook/addons": "^3.4.3",
     "@storybook/cli": "^3.4.11",
     "@storybook/react": "^3.4.3",
+    "babel-plugin-emotion": "^9.2.11",
     "coveralls": "3.0.0",
     "enzyme": "2.9.1",
     "np": "2.20.1",
