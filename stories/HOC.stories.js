@@ -1,7 +1,7 @@
 import React from 'react'
 import {storiesOf} from '@storybook/react'
-import propConnect from '@helpscout/blue/components/PropProvider/propConnect'
-import {namespaceComponent} from '@helpscout/blue/utilities/component'
+import propConnect from '@helpscout/hsds-react/components/PropProvider/propConnect'
+import {namespaceComponent} from '@helpscout/hsds-react/utilities/component'
 import styled, {ScopeProvider} from '../src'
 import Card from './CardCo'
 

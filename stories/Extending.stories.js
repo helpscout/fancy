@@ -1,6 +1,6 @@
 import React from 'react'
 import {storiesOf} from '@storybook/react'
-import Card from '@helpscout/blue/components/Card'
+import Card from '@helpscout/hsds-react/components/Card'
 import styled, {css} from '../src'
 
 const stories = storiesOf('Extending', module)
