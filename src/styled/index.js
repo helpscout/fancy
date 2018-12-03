@@ -1,8 +1,6 @@
 // @flow
-import React from 'react'
-import * as emotion from '../emotion/index'
-import createEmotionStyled from '../create-emotion-styled'
+import createStyled from '../create-styled'
 
-export default createEmotionStyled(emotion, React)
+export default createStyled({pure: true})
 
 export * from '../emotion/index'

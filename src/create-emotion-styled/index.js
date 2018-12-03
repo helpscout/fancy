@@ -24,7 +24,18 @@ const contextTypes = {
   [scopeChannel]: PropTypes.object,
 }
 
-function createEmotionStyled(emotion: Object, view: ReactType) {
+const defaultProps = {
+  pure: true,
+}
+
+function createEmotionStyled(
+  emotion: Object,
+  view: ReactType,
+  options: Object,
+) {
+  // Custom Fancy, non-Emotion default options
+  const {pure} = {...defaultProps, ...options}
+
   let createStyled: CreateStyled = (tag, options) => {
     if (process.env.NODE_ENV !== 'production') {
       if (tag === undefined) {
@@ -85,7 +96,9 @@ function createEmotionStyled(emotion: Object, view: ReactType) {
         }
       }
 
-      class Styled extends view.Component<*, {theme: Object}> {
+      const OuterBaseComponent = pure ? view.PureComponent : view.Component
+
+      class Styled extends OuterBaseComponent<*, {theme: Object}> {
         unsubscribe: number
         unsubscribeFrame: number
         mergedProps: Object
