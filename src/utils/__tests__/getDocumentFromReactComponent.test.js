@@ -12,7 +12,7 @@ describe('getDocumentFromReactComponent', () => {
   })
 
   test('Supports React v16.x', () => {
-    const mockDocument = 0
+    const mockDocument = 1
     // Naive assumption of React.Component internals.
     // Works as of v16.3.x
     const component = {
@@ -30,7 +30,7 @@ describe('getDocumentFromReactComponent', () => {
   })
 
   test('Supports React v15.x', () => {
-    const mockDocument = 0
+    const mockDocument = 1
     // Naive assumption of React.Component internals.
     // Works as of v15.6.x
     const component = {

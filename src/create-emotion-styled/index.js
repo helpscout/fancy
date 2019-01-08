@@ -1,5 +1,4 @@
 // @flow
-import PropTypes from 'prop-types'
 import type {ElementType} from 'react'
 import typeof ReactType from 'react'
 import type {CreateStyled, StyledOptions} from './utils'
@@ -19,9 +18,9 @@ import {channel as frameChannel} from '../FrameProvider'
 import {channel as scopeChannel} from '../ScopeProvider'
 
 const contextTypes = {
-  [channel]: PropTypes.object,
-  [frameChannel]: PropTypes.object,
-  [scopeChannel]: PropTypes.object,
+  [channel]: () => undefined,
+  [frameChannel]: () => undefined,
+  [scopeChannel]: () => undefined,
 }
 
 const defaultProps = {
