@@ -35,7 +35,6 @@
     "url": "https://github.com/helpscout/fancy/issues"
   },
   "keywords": [
-    "awesomecss",
     "components",
     "css",
     "css-in-js",
@@ -43,7 +42,6 @@
     "fancy",
     "helpscout",
     "react",
-    "styled",
     "styled",
     "styled-components"
   ],
@@ -54,21 +52,20 @@
     "react": "^16 || ^15"
   },
   "dependencies": {
-    "@emotion/hash": "^0.6.6",
-    "@emotion/memoize": "^0.6.6",
-    "@emotion/stylis": "^0.7.1",
-    "@emotion/unitless": "^0.6.7",
-    "@helpscout/react-utils": "^1.0.1",
+    "@emotion/hash": "0.6.6",
+    "@emotion/memoize": "0.6.6",
+    "@emotion/stylis": "0.7.1",
+    "@emotion/unitless": "0.6.7",
+    "@helpscout/react-utils": "1.0.5",
     "create-emotion": "9.2.12",
     "create-emotion-styled": "9.2.8",
-    "csstype": "^2.5.7",
+    "csstype": "2.5.7",
     "emotion-theming": "9.2.9",
-    "prop-types": "15.6.2",
-    "stylis": "^3.5.3",
-    "stylis-rule-sheet": "^0.0.10"
+    "stylis": "3.5.3",
+    "stylis-rule-sheet": "0.0.10"
   },
   "devDependencies": {
-    "@helpscout/hsds-react": "^2.0.0",
+    "@helpscout/hsds-react": "^2.5.6",
     "@helpscout/zero": "^0.0.9",
     "@storybook/addon-actions": "^3.4.3",
     "@storybook/addon-links": "^3.4.3",
