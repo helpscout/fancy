@@ -27,6 +27,38 @@ describe('getDocumentFromReactComponent', () => {
 
     expect(getDocumentFromReactComponent(component)).not.toEqual(document)
     expect(getDocumentFromReactComponent(component)).toEqual(mockDocument)
+
+    const mockNonsenseComponent = {
+      _reactInternalFiber: {
+        _reactInternalNope: true,
+      },
+    }
+
+    expect(getDocumentFromReactComponent(mockNonsenseComponent)).toBe(document)
+
+    const mockValidEmptyComponent = {
+      _reactInternalFiber: {
+        _debugOwner: null,
+      },
+    }
+
+    expect(getDocumentFromReactComponent(mockValidEmptyComponent)).toBe(
+      document,
+    )
+
+    const mockValidEmptyComponent2 = {
+      _reactInternalFiber: {
+        _debugOwner: {
+          _debugOwner: {
+            return: null,
+          },
+        },
+      },
+    }
+
+    expect(getDocumentFromReactComponent(mockValidEmptyComponent2)).toBe(
+      document,
+    )
   })
 
   test('Supports React v15.x', () => {
