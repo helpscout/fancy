@@ -165,13 +165,12 @@ function createEmotion(
     }
   }
 
-  // Replacing Weakmap with Object - Q
-  const objectToStringCache = {}
+  const objectToStringCache = new WeakMap()
 
   function createStringFromObject(obj: {[key: string]: Interpolation}): string {
-    if (objectToStringCache.hasOwnProperty(obj)) {
+    if (objectToStringCache.has(obj)) {
       // $FlowFixMe
-      return objectToStringCache[obj]
+      return objectToStringCache.get(obj)
     }
     let string = ''
 
@@ -220,7 +219,7 @@ function createEmotion(
         }
       }, this)
     }
-    objectToStringCache[obj] = string
+    objectToStringCache.set(obj, string)
 
     return string
   }
