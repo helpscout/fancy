@@ -6,7 +6,6 @@ const coverageList = [
   '!src/create-emotion/**/*.{js,jsx}',
   '!src/create-emotion-styled/index.{js,jsx}',
   '!src/**/testHelpers.{js,jsx}',
-  '!src/polyfills/**/*.{js,jsx}',
 ]
 
 module.exports = Object.assign({}, jestConfig, {
