@@ -11,6 +11,7 @@ import {
 } from './utils'
 import StyleSheet from './sheet'
 import type {PrefixOption, ClassNameArg} from './utils'
+import '../polyfills/WeakMap'
 
 type StylisPlugins = Function[] | null | Function
 
