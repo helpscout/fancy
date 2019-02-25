@@ -1,7 +1,7 @@
 // @flow
-import type {ElementType} from 'react'
+import type { ElementType } from 'react'
 import typeof ReactType from 'react'
-import type {CreateStyled, StyledOptions} from './utils'
+import type { CreateStyled, StyledOptions } from './utils'
 import hoistNonReactStatics from '@helpscout/react-utils/dist/hoistNonReactStatics'
 import {
   themeChannel as channel,
@@ -13,9 +13,9 @@ import {
   setFrame,
 } from './utils'
 import FrameManager from './FrameManager'
-import {getDocumentFromReactComponent} from '../utils'
-import {channel as frameChannel} from '../FrameProvider'
-import {channel as scopeChannel} from '../ScopeProvider'
+import { getDocumentFromReactComponent } from '../utils'
+import { channel as frameChannel } from '../FrameProvider'
+import { channel as scopeChannel } from '../ScopeProvider'
 
 const contextTypes = {
   [channel]: () => undefined,
@@ -32,10 +32,10 @@ function createEmotionStyled(
   view: ReactType,
   options: Object,
 ) {
-  // Custom Fancy, non-Emotion default options
-  const {pure} = {...defaultProps, ...options}
-
   let createStyled: CreateStyled = (tag, options) => {
+    // Custom Fancy, non-Emotion default options
+    const { pure } = { ...defaultProps, ...options }
+
     if (process.env.NODE_ENV !== 'production') {
       if (tag === undefined) {
         throw new Error(
@@ -97,7 +97,7 @@ function createEmotionStyled(
 
       const OuterBaseComponent = pure ? view.PureComponent : view.Component
 
-      class Styled extends OuterBaseComponent<*, {theme: Object}> {
+      class Styled extends OuterBaseComponent<*, { theme: Object }> {
         unsubscribe: number
         unsubscribeFrame: number
         mergedProps: Object
@@ -181,7 +181,7 @@ function createEmotionStyled(
           }
         }
         render() {
-          const {props, state} = this
+          const { props, state } = this
           this.mergedProps = pickAssign(testAlwaysTrue, {}, props, {
             theme: props.theme || (state !== null && state.theme) || {},
           })
