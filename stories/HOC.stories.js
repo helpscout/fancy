@@ -1,8 +1,8 @@
 import React from 'react'
-import {storiesOf} from '@storybook/react'
+import { storiesOf } from '@storybook/react'
 import propConnect from '@helpscout/hsds-react/components/PropProvider/propConnect'
-import {namespaceComponent} from '@helpscout/hsds-react/utilities/component'
-import styled, {ScopeProvider} from '../src'
+import { namespaceComponent } from '@helpscout/hsds-react/utilities/component'
+import styled, { ScopeProvider } from '../src'
 import Card from './CardCo'
 
 const stories = storiesOf('HOC', module)
@@ -17,23 +17,6 @@ const Thing = styled('div')`
 `
 
 class Test extends React.Component {
-  componentDidMount() {
-    const cardNode = document.querySelector('.card')
-    const styledCardNode = document.querySelector('.styledCard')
-
-    const a = cardNode.classList.length
-    const l = styledCardNode.classList.length
-
-    this.node.innerHTML = `
-      ✅ PASS: cardNode: ${a};<br /><br />
-      ${l === a ? '✅ PASS' : '🔥 FAIL'}: styledCardNode: ${l};<br /><br />
-      <hr />
-      ${cardNode.classList.toString()}
-      <hr />
-      ${styledCardNode.classList.toString()}
-      <hr />
-    `
-  }
   render() {
     return (
       <ScopeProvider scope="#APP">
