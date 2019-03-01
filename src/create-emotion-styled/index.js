@@ -4,6 +4,8 @@ import typeof ReactType from 'react'
 import type { CreateStyled, StyledOptions } from './utils'
 import hoistNonReactStatics from '@helpscout/react-utils/dist/hoistNonReactStatics'
 import {
+  createDataCy,
+  createHashedDisplayClassName,
   themeChannel as channel,
   testPickPropsOnComponent,
   testAlwaysTrue,
@@ -94,6 +96,11 @@ function createEmotionStyled(
           }
         }
       }
+
+      const displayName =
+        typeof baseTag === 'string'
+          ? baseTag
+          : baseTag.displayName || baseTag.name || 'Component'
 
       const OuterBaseComponent = pure ? view.PureComponent : view.Component
 
@@ -188,14 +195,17 @@ function createEmotionStyled(
 
           let className = ''
           let classInterpolations = []
+          let hashedClassName
+          let hashedDisplayClassName
           this.setEmotion()
 
           if (props.className) {
             if (staticClassName === undefined) {
-              className += this.emotion.getRegisteredStyles(
+              hashedClassName = this.emotion.getRegisteredStyles(
                 classInterpolations,
                 props.className,
               )
+              className += hashedClassName
             } else {
               className += `${props.className} `
             }
@@ -206,14 +216,28 @@ function createEmotionStyled(
               this.emotion.hasOwnProperty('cssWithScope') &&
               typeof this.emotion.cssWithScope === 'function'
             ) {
-              className += this.emotion
+              hashedClassName = this.emotion
                 .cssWithScope(this.getScope())
                 .apply(this, styles.concat(classInterpolations))
+
+              hashedDisplayClassName = createHashedDisplayClassName(
+                hashedClassName,
+                baseTag,
+              )
+
+              className += hashedClassName
+              className += hashedDisplayClassName
             } else {
-              className += this.emotion.css.apply(
+              hashedClassName = this.emotion.css.apply(
                 this,
                 styles.concat(classInterpolations),
               )
+              hashedDisplayClassName = createHashedDisplayClassName(
+                hashedClassName,
+                baseTag,
+              )
+              className += hashedClassName
+              className += hashedDisplayClassName
             }
           } else {
             className += staticClassName
@@ -228,19 +252,14 @@ function createEmotionStyled(
             // $FlowFixMe
             pickAssign(shouldForwardProp, {}, props, {
               className,
+              'data-cy': createDataCy(props, baseTag),
               ref: props.innerRef,
             }),
           )
         }
       }
       Styled.displayName =
-        identifierName !== undefined
-          ? identifierName
-          : `Styled(${
-              typeof baseTag === 'string'
-                ? baseTag
-                : baseTag.displayName || baseTag.name || 'Component'
-            })`
+        identifierName !== undefined ? identifierName : `Styled(${displayName})`
 
       if (tag.defaultProps !== undefined) {
         // $FlowFixMe

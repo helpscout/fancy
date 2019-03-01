@@ -1,19 +1,41 @@
 // @flow
 import isPropValid from '@helpscout/react-utils/dist/isPropValid'
-import type {Interpolations} from 'create-emotion'
+import type { Interpolations } from 'create-emotion'
 
 export const themeChannel = '__EMOTION_THEMING__'
+
+export const getDisplayName = Component =>
+  Component.displayName || Component.name
+
+export const createDataCy = (props, Component) => {
+  if (props['data-cy']) {
+    return props['data-cy']
+  }
+
+  return getDisplayName(Component)
+}
+
+export const createHashedDisplayClassName = (className, Component) => {
+  const displayName =
+    typeof Component === 'string' ? Component : getDisplayName(Component)
+
+  if (!displayName) {
+    return ''
+  } else {
+    return ` ${className}-${displayName}`
+  }
+}
 
 /**
  * Sets the Frame (document) supplied by the FrameProvider
  * @param {*} frame
  */
 export function setFrame(frame: Object) {
-  this.setState({frame})
+  this.setState({ frame })
 }
 
 export function setTheme(theme: Object) {
-  this.setState({theme})
+  this.setState({ theme })
 }
 
 export const testPickPropsOnStringTag = isPropValid
