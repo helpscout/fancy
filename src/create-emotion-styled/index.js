@@ -156,7 +156,7 @@ function createEmotionStyled(
 
           const nextEmotion = FrameManager.getEmotion(frame, this.emotion)
 
-          if (!nextEmotion) return
+          if (!nextEmotion || this.emotion === nextEmotion) return
 
           this.emotion = nextEmotion
           this.__hasSetEmotion = true
