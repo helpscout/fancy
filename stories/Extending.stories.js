@@ -1,7 +1,8 @@
 import React from 'react'
-import {storiesOf} from '@storybook/react'
+import { storiesOf } from '@storybook/react'
 import Card from '@helpscout/hsds-react/components/Card'
-import styled, {css} from '../src'
+import styled, { css } from '../src'
+import FrameProvider from '../src/FrameProvider'
 
 const stories = storiesOf('Extending', module)
 
@@ -45,9 +46,11 @@ stories.add('EnhancedExample', () => {
 
 stories.add('ExtendedExample', () => {
   return (
-    <div>
-      <ExtendedCard>Should be blue</ExtendedCard>
-      <EnhancedExample>Should be red</EnhancedExample>
-    </div>
+    <FrameProvider>
+      <div>
+        <ExtendedCard>Should be blue</ExtendedCard>
+        <EnhancedExample>Should be red</EnhancedExample>
+      </div>
+    </FrameProvider>
   )
 })
