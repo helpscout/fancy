@@ -13,7 +13,6 @@ import {
   setFrame,
 } from './utils'
 import FrameManager from './FrameManager'
-import { getDocumentFromReactComponent } from '../utils'
 import { channel as frameChannel } from '../FrameProvider'
 import { channel as scopeChannel } from '../ScopeProvider'
 
@@ -155,18 +154,12 @@ function createEmotionStyled(
           if (!frame) return
           if (this.__hasSetEmotion) return
 
-          this.emotion = FrameManager.getEmotion(frame)
+          const nextEmotion = FrameManager.getEmotion(frame, this.emotion)
+
+          if (!nextEmotion) return
+
+          this.emotion = nextEmotion
           this.__hasSetEmotion = true
-        }
-        /**
-         * Retrieves the appropriate document, with an attempt to retrieve
-         * it from emotion (potentially set by the FrameProvider), falling
-         * back to window.document.
-         *
-         * @return {document}
-         */
-        getDocument() {
-          return this.state.frame || getDocumentFromReactComponent(this)
         }
         /**
          * Retrieves the scope selector, either from a ScopeProvider, or
