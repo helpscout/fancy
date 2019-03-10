@@ -1,2 +1,2 @@
 // @flow
-export default '__EMOTION_SCOPING__'
+export default '__EMOTION_9_FANCY_SCOPING__'
