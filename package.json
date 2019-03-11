@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "zero build",
-    "bundle": "zerobundle",
+    "bundle": "zero bundle",
     "lint": "zero lint",
     "dev": "zero test --watchAll",
     "test": "zero test --coverage",
