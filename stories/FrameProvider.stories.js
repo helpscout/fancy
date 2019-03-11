@@ -1,7 +1,7 @@
 import React from 'react'
-import {storiesOf} from '@storybook/react'
+import { storiesOf } from '@storybook/react'
 import Frame from 'react-frame-component'
-import {FrameProvider} from '../src'
+import { FrameProvider } from '../src'
 import ColorfulCards from './ColorfulCards'
 
 const stories = storiesOf('FrameProvider', module)

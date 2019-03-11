@@ -14,7 +14,7 @@ export class FrameManager {
   }
 
   getEmotionNamespace() {
-    return `__EMOTION_FRAMED_${this.frames.size}__`
+    return `__EMOTION_9_FRAMED_${this.frames.size}__`
   }
 
   createNewEmotionFromFrame(frame?: Frame): Object {
@@ -33,8 +33,10 @@ export class FrameManager {
     return newEmotion
   }
 
-  getEmotion(frame?: Frame): Object {
-    if (!frame) return {}
+  getEmotion(frame?: Frame, currentEmotion: any) {
+    if (!frame || window.document === frame) {
+      return currentEmotion
+    }
 
     let emotionInstance
 

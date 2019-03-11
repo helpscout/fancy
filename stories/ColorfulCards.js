@@ -2,11 +2,11 @@ import React from 'react'
 import styled, { ThemeProvider } from '../src/index'
 
 const Card = props => {
-  const { className } = props
+  const { className, children } = props
 
   return (
     <div className={className}>
-      <div className="CardBlock">Card</div>
+      <div className="CardBlock">{children || 'Card'}</div>
     </div>
   )
 }
@@ -21,6 +21,10 @@ const FancyCard = styled(Card)`
   `} .CardBlock {
     padding: 20px;
   }
+`
+
+const BigCard = styled(FancyCard)`
+  padding: 40px 20px;
 `
 
 class ColorfulCards extends React.Component {
@@ -58,6 +62,7 @@ class ColorfulCards extends React.Component {
           <input type="color" onChange={this.handleChangeColor} value={color} />
           <hr />
           {cardsMarkup}
+          <BigCard>Big Card</BigCard>
         </div>
       </ThemeProvider>
     )
