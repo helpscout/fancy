@@ -2,13 +2,12 @@ import createEmotion from '../../create-emotion'
 import createFrameManager from '../createFrameManager'
 
 describe('createFrameManager', () => {
-  test('Returns empty object if there are no args', () => {
+  test('Returns undefined if there are no args', () => {
     const FrameManager = createFrameManager()
 
     const emotion = FrameManager.getEmotion()
 
-    expect(emotion).toBeTruthy()
-    expect(emotion.css).not.toBeTruthy()
+    expect(emotion).toBe(undefined)
   })
 
   test('Creates new Emotion instances for a new frame', () => {
@@ -54,5 +53,25 @@ describe('createFrameManager', () => {
 
     expect(emotion.css).toBeTruthy()
     expect(FrameManager.emotionInstances.length).toBe(1)
+  })
+
+  test('Uses fallback emotion instance, if frame is undefined', () => {
+    const mockFrame = undefined
+    const mockEmotion = {}
+    const FrameManager = createFrameManager()
+
+    const nextEmotion = FrameManager.getEmotion(mockFrame, mockEmotion)
+
+    expect(nextEmotion).toBe(mockEmotion)
+  })
+
+  test('Uses fallback emotion instance, if frame is window.document', () => {
+    const mockFrame = window.document
+    const mockEmotion = {}
+    const FrameManager = createFrameManager()
+
+    const nextEmotion = FrameManager.getEmotion(mockFrame, mockEmotion)
+
+    expect(nextEmotion).toBe(mockEmotion)
   })
 })
