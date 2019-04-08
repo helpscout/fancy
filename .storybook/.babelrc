@@ -1,3 +1,4 @@
 {
-  "presets": ["@helpscout/zero/babel"]
+  "presets": ["@helpscout/zero/babel"],
+  "plugins": ["emotion"]
 }

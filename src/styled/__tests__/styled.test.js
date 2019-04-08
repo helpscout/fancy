@@ -128,6 +128,60 @@ describe('styled', () => {
       expect(el.classList.toString()).toContain('css-')
       expect(el.classList.toString()).toContain('custom')
     })
+
+    test('Autogenerates a hashed className with component name', () => {
+      const SomeBase = props => <span {...props} />
+      SomeBase.displayName = 'SomeBase'
+
+      const Compo = styled(SomeBase)(`
+        display: block;
+      `)
+      const wrapper = mount(<Compo className="custom" />)
+      const el = wrapper.find('span').getNode()
+
+      expect(el.classList.toString()).toContain('css-')
+      expect(el.classList.toString()).toContain('custom')
+      expect(el.classList.toString()).toContain('SomeBase')
+    })
+  })
+
+  describe('data attribute', () => {
+    test('Autogenerates a data-cy attribute, if applicable', () => {
+      const BaseCompo = props => <span {...props} />
+      BaseCompo.displayName = 'Compo'
+      const Compo = styled(BaseCompo)(`
+        display: block;
+      `)
+
+      const wrapper = mount(<Compo />)
+      const el = wrapper.find('span')
+
+      expect(el.prop('data-cy')).toBe('Compo')
+    })
+
+    test('Does not add data-cy if creating a baseTag', () => {
+      const Compo = styled('span')(`
+        display: block;
+      `)
+
+      const wrapper = mount(<Compo />)
+      const el = wrapper.find('span')
+
+      expect(el.prop('data-cy')).toBeFalsy()
+    })
+
+    test('Attempts to use name if displayName is not available', () => {
+      const BaseCompo = props => <span {...props} />
+      BaseCompo.displayName = undefined
+      const Compo = styled(BaseCompo)(`
+        display: block;
+      `)
+
+      const wrapper = mount(<Compo className="test a b c" />)
+      const el = wrapper.find('span')
+
+      expect(el.prop('data-cy')).toBe('BaseCompo')
+    })
   })
 
   describe('Statics', () => {
@@ -316,10 +370,10 @@ describe('styled', () => {
       //
       // First, check to see if the className is extended, instead of added on.
       //
-      expect(baseNode.classList.length).toBe(2)
-      expect(cardNode.classList.length).toBe(2)
-      expect(superNode.classList.length).toBe(2)
-      expect(fancyNode.classList.length).toBe(2)
+      expect(baseNode.classList.length).toBe(3)
+      expect(cardNode.classList.length).toBe(3)
+      expect(superNode.classList.length).toBe(3)
+      expect(fancyNode.classList.length).toBe(4)
 
       //
       // Second, check to see if the extended classNames are correct.

@@ -10,13 +10,13 @@ import {
   isBrowser,
 } from './utils'
 import StyleSheet from './sheet'
-import type {PrefixOption, ClassNameArg} from './utils'
+import type { PrefixOption, ClassNameArg } from './utils'
 
 type StylisPlugins = Function[] | null | Function
 
 type EmotionCaches = {|
-  registered: {[key: string]: string},
-  inserted: {[key: string]: string | true},
+  registered: { [key: string]: string },
+  inserted: { [key: string]: string | true },
   nonce?: string,
   key: string,
 |}
@@ -63,7 +63,7 @@ type EmotionOptions = {
 }
 
 function createEmotion(
-  context: {__SECRET_FANCY_EMOTION__?: Emotion},
+  context: { __SECRET_FANCY_EMOTION__?: Emotion },
   options?: EmotionOptions,
 ): Emotion {
   if (context.__SECRET_FANCY_EMOTION__ !== undefined) {
@@ -167,7 +167,9 @@ function createEmotion(
 
   const objectToStringCache = new WeakMap()
 
-  function createStringFromObject(obj: {[key: string]: Interpolation}): string {
+  function createStringFromObject(obj: {
+    [key: string]: Interpolation,
+  }): string {
     if (objectToStringCache.has(obj)) {
       // $FlowFixMe
       return objectToStringCache.get(obj)
