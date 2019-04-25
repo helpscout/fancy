@@ -245,7 +245,7 @@ function createEmotionStyled(
             // $FlowFixMe
             pickAssign(shouldForwardProp, {}, props, {
               className,
-              'data-cy': createDataCy(props, baseTag),
+              'data-cy-styled': createDataCy(props, baseTag),
               ref: props.innerRef,
             }),
           )
