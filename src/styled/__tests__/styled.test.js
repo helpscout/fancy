@@ -143,10 +143,25 @@ describe('styled', () => {
       expect(el.classList.toString()).toContain('custom')
       expect(el.classList.toString()).toContain('SomeBase')
     })
+
+    test('Autogenerates a hashed className with component displayLabel', () => {
+      const SomeBase = props => <span {...props} />
+      SomeBase.displayLabel = 'DoubleBass'
+
+      const Compo = styled(SomeBase)(`
+        display: block;
+      `)
+      const wrapper = mount(<Compo className="custom" />)
+      const el = wrapper.find('span').getNode()
+
+      expect(el.classList.toString()).toContain('css-')
+      expect(el.classList.toString()).toContain('custom')
+      expect(el.classList.toString()).toContain('DoubleBass')
+    })
   })
 
   describe('data attribute', () => {
-    test('Autogenerates a data-cy attribute, if applicable', () => {
+    test('Autogenerates a data-cy-styled attribute, if applicable', () => {
       const BaseCompo = props => <span {...props} />
       BaseCompo.displayName = 'Compo'
       const Compo = styled(BaseCompo)(`
@@ -156,10 +171,10 @@ describe('styled', () => {
       const wrapper = mount(<Compo />)
       const el = wrapper.find('span')
 
-      expect(el.prop('data-cy')).toBe('Compo')
+      expect(el.prop('data-cy-styled')).toBe('Compo')
     })
 
-    test('Does not add data-cy if creating a baseTag', () => {
+    test('Does not add data-cy-styled if creating a baseTag', () => {
       const Compo = styled('span')(`
         display: block;
       `)
@@ -167,7 +182,7 @@ describe('styled', () => {
       const wrapper = mount(<Compo />)
       const el = wrapper.find('span')
 
-      expect(el.prop('data-cy')).toBeFalsy()
+      expect(el.prop('data-cy-styled')).toBeFalsy()
     })
 
     test('Attempts to use name if displayName is not available', () => {
@@ -180,7 +195,7 @@ describe('styled', () => {
       const wrapper = mount(<Compo className="test a b c" />)
       const el = wrapper.find('span')
 
-      expect(el.prop('data-cy')).toBe('BaseCompo')
+      expect(el.prop('data-cy-styled')).toBe('BaseCompo')
     })
   })
 

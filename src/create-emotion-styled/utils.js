@@ -5,11 +5,11 @@ import type { Interpolations } from 'create-emotion'
 export const themeChannel = '__EMOTION_THEMING__'
 
 export const getDisplayName = Component =>
-  Component.displayName || Component.name
+  Component.displayLabel || Component.displayName || Component.name
 
 export const createDataCy = (props, Component) => {
-  if (props['data-cy']) {
-    return props['data-cy']
+  if (props['data-cy-styled']) {
+    return props['data-cy-styled']
   }
 
   return getDisplayName(Component)
