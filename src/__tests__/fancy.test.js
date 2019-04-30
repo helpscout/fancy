@@ -1,6 +1,11 @@
 import React from 'react'
 import { mount } from 'enzyme'
-import styled, { FrameProvider, ScopeProvider, ThemeProvider } from '../index'
+import styled, {
+  createStyled,
+  FrameProvider,
+  ScopeProvider,
+  ThemeProvider,
+} from '../index'
 import { getStyleProp, resetStyleTags } from '../utils/testHelpers'
 
 describe('Fancy', () => {
@@ -26,7 +31,7 @@ describe('Fancy', () => {
     const wrapper = mount(
       <FrameProvider>
         <Compo />
-      </FrameProvider>
+      </FrameProvider>,
     )
     const el = wrapper.find('span').getNode()
 
@@ -43,7 +48,7 @@ describe('Fancy', () => {
         <div id="app">
           <Compo />
         </div>
-      </ScopeProvider>
+      </ScopeProvider>,
     )
     const el = wrapper.find('span').getNode()
 
@@ -61,7 +66,7 @@ describe('Fancy', () => {
     const wrapper = mount(
       <ThemeProvider theme={theme}>
         <Compo />
-      </ThemeProvider>
+      </ThemeProvider>,
     )
     wrapper.setProps({
       theme: {
@@ -71,5 +76,27 @@ describe('Fancy', () => {
     const el = wrapper.find('span').getNode()
 
     expect(getStyleProp(el, 'color')).toBe('red')
+  })
+
+  test('Correctly exports createStyled', () => {
+    const extraArguments = {
+      $color: 'red',
+      $theme: {
+        colors: {
+          primary: 'blue',
+        },
+      },
+    }
+    const Comp = createStyled({ extraArguments })('div')(
+      ({ $color, $theme }) => `
+      background: ${$theme.colors.primary};
+      color: ${$color};
+    `,
+    )
+    const wrapper = mount(<Comp />)
+    const el = wrapper.find('div').getNode()
+
+    expect(getStyleProp(el, 'color')).toBe('red')
+    expect(getStyleProp(el, 'background')).toBe('blue')
   })
 })
