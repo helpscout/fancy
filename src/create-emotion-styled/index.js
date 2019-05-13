@@ -28,14 +28,27 @@ const defaultProps = {
   pure: true,
 }
 
+const defaultOptions = {
+  extraArguments: {},
+  pure: true,
+}
+
 function createEmotionStyled(
   emotion: Object,
   view: ReactType,
-  options: Object,
+  options: Object = defaultOptions,
 ) {
+  // This allows for the user to create their own styled() function with
+  // built-in extras.
+  // This is a custom Fancy addition. The idea was inspired by Styletron and
+  // isn't part of Emotion.
+  // https://baseweb.design/getting-started/installation/#styletron
+  const { pure: createPure, extraArguments } = { ...defaultOptions, ...options }
+
   let createStyled: CreateStyled = (tag, options) => {
-    // Custom Fancy, non-Emotion default options
-    const { pure } = { ...defaultProps, ...options }
+    // Custom Fancy, non-Emotion default props/options
+    const { pure: optionsPure } = { ...defaultProps, ...options }
+    const pure = createPure || optionsPure
 
     if (process.env.NODE_ENV !== 'production') {
       if (tag === undefined) {
@@ -182,9 +195,15 @@ function createEmotionStyled(
         }
         render() {
           const { props, state } = this
-          this.mergedProps = pickAssign(testAlwaysTrue, {}, props, {
-            theme: props.theme || (state !== null && state.theme) || {},
-          })
+          this.mergedProps = pickAssign(
+            testAlwaysTrue,
+            {},
+            props,
+            extraArguments,
+            {
+              theme: props.theme || (state !== null && state.theme) || {},
+            },
+          )
 
           let className = ''
           let classInterpolations = []

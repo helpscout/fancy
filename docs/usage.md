@@ -11,6 +11,7 @@ import styled, {
   FrameProvider,
   ScopeProvider,
   ThemeProvider,
+  createStyled,
   // Everything below comes from Emotion
   flush,
   hydrate,
@@ -28,7 +29,6 @@ import styled, {
 
 ## See also
 
-* [iFrames](iframes.md)
-* [Scoping](scoping.md)
-* [Theming](theming.md)
-
+- [iFrames](iframes.md)
+- [Scoping](scoping.md)
+- [Theming](theming.md)
