@@ -417,4 +417,54 @@ describe('styled', () => {
       expect(getStyleProp(fancyNode, 'color')).toBe('red')
     })
   })
+
+  describe('Extras', () => {
+    test('Can store static under _', () => {
+      styled._ = { display: 'flex' }
+      const Component = styled('div')`
+        display: ${styled._.display};
+      `
+
+      const wrapper = mount(<Component />)
+      const node = wrapper.getDOMNode()
+
+      expect(getStyleProp(node, 'display')).toBe('flex')
+    })
+
+    test('Can store static under __', () => {
+      styled.__ = { display: 'flex' }
+      const Component = styled('div')`
+        display: ${styled.__.display};
+      `
+
+      const wrapper = mount(<Component />)
+      const node = wrapper.getDOMNode()
+
+      expect(getStyleProp(node, 'display')).toBe('flex')
+    })
+
+    test('Can store static under $', () => {
+      styled.$ = { display: 'flex' }
+      const Component = styled('div')`
+        display: ${styled.$.display};
+      `
+
+      const wrapper = mount(<Component />)
+      const node = wrapper.getDOMNode()
+
+      expect(getStyleProp(node, 'display')).toBe('flex')
+    })
+
+    test('Can store static under $$', () => {
+      styled.$$ = { display: 'flex' }
+      const Component = styled('div')`
+        display: ${styled.$$.display};
+      `
+
+      const wrapper = mount(<Component />)
+      const node = wrapper.getDOMNode()
+
+      expect(getStyleProp(node, 'display')).toBe('flex')
+    })
+  })
 })
