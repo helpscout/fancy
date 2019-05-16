@@ -316,6 +316,11 @@ function createEmotionStyled(
     createStyled = new Proxy(createStyled, {
       get(target, property) {
         switch (property) {
+          // Extras
+          case '$$':
+          case '$':
+          case '__':
+          case '_':
           // react-hot-loader tries to access this stuff
           case '__proto__':
           case 'name':
