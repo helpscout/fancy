@@ -24,6 +24,7 @@ export class FrameManager {
       },
       {
         container: frame.head,
+        key: 'fancy',
       },
     )
 
