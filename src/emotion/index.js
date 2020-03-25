@@ -15,4 +15,4 @@ export const {
   cssWithScope, // custom enhanced function
   sheet,
   caches,
-} = createEmotion(context)
+} = createEmotion(context, {key: 'fcy'})
