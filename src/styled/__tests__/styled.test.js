@@ -1,8 +1,8 @@
 import React from 'react'
-import { mount } from 'enzyme'
+import {mount} from 'enzyme'
 import styled from '../index'
 import ScopeProvider from '../../ScopeProvider'
-import { getStyleProp, resetStyleTags } from '../../utils/testHelpers'
+import {getStyleProp, resetStyleTags} from '../../utils/testHelpers'
 
 describe('styled', () => {
   afterEach(() => {
@@ -83,7 +83,7 @@ describe('styled', () => {
       expect(getStyleProp(el, 'background')).toBe('yellow')
       expect(getStyleProp(el, 'color')).not.toBe('red')
 
-      wrapper.setProps({ title: 'Clever' })
+      wrapper.setProps({title: 'Clever'})
 
       expect(getStyleProp(el, 'background')).toBe('yellow')
       expect(getStyleProp(el, 'color')).toBe('red')
@@ -100,7 +100,7 @@ describe('styled', () => {
       wrapper.instance().emotion.cssWithScope = undefined
       const spy = jest.spyOn(wrapper.instance().emotion, 'css')
 
-      wrapper.setProps({ title: 'Clever' })
+      wrapper.setProps({title: 'Clever'})
 
       expect(spy).toHaveBeenCalled()
       spy.mockRestore()
@@ -115,7 +115,7 @@ describe('styled', () => {
       const wrapper = mount(<Compo />)
       const el = wrapper.find('span').getNode()
 
-      expect(el.classList.toString()).toContain('css-')
+      expect(el.classList.toString()).toContain('fcy-')
     })
 
     test('Accepts custom classNames', () => {
@@ -125,7 +125,7 @@ describe('styled', () => {
       const wrapper = mount(<Compo className="custom" />)
       const el = wrapper.find('span').getNode()
 
-      expect(el.classList.toString()).toContain('css-')
+      expect(el.classList.toString()).toContain('fcy-')
       expect(el.classList.toString()).toContain('custom')
     })
   })

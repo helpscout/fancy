@@ -74,7 +74,7 @@ describe('ScopeProvider', () => {
       const html = document.head.innerHTML
 
       expect(getStyleProp(el, 'color')).toBe('red')
-      expect(html).toContain('>.raptor #app .css-')
+      expect(html).toContain('>.raptor #app .fcy-')
     })
 
     test('Scoped selector can contain ScopeProvider', () => {
@@ -122,8 +122,8 @@ describe('ScopeProvider', () => {
       expect(getStyleProp(last, 'color')).toBe('red')
       expect(getStyleProp(first, 'color')).toBe('red')
 
-      expect(html).toContain('>.css-')
-      expect(html).toContain('>#app .css-')
+      expect(html).toContain('>.fcy-')
+      expect(html).toContain('>#app .fcy-')
     })
   })
 
@@ -148,10 +148,10 @@ describe('ScopeProvider', () => {
       const html = document.head.innerHTML
 
       expect(getStyleProp(el, 'color')).toBe('red')
-      expect(html).toContain('>#app .css-')
+      expect(html).toContain('>#app .fcy-')
       expect(html).not.toContain('>.body')
       expect(html).not.toContain('>.body #app')
-      expect(html).not.toContain('>.body .css-')
+      expect(html).not.toContain('>.body .fcy-')
     })
   })
 
@@ -180,7 +180,7 @@ describe('ScopeProvider', () => {
       const html = document.head.innerHTML
 
       expect(getStyleProp(el, 'color')).toBe('red')
-      expect(html).toContain('>.body .css-')
+      expect(html).toContain('>.body .fcy-')
     })
   })
 })
